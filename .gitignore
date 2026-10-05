@@ -1,0 +1,20 @@
+node_modules/
+data/
+runtime/
+.test-data/
+work/
+dist/
+*.log
+.env
+.env.*
+!.env.example
+credentials*.json
+Local State
+session/
+__pycache__/
+*.pyc
+public/demo.pdf
+tests/sample-layout.json
+tests/*-test-requests.json
+.DS_Store
+Thumbs.db

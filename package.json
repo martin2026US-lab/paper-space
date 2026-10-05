@@ -1,0 +1,26 @@
+{
+  "name": "paper-space-local",
+  "version": "1.0.1",
+  "private": true,
+  "type": "module",
+  "main": "desktop/main.mjs",
+  "scripts": {
+    "start": "node server.mjs",
+    "desktop": "electron .",
+    "dev": "electron . --debug",
+    "test": "node --test tests/*.test.mjs",
+    "setup:demo": "node scripts/download-demo.mjs"
+  },
+  "devDependencies": {
+    "electron": "44.5.1"
+  },
+  "engines": {
+    "node": ">=22"
+  },
+  "description": "纸间 · A local-first AI paper reading workspace",
+  "license": "MIT",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/martin2026US-lab/paper-space.git"
+  }
+}

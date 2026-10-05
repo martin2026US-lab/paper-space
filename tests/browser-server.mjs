@@ -1,0 +1,4 @@
+import http from 'node:http';import {readFileSync} from 'node:fs';import {createServer} from '../server.mjs';
+const app=createServer(),handler=app.listeners('request')[0];app.removeAllListeners('request');
+app.on('request',(req,res)=>{const routes={'/tests':'tests','/tests.mjs':'browser-v05.mjs','/fixture.docx':'figure-fixture.docx'};const file=routes[req.url];if(!file)return handler(req,res);if(file==='tests'){res.setHeader('Content-Type','text/html;charset=utf-8');return res.end('<!doctype html><title>Running tests</title><h1>纸间 0.5 · 本机测试</h1><pre id="results"></pre><div id="fixture" hidden></div><script src="/vendor/mammoth.browser.js"></script><script type="module" src="/tests.mjs"></script>');}res.setHeader('Content-Type',file.endsWith('.mjs')?'text/javascript;charset=utf-8':'application/octet-stream');res.end(readFileSync(new URL(file,import.meta.url)));});
+app.listen(4325,'127.0.0.1',()=>console.log('Isolated 0.5 tests http://127.0.0.1:4325/tests'));

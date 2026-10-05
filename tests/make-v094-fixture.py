@@ -1,0 +1,15 @@
+from reportlab.pdfgen import canvas
+from pathlib import Path
+p=Path(__file__).with_name('cross-page-fixture.pdf')
+c=canvas.Canvas(str(p),pagesize=(600,800))
+c.setFont('Helvetica-Bold',18); c.drawString(45,720,'First section');c.bookmarkHorizontalAbsolute('first',730);c.addOutlineEntry('First section','first',0)
+c.setFont('Helvetica',12)
+for i in range(8): c.drawString(45,685-i*20,'Opening paragraph line %s, with verified original source text.'%(i+1))
+c.setFont('Helvetica-Bold',18);c.drawString(45,410,'Later section');c.bookmarkHorizontalAbsolute('later',420);c.addOutlineEntry('Later section','later',0)
+c.setFont('Helvetica',12)
+for i in range(9):c.drawString(45,375-i*20,'The continued paragraph starts on page one, source line %s.'%(i+1))
+c.showPage();c.setFont('Helvetica',12)
+for i in range(8):c.drawString(45,720-i*20,'Continuation on page two retains its own source line %s.'%(i+1))
+c.setFont('Helvetica-Bold',18);c.drawString(45,410,'Final section');c.bookmarkHorizontalAbsolute('final',420);c.addOutlineEntry('Final section','final',0)
+c.setFont('Helvetica',12);c.drawString(45,375,'This is a separate paragraph that must never be highlighted with it.')
+c.save()
