@@ -21,3 +21,4 @@ Thumbs.db
 
 build/runtime/
 dist-release/
+dist-guard/
