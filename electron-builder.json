@@ -1,0 +1,62 @@
+{
+  "appId": "io.github.martin2026us-lab.paper-space",
+  "productName": "纸间",
+  "asar": false,
+  "directories": {
+    "output": "dist",
+    "buildResources": "build"
+  },
+  "files": [
+    "desktop/**",
+    "public/**",
+    "python/parse_pdf.py",
+    "server.mjs",
+    "pdf-service.mjs",
+    "package.json",
+    "LICENSE",
+    "THIRD_PARTY_NOTICES.md",
+    "!public/demo.pdf"
+  ],
+  "extraResources": [
+    {
+      "from": "build/runtime",
+      "to": "runtime",
+      "filter": [
+        "**/*",
+        "!**/__pycache__/**",
+        "!**/*.pyc",
+        "!**/.cache/**"
+      ]
+    }
+  ],
+  "win": {
+    "target": [
+      {
+        "target": "nsis",
+        "arch": [
+          "x64"
+        ]
+      }
+    ],
+    "icon": "desktop/icon.ico",
+    "artifactName": "Paper-Space-${version}-Windows-x64-Setup.${ext}",
+    "signExecutable": false
+  },
+  "nsis": {
+    "oneClick": false,
+    "perMachine": false,
+    "allowElevation": false,
+    "allowToChangeInstallationDirectory": true,
+    "createDesktopShortcut": true,
+    "createStartMenuShortcut": true,
+    "shortcutName": "纸间 Paper Space",
+    "runAfterFinish": false,
+    "deleteAppDataOnUninstall": false,
+    "installerLanguages": [
+      "zh_CN",
+      "en_US"
+    ],
+    "language": "2052"
+  },
+  "publish": null
+}

@@ -7,7 +7,7 @@
 本机优先的 AI 论文阅读工作台。保留 PDF 原貌，把翻译、段落解读、章节批注和带来源的对话放在同一个阅读空间里。无需注册，AI 使用你自己的接口。
 
 [![Tests](https://github.com/martin2026US-lab/paper-space/actions/workflows/test.yml/badge.svg)](https://github.com/martin2026US-lab/paper-space/actions/workflows/test.yml)
-![Version](https://img.shields.io/badge/version-1.0.1-b28a4d)
+![Version](https://img.shields.io/badge/version-1.0.2-b28a4d)
 ![License](https://img.shields.io/badge/license-MIT-806043)
 
 ![阅读工作台](docs/assets/workspace.jpg)
@@ -23,7 +23,13 @@
 - **自带模型**：支持 OpenAI 兼容 Chat Completions、Anthropic Messages 和兼容的本机模型接口。
 - **暖纸色界面**：让阅读、翻译和旁注同时可见，减少窗口切换。
 
-## 快速开始
+## 下载安装（推荐）
+
+**[下载 Windows 安装包](https://github.com/martin2026US-lab/paper-space/releases/latest)** · [安装与升级说明](docs/INSTALL.md)
+
+面向 Windows 10 / 11 x64，内置运行环境和离线识别模型。下载 Setup.exe 安装即可，无需配置 Node.js 或 Python。个人资料保存在用户目录，升级与卸载保留。AI 功能使用你自己的模型接口。
+
+## 从源码运行（开发者）
 
 需要 **Node.js 22+**。浏览器版不需要安装 npm 依赖，前端库已随源码附带。
 
@@ -42,7 +48,7 @@ npm ci
 npm run desktop
 ```
 
-桌面版监听 `127.0.0.1:4319`，数据保存在项目的 `data/`。F12 打开开发者工具。此仓库提供源码，暂不提供带全部模型的安装包；Electron 首次安装需要联网。主要验证平台为 Windows。
+桌面版监听 `127.0.0.1:4319`，数据保存在项目的 `data/`。F12 打开开发者工具。源码方式的 Electron 首次安装需要联网；普通用户请使用上方安装包。主要验证平台为 Windows。
 
 ### 可选：本机 PDF 结构识别
 

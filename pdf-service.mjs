@@ -18,7 +18,7 @@ export function createPdfService({runtimeRoot=process.env.PAPER_SPACE_RUNTIME||r
     try{
       await mkdir(cache,{recursive:true});await writeFile(inputFile,bytes);
       const result=await new Promise((resolveResult,reject)=>{
-        child=spawn(python,[join(sourceRoot,'python','parse_pdf.py'),inputFile,resultFile,models],{windowsHide:true,env:{...process.env,PYTHONPATH:join(runtimeRoot,'docling','Lib','site-packages'),PYTHONNOUSERSITE:'1',HF_HUB_OFFLINE:'1',TRANSFORMERS_OFFLINE:'1',HF_HUB_DISABLE_TELEMETRY:'1',DO_NOT_TRACK:'1',OMP_NUM_THREADS:'4',TOKENIZERS_PARALLELISM:'false'}});running=child;
+        child=spawn(python,[join(sourceRoot,'python','parse_pdf.py'),inputFile,resultFile,models],{windowsHide:true,env:{...process.env,PYTHONPATH:join(runtimeRoot,'docling','Lib','site-packages'),PYTHONNOUSERSITE:'1',PYTHONDONTWRITEBYTECODE:'1',HF_HUB_OFFLINE:'1',TRANSFORMERS_OFFLINE:'1',HF_HUB_DISABLE_TELEMETRY:'1',DO_NOT_TRACK:'1',OMP_NUM_THREADS:'4',TOKENIZERS_PARALLELISM:'false'}});running=child;
         let errorText='';child.stderr.on('data',data=>{errorText=(errorText+data.toString()).slice(-4000);});
         let cancelled=false;const abort=()=>{cancelled=true;child.kill();};
         signal?.addEventListener('abort',abort,{once:true});if(signal?.aborted)abort();

@@ -5,17 +5,19 @@ import {mkdirSync,appendFileSync,readFileSync,writeFileSync} from 'node:fs';
 import {dirname,join,resolve} from 'node:path';
 import {fileURLToPath} from 'node:url';
 import {createServer} from '../server.mjs';
+import {desktopPaths} from './paths.mjs';
 
 const sourceRoot=resolve(dirname(fileURLToPath(import.meta.url)),'..');
 const portableRoot=app.isPackaged?dirname(process.execPath):sourceRoot;
+const defaults=desktopPaths({packaged:app.isPackaged,sourceRoot,resourcesPath:process.resourcesPath,appData:app.getPath('appData')});
 const testRoot=process.env.PAPER_SPACE_TEST_DATA;
 if(testRoot&&!process.env.PAPER_SPACE_TEST_PORT)throw new Error('隔离测试必须指定独立端口');
-const dataRoot=testRoot?resolve(testRoot):join(portableRoot,'data');
+const dataRoot=testRoot?resolve(testRoot):defaults.dataRoot;
 const logRoot=join(dataRoot,'logs');
 const boundsFile=join(dataRoot,'window.json');
 const port=Number(process.env.PAPER_SPACE_TEST_PORT)||4319;
 if(!Number.isInteger(port)||port<1024||port>65535)throw new Error('无效本机端口');
-if(testRoot){const target=dataRoot.toLowerCase();const forbidden=['data','runtime'].map(name=>resolve(portableRoot,name).toLowerCase());if(port===4319||forbidden.some(p=>target===p||target.startsWith(p+'\\')))throw new Error('隔离测试不得使用正式资料目录或端口');}
+if(testRoot){const target=dataRoot.toLowerCase();const forbidden=[defaults.dataRoot,...['data','runtime'].map(name=>resolve(portableRoot,name))].map(p=>p.toLowerCase());if(port===4319||forbidden.some(p=>target===p||target.startsWith(p+'\\')))throw new Error('隔离测试不得使用正式资料目录或端口');}
 const origin=`http://127.0.0.1:${port}`;
 const debugMode=process.argv.includes('--debug');
 let mainWindow,server,quitting=false;
@@ -54,7 +56,7 @@ function setupMenu() {
     {label:'编辑',submenu:[{label:'撤销',role:'undo'},{label:'重做',role:'redo'},{type:'separator'},{label:'剪切',role:'cut'},{label:'复制',role:'copy'},{label:'粘贴',role:'paste'},{label:'全选',role:'selectAll'}]},
     {label:'视图',submenu:[{label:'刷新界面',role:'reload',accelerator:'CommandOrControl+R'},{label:'忽略缓存并刷新',role:'forceReload',accelerator:'CommandOrControl+Shift+R'},{type:'separator'},{label:'放大',role:'zoomIn'},{label:'缩小',role:'zoomOut'},{label:'恢复缩放',role:'resetZoom'},{type:'separator'},{label:'全屏',role:'togglefullscreen',accelerator:'F11'}]},
     {label:'调试',submenu:[{label:'开发者工具',accelerator:'F12',click:toggleTools},{label:'打开界面源码目录',click:()=>openFolder(join(sourceRoot,'public'))},{label:'打开应用数据目录',click:()=>openFolder(dataRoot)},{label:'打开诊断日志目录',click:()=>openFolder(logRoot)},{type:'separator'},{label:'重启应用',click:()=>{app.relaunch();app.quit();}}]},
-    {label:'帮助',submenu:[{label:'调试说明',click:()=>dialog.showMessageBox(mainWindow,{type:'info',title:'纸间 · 调试说明',message:'F12 打开开发者工具；Ctrl+R 刷新界面。',detail:'修改 public/app.mjs、style.css 或 index.html 后刷新即可。修改 server.mjs 或 desktop/main.mjs 后，通过“调试 → 重启应用”重新加载。\n\n数据保存在程序目录的 data 文件夹。API Key 可在设置中选择由 Windows 系统加密记住，并可按接口清除。'})},{label:'关于纸间',click:()=>dialog.showMessageBox(mainWindow,{type:'info',title:'关于纸间',message:`纸间 ${app.getVersion()} · 本机论文阅读工作台`,detail:`Electron ${process.versions.electron}\n无需登录。文件在本机解析；AI 功能使用你配置的接口。\n\n这是可调试的便携开发版。`})}]},
+    {label:'帮助',submenu:[{label:'调试说明',click:()=>dialog.showMessageBox(mainWindow,{type:'info',title:'纸间 · 调试说明',message:'F12 打开开发者工具；Ctrl+R 刷新界面。',detail:'修改 public/app.mjs、style.css 或 index.html 后刷新即可。修改 server.mjs 或 desktop/main.mjs 后，通过“调试 → 重启应用”重新加载。\n\n安装版数据保存在用户目录的 PaperSpace 文件夹，源码版保存在项目 data 文件夹。API Key 可在设置中选择由 Windows 系统加密记住，并可按接口清除。'})},{label:'关于纸间',click:()=>dialog.showMessageBox(mainWindow,{type:'info',title:'关于纸间',message:`纸间 ${app.getVersion()} · 本机论文阅读工作台`,detail:`Electron ${process.versions.electron}\n无需登录。文件在本机解析；AI 功能使用你配置的接口。\n\n安装版内置本机文档识别环境；个人数据与程序目录分开保存。`})}]},
   ]));
 }
 async function createWindow() {
@@ -114,7 +116,7 @@ else {
       if(!['status','get','set','clear'].includes(action))return{ok:false,error:'无效密钥操作'};
       try{return{ok:true,...keys[action](input)};}catch(error){return{ok:false,error:error.message};}
     });
-    server=createServer({runtimeRoot:process.env.PAPER_SPACE_RUNTIME||join(portableRoot,'runtime'),dataRoot});
+    server=createServer({runtimeRoot:process.env.PAPER_SPACE_RUNTIME||defaults.runtimeRoot,dataRoot});
     await new Promise((resolve,reject)=>{server.once('error',reject);server.listen(port,'127.0.0.1',resolve);});
     setupMenu();await createWindow();
   }).catch(error=>{
