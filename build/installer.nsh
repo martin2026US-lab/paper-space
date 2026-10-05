@@ -1,5 +1,6 @@
 ; The offline Python runtime contains paths up to 170 characters below INSTDIR.
 ; Stay below Win32 MAX_PATH, including the app-name suffix added by the wizard.
+!include "LogicLib.nsh"
 !ifndef BUILD_UNINSTALLER
   Function PaperSpaceCheckInstallPath
     StrLen $0 $INSTDIR
