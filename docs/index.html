@@ -1,0 +1,45 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="description" content="58 秒认识纸间：保留论文原貌，在原文旁翻译、解读与批注。">
+  <title>纸间 · 58 秒功能演示</title>
+  <style>
+    :root{color-scheme:light;--ink:#473626;--muted:#806d58;--line:#dfd0b8;--accent:#805d38}
+    *{box-sizing:border-box}body{margin:0;background:#f5efdf;color:var(--ink);font:16px/1.65 system-ui,"Microsoft YaHei",sans-serif}
+    a{color:inherit;text-underline-offset:4px}a:focus-visible,button:focus-visible,video:focus-visible{outline:3px solid #b28a4d;outline-offset:5px}
+    main{width:min(1120px,calc(100% - 40px));margin:auto;padding:28px 0 36px}
+    header{display:flex;align-items:center;justify-content:space-between;gap:20px;border-bottom:1px solid var(--line);padding-bottom:20px}
+    .brand{font:700 25px/1.2 Georgia,"Songti SC",serif;letter-spacing:2px;text-decoration:none}.brand span{font:11px system-ui,sans-serif;letter-spacing:3px;color:var(--muted);margin-left:14px}
+    .repo{color:var(--muted);font-size:14px}.intro{padding:32px 0 24px}.eyebrow{font-size:12px;color:var(--muted);letter-spacing:2px;margin:0 0 8px}h1{font:700 clamp(28px,4vw,44px)/1.3 Georgia,"Songti SC",serif;margin:0 0 12px}.intro p:last-child{margin:0;color:var(--muted)}
+    .screen{position:relative;background:#251e18;border:1px solid var(--line);border-radius:16px;overflow:hidden;box-shadow:0 18px 48px #55402516}
+    video{display:block;width:100%;aspect-ratio:16/9;background:#251e18;object-fit:contain}
+    .play{position:absolute;inset:0;margin:auto;width:148px;height:54px;border:1px solid #e9d6b8;border-radius:30px;background:#fff8eaf2;color:#5f4226;font:600 16px system-ui;cursor:pointer;box-shadow:0 8px 30px #0003}.play:hover{background:#fff}.play[hidden]{display:none}
+    .actions{display:flex;align-items:center;flex-wrap:wrap;gap:18px;margin-top:24px}.download{padding:11px 20px;border-radius:9px;background:var(--accent);color:#fff8ee;text-decoration:none;font-weight:600}.secondary{font-size:14px;color:var(--muted)}
+    .details{display:grid;grid-template-columns:repeat(3,1fr);gap:24px;margin:32px 0 24px;padding-top:24px;border-top:1px solid var(--line)}.details h2{font-size:16px;margin:0 0 6px}.details p{font-size:14px;margin:0;color:var(--muted)}footer{font-size:12px;color:var(--muted)}#videoError{padding:0 20px;color:#fff0d7}#videoError[hidden]{display:none}
+    @media(max-width:600px){main{width:calc(100% - 28px);padding-top:20px}.brand span{display:none}.intro{padding-top:25px}.details{grid-template-columns:1fr;gap:18px}.actions{gap:14px}.screen{border-radius:10px}}
+  </style>
+</head>
+<body>
+<main>
+  <header><a class="brand" href="https://github.com/martin2026US-lab/paper-space">纸间 <span>PAPER SPACE</span></a><a class="repo" href="https://github.com/martin2026US-lab/paper-space">查看开源项目 ↗</a></header>
+  <section class="intro"><p class="eyebrow">58 秒 · AI 阅读功能演示</p><h1>让问题，从原文里长出来。</h1><p>原文、翻译、解读与自己的理解，留在同一张阅读书桌上。</p></section>
+  <div class="screen">
+    <video id="demo" controls playsinline preload="metadata" poster="assets/cover.jpg" aria-label="纸间 AI 阅读功能宣传片" tabindex="0"><source src="assets/paper-space-ai-demo.mp4" type="video/mp4">浏览器不支持视频播放，请使用下方下载链接。</video>
+    <button class="play" id="play" type="button" aria-label="播放宣传片">▶ 播放宣传片</button>
+    <p id="videoError" role="status" hidden>视频暂时无法播放，请使用下方“下载视频”后在本机观看。</p>
+  </div>
+  <div class="actions"><a class="download" href="https://github.com/martin2026US-lab/paper-space/releases/latest">下载 Windows 安装包</a><a class="secondary" href="https://github.com/martin2026US-lab/paper-space/releases/download/v1.0.2/paper-space-ai-demo.mp4" download>下载视频 · MP4 / 6.2 MB</a></div>
+  <section class="details" aria-label="演示内容"><div><h2>读懂原文</h2><p>保留 PDF 页面，单击句子翻译，逐段解读。</p></div><div><h2>留下理解</h2><p>章节对应个人批注，对话中的来源可回到原文。</p></div><div><h2>由你选择 AI</h2><p>不内置对话模型与 API Key。本机识别，AI 接口自行配置。</p></div></section>
+  <footer>演示仅使用公开论文《Attention Is All You Need》。AI 输出来自实际调用，等待过程经过剪辑。网页不包含 API Key 或私人文献。</footer>
+</main>
+<script>
+  const video=document.getElementById('demo'),play=document.getElementById('play'),error=document.getElementById('videoError');
+  play.addEventListener('click',async()=>{try{await video.play();}catch{error.hidden=false;}});
+  video.addEventListener('play',()=>{play.hidden=true;error.hidden=true;});
+  video.addEventListener('ended',()=>{play.hidden=false;});
+  video.addEventListener('error',()=>{play.hidden=true;error.hidden=false;});
+</script>
+</body>
+</html>

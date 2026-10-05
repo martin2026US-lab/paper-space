@@ -12,7 +12,7 @@
 
 ![阅读工作台](docs/assets/workspace.jpg)
 
-▶ **[观看 58 秒 AI 功能宣传片](docs/assets/paper-space-ai-demo.mp4)** · [查看封面](docs/assets/cover.jpg)
+▶ **[在线观看 58 秒 AI 功能宣传片](https://martin2026US-lab.github.io/paper-space/)** · [下载视频（MP4）](https://github.com/martin2026US-lab/paper-space/releases/download/v1.0.2/paper-space-ai-demo.mp4)
 
 ## 可以做什么
 
