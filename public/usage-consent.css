@@ -1,0 +1,27 @@
+.desktop-titlebar #appMenu{height:28px;display:inline-flex;align-items:center;gap:7px;padding:0 9px 0 5px;border:1px solid transparent;border-radius:7px;background:transparent;color:#705332;font:600 13px/1 'Segoe UI','Microsoft YaHei',sans-serif;box-shadow:none}
+.desktop-titlebar #appMenu:hover,.desktop-titlebar #appMenu[aria-expanded="true"]{background:#f8edda;border-color:#d9c19b}
+.desktop-titlebar #appMenu:focus-visible{outline:2px solid #a77c3c;outline-offset:1px}
+#appMenu .app-menu-logo{width:20px;height:20px;display:block}
+#appMenu .app-menu-chevron{width:12px;height:12px;fill:none;stroke:currentColor;stroke-width:1.6;stroke-linecap:round;stroke-linejoin:round;margin-left:3px}
+#appMenu[aria-expanded="true"] .app-menu-chevron{transform:rotate(180deg)}
+.usage-dialog{width:min(680px,calc(100vw - 32px));max-height:min(880px,calc(100dvh - 40px));padding:0;border:1px solid #d4bc95;border-radius:20px;background:#fff8e9;color:#57432b;box-shadow:0 24px 90px #3e2e2540;overflow:auto}
+.usage-dialog::backdrop{background:#e9ddcbe8;backdrop-filter:blur(5px)}
+.usage-heading{display:flex;align-items:center;gap:16px;padding:27px 30px 0}
+.usage-logo{width:48px;height:48px;flex:none}
+.usage-eyebrow{font:11px/1.5 'Segoe UI',sans-serif;letter-spacing:1.5px;color:#9b7a4d;margin:0 0 5px}
+.usage-heading h2{font-size:24px;line-height:1.4;margin:0;font-weight:650;color:#513a23}
+.usage-heading h2:focus{outline:none}
+.usage-intro{margin:14px 30px 20px;font-size:14px;line-height:1.7;color:#8b7355}
+.usage-content{padding:0 30px}
+.usage-section{padding:14px 0;border-top:1px solid #e6d7bd}
+.usage-section h3{margin:0 0 7px;font-size:15px;line-height:1.5;font-weight:650}
+.usage-section p{margin:0;font-size:13px;line-height:1.8;color:#79634a}
+.usage-footer{padding:20px 30px 18px;background:#f4ead6;border-top:1px solid #e2d0af}
+.usage-check{display:flex;align-items:flex-start;gap:10px;font-size:13px;line-height:1.7;cursor:pointer}
+.usage-check input[type="checkbox"]{appearance:auto;width:17px;height:17px;min-width:17px;margin:3px 0 0;padding:0;accent-color:#8a6438;flex:0 0 17px}
+.usage-actions{display:flex;justify-content:flex-end;align-items:center;flex-wrap:wrap;gap:12px;margin-top:20px}
+.usage-actions .button{font-size:14px;padding:10px 20px;min-height:42px}
+.usage-actions .button:disabled{opacity:.45;cursor:not-allowed}
+.usage-footnote{font-size:11px;color:#9d8565;text-align:right;margin:14px 0 0;line-height:1.6}
+.usage-declined{font-size:13px;color:#806747;margin-right:auto}
+@media(max-width:520px){.usage-heading{padding:22px 20px 0}.usage-heading h2{font-size:21px}.usage-intro{margin-left:20px;margin-right:20px}.usage-content{padding:0 20px}.usage-footer{padding:18px 20px}.usage-logo{width:40px;height:40px}}

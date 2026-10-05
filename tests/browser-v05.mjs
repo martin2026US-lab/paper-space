@@ -1,3 +1,5 @@
+// Isolated regression fixture: explicitly acknowledge the notice before exercising the app.
+import {saveUsageConsent} from '/usage-consent.mjs';saveUsageConsent(localStorage);
 import {createDesktopUI} from '/desktop-ui.mjs';
 import {readWordHTML,matchWordSource} from '/word-import.mjs';
 import {renderMarkdown} from '/rich-text.mjs';

@@ -1,3 +1,5 @@
+// Isolated regression fixture: explicitly acknowledge the notice before exercising the app.
+import {saveUsageConsent} from '/usage-consent.mjs';saveUsageConsent(localStorage);
 import * as pdfjs from '/vendor/pdfjs/build/pdf.mjs';
 import {readWordHTML,restoreWordTables,renderWordBlock} from '/word-import.mjs';
 import {doclingUnits,mapDoclingPage} from '/docling-layout.mjs';import {pdfNavigation} from '/pdf-navigation.mjs';

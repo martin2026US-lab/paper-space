@@ -3,9 +3,10 @@
 1. 打开 [最新版本](https://github.com/martin2026US-lab/paper-space/releases/latest)。
 2. 下载 `Paper-Space-1.0.2-Windows-x64-Setup.exe`，不要选 GitHub 自动生成的 Source code。
 3. 双击安装，选择安装目录；安装完成后从桌面或开始菜单打开 **纸间 Paper Space**。
-4. 导入 PDF、Word、TXT 或 Markdown，即可本机阅读。使用翻译、AI 解读和对话时，在左下角配置自己的模型接口。
+4. 首次打开时阅读并主动勾选确认使用声明；未同意前工作台保持关闭。
+5. 导入 PDF、Word、TXT 或 Markdown，即可本机阅读。使用翻译、AI 解读和对话时，在左下角配置自己的模型接口。
 
-支持 Windows 10 / 11 x64。安装包内置 Electron、Python、Docling 和识别模型，不需要 Node.js、Python 或命令行配置。安装后可离线阅读和识别；AI 功能需要你配置的模型服务。
+支持 Windows 10 / 11 x64。安装包内置 Electron、Python、Docling 和识别模型，不需要 Node.js、Python 或命令行配置。安装后可离线阅读和识别；不内置对话大模型、不预置 API Key。AI 功能需要你配置的模型服务，主动使用时相关材料会发送至该服务。
 
 请预留至少 6 GB 可用空间，用于安装与临时解压。复杂 PDF 的第一次识别可能需要几分钟，原文会先显示。扫描 PDF 的 OCR 尚未启用。
 

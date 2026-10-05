@@ -4,10 +4,17 @@ const started=performance.now();let finished=false,finishing;
 const wait=ms=>new Promise(resolve=>setTimeout(resolve,ms));
 // Two paint opportunities after canvas/text/image work; hidden windows must also settle.
 function afterPaint(){return new Promise(resolve=>{const timeout=setTimeout(resolve,150);requestAnimationFrame(()=>requestAnimationFrame(()=>{clearTimeout(timeout);resolve();}));});}
-const slow=setTimeout(()=>{if(!finished&&screen.dataset.state!=='error'){screen.dataset.state='slow';hint.textContent='首次打开或较大的文献可能需要更久。';}},8000);
-const delayed=setTimeout(()=>{if(!finished){hint.textContent='准备尚未完成。可以继续等待，或重新尝试。';retry.hidden=false;}},30000);
+let slow,delayed;
+function startTimers(){
+  clearTimeout(slow);clearTimeout(delayed);
+  slow=setTimeout(()=>{if(!finished&&screen.dataset.state!=='error'){screen.dataset.state='slow';hint.textContent='首次打开或较大的文献可能需要更久。';}},8000);
+  delayed=setTimeout(()=>{if(!finished){hint.textContent='准备尚未完成。可以继续等待，或重新尝试。';retry.hidden=false;}},30000);
+}
+startTimers();
 retry.onclick=()=>window.location.reload();
 export const startup={
+  awaitingConsent(){clearTimeout(slow);clearTimeout(delayed);status.textContent='欢迎来到纸间';hint.textContent='请先阅读并确认使用说明。';retry.hidden=true;},
+  resume(){status.textContent='正在准备阅读工作台…';hint.textContent='文献与阅读记录保存在本机。';startTimers();},
   stage(text){if(!finished&&screen.dataset.state!=='error')status.textContent=text;},
   ready(waitForContent=async()=>{}){
     if(finishing)return finishing;

@@ -1,3 +1,5 @@
+// Isolated regression fixture: explicitly acknowledge the notice before exercising the app.
+import {saveUsageConsent} from '/usage-consent.mjs';saveUsageConsent(localStorage);
 import * as pdfjs from '/vendor/pdfjs/build/pdf.mjs';import {extractPdfParagraphs} from '/pdf-layout.mjs';import {pdfNavigation} from '/pdf-navigation.mjs';import {readingUnits} from '/reading-units.mjs';import {pdfBlockSpans} from '/pdf-text.mjs';
 pdfjs.GlobalWorkerOptions.workerSrc='/vendor/pdfjs/build/pdf.worker.mjs';
 const out=document.getElementById('results');let passed=0,failed=0;const assert=(v,m)=>{if(!v)throw Error(m);},sleep=ms=>new Promise(r=>setTimeout(r,ms));

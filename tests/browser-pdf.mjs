@@ -1,3 +1,5 @@
+// Isolated regression fixture: explicitly acknowledge the notice before exercising the app.
+import {saveUsageConsent} from '/usage-consent.mjs';saveUsageConsent(localStorage);
 import * as pdfjs from '/vendor/pdfjs/build/pdf.mjs';
 import {extractPdfParagraphs,migratePdfLayout} from '/pdf-layout.mjs';
 import {bindPdfTextLayer,pdfBlockSpans} from '/pdf-text.mjs';

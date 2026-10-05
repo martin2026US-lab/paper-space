@@ -99,7 +99,8 @@ else {
   app.whenReady().then(async()=>{
     const keys=createKeyStore(join(dataRoot,'credentials.enc.json'),safeStorage);
     const chats=createChatStore(dataRoot);
-    ipcMain.handle('paper-space:menu',event=>{if(!trustedSender(event,mainWindow,origin))return;Menu.getApplicationMenu()?.popup({window:mainWindow,x:12,y:38});});
+    ipcMain.handle('paper-space:menu',event=>{if(!trustedSender(event,mainWindow,origin))return;const menu=Menu.getApplicationMenu();if(!menu)return;return new Promise(resolve=>menu.popup({window:mainWindow,x:12,y:38,callback:resolve}));});
+    ipcMain.handle('paper-space:quit',event=>{if(trustedSender(event,mainWindow,origin))app.quit();});
     ipcMain.handle('paper-space:chats',async(event,action,input)=>{
       if(!trustedSender(event,mainWindow,origin))return{ok:false,error:'不受信任的对话存储请求'};
       try{

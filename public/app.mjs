@@ -1,4 +1,5 @@
 import {createWorkspaceTools} from './workspace-tools.mjs';
+import {ensureUsageConsent,showUsageNotice} from './usage-consent-ui.mjs';
 import {notesForChapter,resolveChapter} from './chapter-notes.mjs';
 import {chaptersFor,navigationGate} from './chapter-navigation.mjs';
 import {createChapterNavigation} from './chapter-navigation-ui.mjs';
@@ -53,7 +54,7 @@ function listDocuments(){library.list();}
 function outlineItems(){return chaptersFor(state.doc);}
 function outlines(){if(!chapterNavigation)return;chapterNavigation.update(state.doc?.id,outlineActive());workspaceTools?.update();}
 function outlineActive(){
-  const items=outlineItems();if(navigationLock?.docId===state.doc?.id&&navigationLock.page===state.page){const selected=items.findIndex(i=>i.key===navigationLock.key);if(selected>=0)return selected;}
+  const items=outlineItems();if(navigationLock&&navigationLock.docId===state.doc?.id&&navigationLock.page===state.page){const selected=items.findIndex(i=>i.key===navigationLock.key);if(selected>=0)return selected;}
   if(!state.doc||state.view!=='original')return -1;
   const scroll=$('readerScroll'),pdf=$('readingContent').querySelector('.pdf-page'),scale=pdf?Number(pdf.style.getPropertyValue('--scale-factor')):1,readingLine=scroll.getBoundingClientRect().top+90;
   if(pdf)return activeOutline(items,state.page,Math.max(0,(readingLine-pdf.getBoundingClientRect().top)/scale));
@@ -253,7 +254,9 @@ function resizeReading(){
 }
 window.addEventListener('resize',resizeReading);
 async function init(){workspaceTools=createWorkspaceTools({state,getChapters:outlineItems,getActive:outlineActive,navigate:goto,activate,toast,onBeforeLayout:rememberLayout,onLayoutChange:resizeReading,closeNavigation:()=>chapterNavigation?.close()});chapterNavigation=createChapterNavigation({host:$('outline'),trigger:$('chapterWheelBtn'),getItems:outlineItems,onNavigate:item=>goto(item.page,item),onNotes:item=>personalNotesUI.openChapter(item),getNoteCount:item=>state.doc?notesForChapter(state.doc,item).length:0});personalNotesUI=createPersonalNotesUI({state,saveDoc,locate:async anchor=>{if(anchor.kind==='chapter-note'){const chapter=resolveChapter(state.doc,anchor.chapter);await goto(chapter?.page||anchor.page,chapter||undefined);if(!chapter)toast('章节已变化，已定位到保存时的来源页。');}else await locate(anchor);},toast,onChange:()=>{syncTabs();chapterNavigation.refreshNotes();}});crossPageUI=createCrossPageUI({state,saveDoc,renderReading,locate,toast});startup.stage('正在读取本机文献…');conversationUI=createConversationUI({state,saveDoc,refresh:()=>{updateChips();renderChat();updateContext();},toast,reset:()=>readerTools.reset()});structureUI=createStructureUI({state,saveDoc,renderReading,refresh:()=>{updateChips();renderChat();updateContext();},toast,reset:()=>readerTools.reset()});chatStore=createDesktopUI({state,toast,flush:saveLocal});loadConfig();$('readingContent').append(node('div','loading','正在准备本机阅读工作台…'));try{await initDB();state.docs=await allDocs();for(const doc of state.docs)ensureConversations(doc);await chatStore?.load(state.docs);}catch{toast('浏览器本机存储不可用，刷新后不会保留文档。');}if(!state.docs.length&&!localStorage.getItem('paper-space-seeded')){try{const demo=await loadDemo();state.docs.push(demo);await saveDoc(demo);}catch(e){toast('欢迎使用纸间：点击左侧「导入文档」，开始你的第一篇阅读。');}}localStorage.setItem('paper-space-seeded','1');const active=library.visible().find(d=>d.id===localStorage.getItem('paper-space-active-doc'))||library.visible().at(-1);if(active)await activate(active);else library.empty();}
-init().then(()=>startup.ready(waitForReading)).catch(e=>{toast('启动失败：'+e.message);startup.fail();});
+document.getElementById('usageNoticeBtn').onclick=()=>{document.getElementById('readingMenu').open=false;showUsageNotice();};
+startup.awaitingConsent();
+ensureUsageConsent().then(()=>{startup.resume();return init();}).then(()=>startup.ready(waitForReading)).catch(e=>{toast('启动失败：'+e.message);startup.fail();});
 
 
 function appendFigures(host,afterId){for(const f of (state.doc.figures||[]).filter(f=>f.page===state.page&&f.afterId===afterId)){const figure=node('figure','word-figure');if(f.src){const image=node('img');image.src=f.src;image.alt=f.alt;image.loading='lazy';const open=button('',()=>{const full=node('img');full.src=f.src;full.alt=f.alt;$('imagePreview').replaceChildren(full);$('imageDialog').showModal();},'figure-open');open.setAttribute('aria-label','放大查看 '+f.alt);open.append(image);figure.append(open);image.onerror=()=>{figure.replaceChildren(node('p','','此图片格式无法显示，请查看原 Word 文件。'));};figure.append(node('figcaption','','点击放大 · 原文插图'));}else figure.append(node('p','','此插图格式暂不支持显示，请查看原 Word 文件。'));host.append(figure);}}
