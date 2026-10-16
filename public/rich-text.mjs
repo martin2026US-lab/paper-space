@@ -1,3 +1,4 @@
+import {uiText,uiError} from './ui-language.mjs';
 import {Lexer} from './vendor/marked.mjs';
 const element=(tag,text)=>{const el=document.createElement(tag);if(text!==undefined)el.textContent=text;return el;};
 const decode=text=>String(text).replace(/&(#x[\da-f]+|#\d+|amp|lt|gt|quot|apos);/gi,(raw,key)=>{const names={amp:'&',lt:'<',gt:'>',quot:'"',apos:"'"};if(key[0]!=='#')return names[key.toLowerCase()]??raw;const n=key[1].toLowerCase()==='x'?parseInt(key.slice(2),16):parseInt(key.slice(1),10);return n>0&&n<=0x10ffff?String.fromCodePoint(n):raw;});
@@ -11,10 +12,10 @@ export function renderMarkdown(host,text,{materials=[],onCitation=()=>{}}={}) {
       if(!ids.some(id=>sources.has(id)))continue;
       parent.append(document.createTextNode(value.slice(at,match.index)));
       const known=[...new Set(ids)].filter(id=>sources.has(id)).map(id=>sources.get(id));
-      const makeButton=source=>{const btn=element('button',source.kind==='代码'?'代码来源':source.page?'第 '+source.page+' 页':'导读');btn.type='button';btn.className='citation';btn.title=(source.label||'定位原文')+' · '+(source.text||'').slice(0,180);btn.addEventListener('click',()=>onCitation(source));return btn;};
+      const makeButton=source=>{const btn=element('button',source.kind==='代码'?uiText('代码来源'):source.page?uiText('第 {0} 页',source.page):uiText('导读'));btn.type='button';btn.className='citation';btn.title=(source.label?uiError(source.label):uiText('定位原文'))+' · '+(source.text||'').slice(0,180);btn.addEventListener('click',()=>onCitation(source));return btn;};
       if(known.length===1)parent.append(makeButton(known[0]));
-      else {const group=element('span');group.className='citation-group';const toggle=element('button','来源 · '+known.length+' 处');toggle.className='citation';toggle.type='button';toggle.setAttribute('aria-expanded','false');const panel=element('span');panel.className='citation-sources';panel.hidden=true;toggle.onclick=()=>{panel.hidden=!panel.hidden;toggle.setAttribute('aria-expanded',String(!panel.hidden));};for(const source of known){const row=element('span');row.className='citation-source';row.append(makeButton(source),element('span',(source.text||source.label||source.id).slice(0,160)));panel.append(row);}group.append(toggle,panel);parent.append(group);}
-      for(const id of [...new Set(ids)].filter(id=>!sources.has(id)))parent.append(element('span',' ['+id+']（来源未核实）'));
+      else {const group=element('span');group.className='citation-group';const toggle=element('button',uiText('来源 · {0} 处',known.length));toggle.className='citation';toggle.type='button';toggle.setAttribute('aria-expanded','false');const panel=element('span');panel.className='citation-sources';panel.hidden=true;toggle.onclick=()=>{panel.hidden=!panel.hidden;toggle.setAttribute('aria-expanded',String(!panel.hidden));};for(const source of known){const row=element('span');row.className='citation-source';row.append(makeButton(source),element('span',(source.text||source.label||source.id).slice(0,160)));panel.append(row);}group.append(toggle,panel);parent.append(group);}
+      for(const id of [...new Set(ids)].filter(id=>!sources.has(id)))parent.append(element('span',uiText(' [{0}]（来源未核实）',id)));
       at=match.index+match[0].length;
     }
     parent.append(document.createTextNode(value.slice(at)));
@@ -25,7 +26,7 @@ export function renderMarkdown(host,text,{materials=[],onCitation=()=>{}}={}) {
       else if(t.type==='codespan')parent.append(element('code',decode(t.text)));
       else if(t.type==='br')parent.append(element('br'));
       else if(t.type==='link'){const child=element('span');child.className='markdown-link';child.title=t.href;inline(child,t.tokens);parent.append(child);}
-      else if(t.type==='image')plain(parent,t.text||'图片',false);
+      else if(t.type==='image')plain(parent,t.text||uiText('图片'),false);
       else if(t.tokens)inline(parent,t.tokens);
       else plain(parent,t.text??t.raw??'',t.type!=='html');
     }

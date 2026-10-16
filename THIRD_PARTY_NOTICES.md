@@ -17,3 +17,7 @@ PDF.js font and WASM notices are retained in `public/vendor/pdfjs/standard_fonts
 Vaswani et al., *Attention Is All You Need* (2017), [arXiv:1706.03762](https://arxiv.org/abs/1706.03762). The example PDF is downloaded separately at the user's request. It is not relicensed under MIT. Screenshots/video demonstrate reading this publicly available paper; paper excerpts retain their original attribution and rights. Do not treat promotional media as a license to redistribute the full paper.
 
 Test PDFs and DOCX files under `tests/` contain synthetic fixtures, not personal manuscripts.
+
+## Reading fonts
+
+Source Serif 4 (Adobe) and Noto Serif SC (The Noto Project) are bundled locally under the SIL Open Font License 1.1. Font files and their license notices are in `public/fonts/`. No font network request is required.

@@ -1,3 +1,4 @@
+import {uiText} from './ui-language.mjs';
 // Retain only local raster image data. Imported HTML is never mounted in the app.
 export function readWordHTML(html, Parser=DOMParser) {
   const parsed=new Parser().parseFromString(html,'text/html');
@@ -25,7 +26,7 @@ export function restoreWordTables(doc,parsed){
 }
 export function renderWordBlock(block,document){
   if(!block.table){const p=document.createElement(block.heading?'h3':'p');p.className='word-block'+(block.heading?' word-heading':'');p.dataset.blockId=block.id;p.textContent=block.text;return p;}
-  const wrap=document.createElement('div');wrap.className='word-block word-table-wrap';wrap.dataset.blockId=block.id;wrap.tabIndex=0;wrap.setAttribute('role','region');wrap.setAttribute('aria-label','原文表格，可横向滚动');
+  const wrap=document.createElement('div');wrap.className='word-block word-table-wrap';wrap.dataset.blockId=block.id;wrap.tabIndex=0;wrap.setAttribute('role','region');wrap.setAttribute('aria-label',uiText('原文表格，可横向滚动'));
   const table=document.createElement('table');table.className='word-table';const body=document.createElement('tbody');
   for(const row of block.table.rows){const tr=document.createElement('tr');for(const cell of row.cells){const td=document.createElement(cell.header?'th':'td');td.textContent=cell.text;td.colSpan=cell.colSpan;td.rowSpan=cell.rowSpan;if(cell.header)td.scope='col';tr.append(td);}body.append(tr);}
   table.append(body);wrap.append(table);return wrap;

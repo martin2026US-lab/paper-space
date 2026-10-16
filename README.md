@@ -2,24 +2,35 @@
 
 # 纸间 · Paper Space
 
+[English](README.en.md) · 简体中文
+
 **让问题，从原文里长出来。**
 
 本机优先的 AI 论文阅读工作台。保留 PDF 原貌，把翻译、段落解读、章节批注和带来源的对话放在同一个阅读空间里。无需注册，AI 使用你自己的接口。
 
 [![Tests](https://github.com/martin2026US-lab/paper-space/actions/workflows/test.yml/badge.svg)](https://github.com/martin2026US-lab/paper-space/actions/workflows/test.yml)
-![Version](https://img.shields.io/badge/version-1.0.2-b28a4d)
+![Version](https://img.shields.io/badge/version-1.1.0-b28a4d)
 ![License](https://img.shields.io/badge/license-MIT-806043)
 
 ![阅读工作台](docs/assets/workspace.jpg)
 
 ▶ **[在线观看 58 秒 AI 功能宣传片](https://martin2026US-lab.github.io/paper-space/)** · [下载视频（MP4）](https://github.com/martin2026US-lab/paper-space/releases/download/v1.0.2/paper-space-ai-demo.mp4)
 
+## 1.1.0 新增
+
+- **中英文界面**：首次使用说明页可直接选择 English；也可在「更多 → 语言与翻译 → 界面语言」切换。选择保存在本机，切换时保留阅读位置和未发送问题。
+- **三种语言各自设置**：界面语言、翻译目标语言、解读与回答语言互不覆盖；原文、已有笔记、对话和自定义名称保持原样。
+- **独立翻译与本机模型切换**：翻译可使用本机模型、自定义 AI 接口或专用翻译 API。同一个本机地址下可从列表切换已安装模型。
+- **阅读体验**：整段翻译、开源衬线字体、简化主页与玻璃边框，修复“更多”菜单遮挡。
+
 ## 可以做什么
 
 - **原文先出现**：PDF 保留页面与文字层，版面识别在本机后台进行；支持 DOCX、TXT、Markdown。
-- **围绕原文用 AI**：单击句子翻译，逐段解读，选区讨论，全文导读；对话前可查看与排除本轮材料，回答中的来源可回到原文。
+- **围绕原文用 AI**：单击句子或一键整段翻译，逐段解读，选区讨论，全文导读；对话前可查看与排除本轮材料，回答中的来源可回到原文。
 - **章节式阅读**：分层目录、圆形章节转盘、快速查找、专注阅读；支持跨页段落、手动结构校正与疑似漏段提示。
 - **留下自己的理解**：个人批注与章节对应，按文献保存多个独立对话，导出 Markdown 阅读笔记。
+- **语言与翻译**：原文自动识别。在「更多 → 语言与翻译」分别选择翻译目标、解读与回答语言，支持 12 种常用语言。翻译可独立使用本机模型、自定义 AI 接口或用户接入的翻译接口；服务语言自动映射，不支持的目标不可选。
+- **专注阅读**：围绕原文、批注和阅读对话展开，不再提供额外代码文件导入或代码材料检索。
 - **自配 AI 接口**：不内置对话大模型、不提供 API Key；支持 OpenAI 兼容 Chat Completions、Anthropic Messages 和兼容的本机模型接口。
 - **暖纸色界面**：让阅读、翻译和旁注同时可见，减少窗口切换。
 
@@ -28,6 +39,17 @@
 **[下载 Windows 安装包](https://github.com/martin2026US-lab/paper-space/releases/latest)** · [安装与升级说明](docs/INSTALL.md)
 
 面向 Windows 10 / 11 x64，内置运行环境和离线识别模型。下载 Setup.exe 安装即可，无需配置 Node.js 或 Python。个人资料保存在用户目录，升级与卸载保留。AI 功能使用你自己的模型接口。
+
+### 独立翻译服务
+
+在「更多 → 语言与翻译 → 设置翻译服务」选择翻译方式。翻译目标只作用于单句和整段翻译；「解读与回答语言」用于旁注、导读和问答，阅读 AI 仍在左下角选择。
+
+- **本机模型**：填写本机地址，从自动读取的已安装模型列表选择；可刷新列表或手动填写 ID，选择后保存生效。首次配置仅检测本机模型列表，未检测到时沿用阅读 AI。
+- **沿用阅读 AI**：使用左下角当前模型，翻译目标语言独立选择。
+- **自定义 AI 接口**：自行填写地址、模型和密钥，支持 OpenAI 兼容、Anthropic 协议。
+- **自定义翻译接口**：自行填写地址、密钥及接口要求的区域；按接口文档选择 LibreTranslate、DeepL 或 Translator v3 兼容协议。这里的协议决定请求格式，不指定服务商，也不预填云端服务地址。接口需实现所选兼容协议，目标语言通过接口语言列表检测并映射。
+
+专用翻译服务保存前检测可用目标语言，发送原文并使用服务商语言代码，省略源语言以自动识别。切换目标或服务不会自动翻译，也不会在失败后改用其它接口。浏览器密钥只保存在会话中；桌面版可用 Windows 系统加密保存，翻译密钥与阅读 AI 密钥分别绑定。
 
 ## 从源码运行（开发者）
 
@@ -110,7 +132,7 @@ DOCX 使用语义阅读视图，阅读分页不是 Word 原始页码；复杂表
 
 宣传片中的翻译与段落解读来自真实模型调用，等待时间经过剪辑；应用未接入模型时，示例解释会明确标记为预置演示。
 
-## License / English
+## License
 
 Paper Space is a local-first AI reading workspace for PDFs and documents, with sentence translation, grounded discussions, chapter notes, and offline layout analysis. Bring your own model endpoint. Run `npm start` with Node.js 22+, or `npm ci && npm run desktop` for the Electron app.
 

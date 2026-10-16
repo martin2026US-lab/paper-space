@@ -1,3 +1,4 @@
+import {uiText,uiHTML,uiError,uiDateLocale} from './ui-language.mjs';
 import {chapterTree,chapterAncestors} from './chapter-navigation.mjs';
 
 export function matchesQuery(text,query){
@@ -6,9 +7,9 @@ export function matchesQuery(text,query){
   return normalize(query).split(' ').filter(Boolean).every(term=>haystack.includes(term));
 }
 export function finderEntries({docs,doc,chapters,scope,query=''}){
-  if(scope==='documents')return docs.filter(d=>!d.deletedAt&&matchesQuery(d.name,query)).map(d=>({key:d.id,title:d.name,detail:(d.type||'文献').toUpperCase()+' · '+d.pages+(d.type==='pdf'?' 页':' 阅读页'),doc:d,current:d.id===doc?.id}));
+  if(scope==='documents')return docs.filter(d=>!d.deletedAt&&matchesQuery(d.name,query)).map(d=>({key:d.id,title:d.name,detail:(d.type||uiText("文献")).toUpperCase()+' · '+d.pages+(d.type==='pdf'?uiText(" 页"):uiText(" 阅读页")),doc:d,current:d.id===doc?.id}));
   const tree=chapterTree(chapters);
-  return chapters.map(item=>{const path=chapterAncestors(tree,item.key).slice(0,-1).map(p=>p.title).join(' › ');return{key:item.key,title:item.title,detail:path||'主章节',item};}).filter(e=>matchesQuery(e.title+' '+e.detail,query));
+  return chapters.map(item=>{const path=chapterAncestors(tree,item.key).slice(0,-1).map(p=>p.title).join(' › ');return{key:item.key,title:item.title,detail:path||uiText("主章节"),item};}).filter(e=>matchesQuery(e.title+' '+e.detail,query));
 }
 export function loadLayout(storage){
   try{const v=JSON.parse(storage.getItem('paper-space-layout')||'{}');return{focus:v.focus===true,assistant:v.assistant!==false};}catch{return{focus:false,assistant:true};}
@@ -16,26 +17,29 @@ export function loadLayout(storage){
 export function createWorkspaceTools({state,getChapters,getActive,navigate,activate,toast,onLayoutChange,onBeforeLayout=()=>{},closeNavigation=()=>{}}){
   const $=id=>document.getElementById(id),layout=loadLayout(localStorage),dialog=$('finderDialog'),input=$('finderInput'),results=$('finderResults'),menu=$('readingMenu');
   let scope='chapters',entries=[],selected=0,opener=null,pending=false;
+  const narrow=window.matchMedia('(max-width:1000px)');let narrowOpened=false;
+  const assistantVisible=()=>!layout.focus&&layout.assistant&&(!narrow.matches||narrowOpened);
   const make=(tag,cls,text)=>{const e=document.createElement(tag);e.className=cls;if(text!==undefined)e.textContent=text;return e;};
   function applyLayout(notify=true){
     if(notify)onBeforeLayout();
     const assistant=document.querySelector('.conversation');
     document.body.classList.toggle('reading-focus',layout.focus);
-    document.body.classList.toggle('assistant-hidden',!layout.assistant);
+    document.body.classList.toggle('assistant-hidden',!assistantVisible());
     document.querySelector('.library').inert=layout.focus;
-    assistant.inert=layout.focus||!layout.assistant;
-    $('focusBtn').textContent=layout.focus?'退出专注':'专注阅读';
+    assistant.inert=!assistantVisible();
+    $('focusBtn').textContent=layout.focus?uiText("退出专注"):uiText("专注阅读");
     $('focusBtn').setAttribute('aria-pressed',String(layout.focus));
-    $('assistantToggle').setAttribute('aria-pressed',String(!layout.focus&&layout.assistant));
-    $('assistantToggle').title=(!layout.focus&&layout.assistant?'收起':'打开')+'阅读助手';
+    $('assistantToggle').setAttribute('aria-pressed',String(assistantVisible()));
+    $('assistantToggle').title=uiText("{0}阅读助手", assistantVisible()?uiText("收起"):uiText("打开"));
     try{localStorage.setItem('paper-space-layout',JSON.stringify(layout));}catch{}
     if(notify){closeNavigation();onLayoutChange();}
   }
   function toggleFocus(){layout.focus=!layout.focus;applyLayout();}
-  function openAssistant(){if(layout.focus||!layout.assistant){layout.focus=false;layout.assistant=true;applyLayout();}}
+  function openAssistant(){if(!assistantVisible()){layout.focus=false;layout.assistant=true;narrowOpened=narrow.matches;applyLayout();}}
   $('focusBtn').onclick=toggleFocus;
-  $('assistantToggle').onclick=()=>{if(layout.focus){layout.focus=false;layout.assistant=true;}else layout.assistant=!layout.assistant;applyLayout();};
-  $('assistantClose').onclick=()=>{layout.assistant=false;applyLayout();$('assistantToggle').focus();};
+  $('assistantToggle').onclick=()=>{if(narrow.matches){narrowOpened=!assistantVisible();layout.focus=false;if(narrowOpened)layout.assistant=true;}else if(layout.focus){layout.focus=false;layout.assistant=true;}else layout.assistant=!layout.assistant;applyLayout();};
+  $('assistantClose').onclick=()=>{narrowOpened=false;layout.assistant=false;applyLayout();$('assistantToggle').focus();};
+  narrow.addEventListener('change',()=>{narrowOpened=false;applyLayout();});
   $('findBtn').onclick=()=>open('documents');$('chapterFindBtn').onclick=()=>open('chapters');$('currentChapter').onclick=()=>open('chapters');
   function open(nextScope='chapters'){
     if(document.querySelector('dialog[open]'))return;
@@ -53,18 +57,18 @@ export function createWorkspaceTools({state,getChapters,getActive,navigate,activ
   }
   function render(){
     $('findDocuments').setAttribute('aria-pressed',String(scope==='documents'));$('findChapters').setAttribute('aria-pressed',String(scope==='chapters'));
-    input.placeholder=scope==='documents'?'输入文献名称…':'输入章节名称，也可搜索所属主章节…';
+    input.placeholder=scope==='documents'?uiText("输入文献名称…"):uiText("输入章节名称，也可搜索所属主章节…");
     entries=finderEntries({docs:state.docs,doc:state.doc,chapters:getChapters(),scope,query:input.value});
-    $('finderCount').textContent=entries.length?entries.length+' 个结果'+(entries.length>200?' · 显示前 200 个，请继续输入缩小范围':''):(scope==='chapters'&&!getChapters().length?'尚未识别到章节，仍可使用顶部翻页。':'没有匹配结果，试试较短的关键词。');
+    $('finderCount').textContent=entries.length?uiText("{0} 个结果{1}", entries.length, entries.length>200?uiText(" · 显示前 200 个，请继续输入缩小范围"):''):(scope==='chapters'&&!getChapters().length?uiText("尚未识别到章节，仍可使用顶部翻页。"):uiText("没有匹配结果，试试较短的关键词。"));
     entries=entries.slice(0,200);selected=Math.max(0,Math.min(selected,entries.length-1));results.replaceChildren();
-    entries.forEach((entry,i)=>{const b=make('button','finder-result');b.type='button';b.id='finder-result-'+i;b.setAttribute('role','option');b.append(make('span','finder-kind',scope==='documents'?(entry.doc.type||'DOC').toUpperCase():entry.item.depth===0?'章':'节'));const text=make('span','finder-result-text');text.append(make('strong','',entry.title),make('small','',entry.detail));b.append(text);if(entry.current||entry.item?.index===getActive())b.append(make('small','finder-current','正在阅读'));b.onclick=()=>choose(i);results.append(b);});mark();
+    entries.forEach((entry,i)=>{const b=make('button','finder-result');b.type='button';b.id='finder-result-'+i;b.setAttribute('role','option');b.append(make('span','finder-kind',scope==='documents'?(entry.doc.type||'DOC').toUpperCase():entry.item.depth===0?uiText("章"):uiText("节")));const text=make('span','finder-result-text');text.append(make('strong','',entry.title),make('small','',entry.detail));b.append(text);if(entry.current||entry.item?.index===getActive())b.append(make('small','finder-current',uiText("正在阅读")));b.onclick=()=>choose(i);results.append(b);});mark();
   }
   async function choose(i){
-    if(pending||!entries[i])return;if(state.busy||state.mutating){$('finderCount').textContent='请先结束当前任务，再切换阅读位置。';return;}
+    if(pending||!entries[i])return;if(state.busy||state.mutating){$('finderCount').textContent=uiText("请先结束当前任务，再切换阅读位置。");return;}
     const entry=entries[i];pending=true;input.disabled=true;dialog.setAttribute('aria-busy','true');results.inert=true;
     try{if(entry.doc){if(entry.doc!==state.doc)await activate(entry.doc);}else await navigate(entry.item.page,entry.item);
       pending=false;close();
-    }catch{toast('暂时无法打开，请稍后重试。');}finally{pending=false;input.disabled=false;results.inert=false;dialog.removeAttribute('aria-busy');}
+    }catch{toast(uiText("暂时无法打开，请稍后重试。"));}finally{pending=false;input.disabled=false;results.inert=false;dialog.removeAttribute('aria-busy');}
   }
   input.oninput=()=>{selected=0;render();};
   input.onkeydown=e=>{if(e.isComposing)return;if(e.key==='ArrowDown'||e.key==='ArrowUp'){e.preventDefault();selected=Math.max(0,Math.min(entries.length-1,selected+(e.key==='ArrowDown'?1:-1)));mark();}else if(e.key==='Enter'){e.preventDefault();void choose(selected);}};
@@ -81,9 +85,9 @@ export function createWorkspaceTools({state,getChapters,getActive,navigate,activ
     else if(e.key==='Escape'){if(menu.open){menu.open=false;return;}if(layout.focus&&!overlayEscape.has(e)&&!document.querySelector('.annotation-drawer,.translation-popup')&&$('selectionMenu').hidden){layout.focus=false;applyLayout();}}
   });
   function update(){
-    const item=getChapters()[getActive()],title=item?.title||'浏览章节';
-    $('currentChapter').textContent=title;$('currentChapter').title=title+' · 点击快速跳转';
-    $('readingProgress').textContent=state.doc?'第 '+state.page+' / '+state.doc.pages+' 页':'开始阅读';
+    const item=getChapters()[getActive()],title=item?.title||uiText("浏览章节");
+    $('currentChapter').textContent=title;$('currentChapter').title=uiText("{0} · 点击快速跳转", title);
+    $('readingProgress').textContent=state.doc?uiText("第 {0} / {1} 页", state.page, state.doc.pages):uiText("开始阅读");
     $('readingProgressBar').style.width=state.doc?Math.min(100,state.page/Math.max(1,state.doc.pages)*100)+'%':'0%';
     $('chapterFindBtn').disabled=!state.doc;$('currentChapter').disabled=!state.doc;$('personalNotesBtn').disabled=!state.doc;
   }

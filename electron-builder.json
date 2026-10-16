@@ -15,7 +15,9 @@
     "package.json",
     "LICENSE",
     "THIRD_PARTY_NOTICES.md",
-    "!public/demo.pdf"
+    "!public/demo.pdf",
+    "model-service.mjs",
+    "translation-service.mjs"
   ],
   "extraResources": [
     {
@@ -57,7 +59,8 @@
       "zh_CN",
       "en_US"
     ],
-    "language": "2052"
+    "language": "2052",
+    "displayLanguageSelector": true
   },
   "publish": null
 }

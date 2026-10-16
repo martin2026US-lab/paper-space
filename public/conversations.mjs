@@ -1,13 +1,13 @@
 // Document-local sessions. history remains an alias for old readers, never the authority.
 const id=()=>globalThis.crypto.randomUUID();
-export function ensureConversations(doc){
+export function ensureConversations(doc,{newName='新对话',legacyName='历史对话'}={}){
   if(!Array.isArray(doc.conversations)||!doc.conversations.length){
     const history=Array.isArray(doc.history)?doc.history:[];
-    doc.conversations=[{id:'legacy-'+doc.id,name:history.length?'历史对话':'新对话',history,createdAt:doc.chatUpdatedAt||0,updatedAt:doc.chatUpdatedAt||0}];
+    doc.conversations=[{id:'legacy-'+doc.id,name:history.length?legacyName:newName,history,createdAt:doc.chatUpdatedAt||0,updatedAt:doc.chatUpdatedAt||0}];
   }
   doc.conversationVersion=1;
   let current=doc.conversations.find(c=>c.id===doc.activeConversationId&&!c.deletedAt)||doc.conversations.find(c=>!c.deletedAt);
-  if(!current){current={id:id(),name:'新对话',history:[],createdAt:Date.now(),updatedAt:Date.now()};doc.conversations.push(current);}
+  if(!current){current={id:id(),name:newName,history:[],createdAt:Date.now(),updatedAt:Date.now()};doc.conversations.push(current);}
   doc.activeConversationId=current.id;doc.history=current.history;
   return current;
 }

@@ -1,3 +1,4 @@
+import {normalizeOutputLanguage} from './output-language.mjs';
 // Keep exact UTF-16 offsets so ranges can highlight the original text.
 export function splitSentences(text) {
   const out=[];let start=0;
@@ -17,7 +18,7 @@ export function splitSentences(text) {
   }
   while(/\s/.test(text[start]||'')&&start<text.length)start++;let end=text.trimEnd().length;if(end>start)out.push({text:text.slice(start,end),start,end});return out;
 }
-export function translationKey(sentence,config){return JSON.stringify([sentence,'zh-CN',new URL(config.baseUrl).href,config.format||'openai',config.model]);}
+export function translationKey(sentence,config,outputLanguage=config.outputLanguage){return JSON.stringify([sentence,normalizeOutputLanguage(outputLanguage),new URL(config.baseUrl).href,config.format||'openai',config.model]);}
 export class RequestSlot {
   constructor(){this.serial=0;this.controller=null;}
   cancel(){this.serial++;this.controller?.abort();this.controller=null;}

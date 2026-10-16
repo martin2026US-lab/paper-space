@@ -77,7 +77,12 @@ await test('Sidebar and picker behavior still works after focus mode',async()=>{
  frame.contentDocument.body.dispatchEvent(new frame.contentWindow.PointerEvent('pointerdown',{bubbles:true}));assert($('chapterWheelPanel').hidden,'outside dismissal failed');
 });
 await test('More tools are reachable and dismiss after choosing a command',async()=>{
- $('readingMenu').open=true;$('codeBtn').click();assert($('codeDialog').open,'code dialog absent');assert(!$('readingMenu').open,'menu remained open');$('codeDialog').close();
+ $('readingMenu').open=true;await sleep(100);
+ for(const button of all('.reading-menu-content button')){
+  const r=button.getBoundingClientRect();
+  assert([.2,.5,.8].every(f=>button.contains(frame.contentDocument.elementFromPoint(r.left+r.width*f,r.top+r.height/2))),'menu option is covered: '+button.id);
+ }
+ $('readingPreferencesBtn').click();assert($('readingPreferencesDialog').open,'language dialog absent');assert(!$('readingMenu').open,'menu remained open');$('readingPreferencesDialog').close();
 });
 await test('Keyboard shortcuts ignore text editing and modal annotation drafts',async()=>{
  const old=$('pageInput').value;$('question').dispatchEvent(new frame.contentWindow.KeyboardEvent('keydown',{key:'ArrowRight',altKey:true,bubbles:true,cancelable:true}));

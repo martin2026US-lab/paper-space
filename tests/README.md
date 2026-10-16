@@ -12,3 +12,9 @@ node tests/v100-browser-server.mjs
 ```
 
 Run in a separate browser profile so test documents do not mix with your reading library. Generated files stay ignored. The CI workflow runs Node tests only; browser regression suites are manual.
+
+## English UI checks
+
+After `npm ci`, run `npx electron tests/ui-language-electron.cjs` for the real-browser language suite. It starts its own loopback-only mock model service and checks consent, language persistence, source preservation, translation targets, model selection, reading position, drafts, and narrow layouts.
+
+On Windows, `npx electron tests/ui-language-desktop.cjs` also checks native Electron menus, language IPC, and localized key errors. Prepare the optional offline runtime first. Both suites use isolated profiles under `.test-data/`; neither opens the normal reading library.

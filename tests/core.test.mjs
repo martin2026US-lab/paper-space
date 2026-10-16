@@ -21,9 +21,8 @@ test('selected evidence remains intact and exclusions remove its transmission',(
   assert.equal(new Set(materials.map(m=>m.id)).size,materials.length);
   assert(!buildMaterials(doc,1,selection,'BLEU',[],new Set(['selection','overview'])).some(m=>['selection','overview'].includes(m.id)));
 });
-test('code search retrieves matching source with its line label',()=>{
-  const code=[{id:'c1',label:'loss.py · 行 1–3',text:'label_smoothing = 0.1'},{id:'c2',label:'network.py',text:'linear projection'}];
-  assert.equal(retrieve(code,'label_smoothing')[0].id,'c1');
+test('paper search retrieves relevant original passages',()=>{
+  assert.equal(retrieve(doc.blocks,'label smoothing')[0].id,'p1b2');
 });
 test('conversation budget keeps four recent turns and includes original evidence',()=>{
   const history=Array.from({length:20},(_,i)=>({role:i%2?'assistant':'user',text:`turn ${i}`}));

@@ -1,3 +1,7 @@
+import {formatUI,uiError as translateUIError} from '../public/ui-language.mjs';
+let uiLanguage='zh-CN';
+const uiText=(key,...values)=>formatUI(key,uiLanguage,...values);
+const uiError=value=>translateUIError(value,uiLanguage);
 import {app,BrowserWindow,Menu,dialog,screen,shell,safeStorage,ipcMain} from 'electron';
 import {createKeyStore,trustedSender} from './key-store.mjs';
 import {createChatStore,chatSnapshot} from './chat-store.mjs';
@@ -23,6 +27,7 @@ const debugMode=process.argv.includes('--debug');
 let mainWindow,server,quitting=false;
 
 mkdirSync(logRoot,{recursive:true});
+try{uiLanguage=JSON.parse(readFileSync(join(dataRoot,'ui-language.json'),'utf8')).language==='en'?'en':'zh-CN';}catch{}
 app.setName('纸间');
 app.setPath('userData',dataRoot);
 app.setPath('sessionData',join(dataRoot,'session'));
@@ -44,7 +49,7 @@ function initialWindow() {
   const height=Math.min(area.height,Math.max(Math.min(650,area.height),Number(stored.height)||980));
   return{width,height,maximized:!!stored.maximized};
 }
-function openFolder(path) { shell.openPath(path).then(error=>{if(error)dialog.showErrorBox('无法打开目录',error);}); }
+function openFolder(path) { shell.openPath(path).then(error=>{if(error)dialog.showErrorBox(uiText("无法打开目录"),error);}); }
 function toggleTools() {
   if(!mainWindow||mainWindow.isDestroyed())return;
   if(mainWindow.webContents.isDevToolsOpened())mainWindow.webContents.closeDevTools();
@@ -52,18 +57,18 @@ function toggleTools() {
 }
 function setupMenu() {
   Menu.setApplicationMenu(Menu.buildFromTemplate([
-    {label:'文件',submenu:[{label:'退出纸间',role:'quit',accelerator:'Alt+F4'}]},
-    {label:'编辑',submenu:[{label:'撤销',role:'undo'},{label:'重做',role:'redo'},{type:'separator'},{label:'剪切',role:'cut'},{label:'复制',role:'copy'},{label:'粘贴',role:'paste'},{label:'全选',role:'selectAll'}]},
-    {label:'视图',submenu:[{label:'刷新界面',role:'reload',accelerator:'CommandOrControl+R'},{label:'忽略缓存并刷新',role:'forceReload',accelerator:'CommandOrControl+Shift+R'},{type:'separator'},{label:'放大',role:'zoomIn'},{label:'缩小',role:'zoomOut'},{label:'恢复缩放',role:'resetZoom'},{type:'separator'},{label:'全屏',role:'togglefullscreen',accelerator:'F11'}]},
-    {label:'调试',submenu:[{label:'开发者工具',accelerator:'F12',click:toggleTools},{label:'打开界面源码目录',click:()=>openFolder(join(sourceRoot,'public'))},{label:'打开应用数据目录',click:()=>openFolder(dataRoot)},{label:'打开诊断日志目录',click:()=>openFolder(logRoot)},{type:'separator'},{label:'重启应用',click:()=>{app.relaunch();app.quit();}}]},
-    {label:'帮助',submenu:[{label:'调试说明',click:()=>dialog.showMessageBox(mainWindow,{type:'info',title:'纸间 · 调试说明',message:'F12 打开开发者工具；Ctrl+R 刷新界面。',detail:'修改 public/app.mjs、style.css 或 index.html 后刷新即可。修改 server.mjs 或 desktop/main.mjs 后，通过“调试 → 重启应用”重新加载。\n\n安装版数据保存在用户目录的 PaperSpace 文件夹，源码版保存在项目 data 文件夹。API Key 可在设置中选择由 Windows 系统加密记住，并可按接口清除。'})},{label:'关于纸间',click:()=>dialog.showMessageBox(mainWindow,{type:'info',title:'关于纸间',message:`纸间 ${app.getVersion()} · 本机论文阅读工作台`,detail:`Electron ${process.versions.electron}\n无需登录。文件在本机解析；AI 功能使用你配置的接口。\n\n安装版内置本机文档识别环境；个人数据与程序目录分开保存。`})}]},
+    {label:uiText("文件"),submenu:[{label:uiText("退出纸间"),role:'quit',accelerator:'Alt+F4'}]},
+    {label:uiText("编辑"),submenu:[{label:uiText("撤销"),role:'undo'},{label:uiText("重做"),role:'redo'},{type:'separator'},{label:uiText("剪切"),role:'cut'},{label:uiText("复制"),role:'copy'},{label:uiText("粘贴"),role:'paste'},{label:uiText("全选"),role:'selectAll'}]},
+    {label:uiText("视图"),submenu:[{label:uiText("刷新界面"),role:'reload',accelerator:'CommandOrControl+R'},{label:uiText("忽略缓存并刷新"),role:'forceReload',accelerator:'CommandOrControl+Shift+R'},{type:'separator'},{label:uiText("放大"),role:'zoomIn'},{label:uiText("缩小"),role:'zoomOut'},{label:uiText("恢复缩放"),role:'resetZoom'},{type:'separator'},{label:uiText("全屏"),role:'togglefullscreen',accelerator:'F11'}]},
+    {label:uiText("调试"),submenu:[{label:uiText("开发者工具"),accelerator:'F12',click:toggleTools},{label:uiText("打开界面源码目录"),click:()=>openFolder(join(sourceRoot,'public'))},{label:uiText("打开应用数据目录"),click:()=>openFolder(dataRoot)},{label:uiText("打开诊断日志目录"),click:()=>openFolder(logRoot)},{type:'separator'},{label:uiText("重启应用"),click:()=>{app.relaunch();app.quit();}}]},
+    {label:uiText("帮助"),submenu:[{label:uiText("调试说明"),click:()=>dialog.showMessageBox(mainWindow,{type:'info',title:uiText("纸间 · 调试说明"),message:uiText("F12 打开开发者工具；Ctrl+R 刷新界面。"),detail:uiText("修改 public/app.mjs、style.css 或 index.html 后刷新即可。修改 server.mjs 或 desktop/main.mjs 后，通过“调试 → 重启应用”重新加载。\n\n安装版数据保存在用户目录的 PaperSpace 文件夹，源码版保存在项目 data 文件夹。API Key 可在设置中选择由 Windows 系统加密记住，并可按接口清除。")})},{label:uiText("关于纸间"),click:()=>dialog.showMessageBox(mainWindow,{type:'info',title:uiText("关于纸间"),message:uiText("纸间 {0} · 本机论文阅读工作台", app.getVersion()),detail:uiText("Electron {0}\n无需登录。文件在本机解析；AI 功能使用你配置的接口。\n\n安装版内置本机文档识别环境；个人数据与程序目录分开保存。", process.versions.electron)})}]},
   ]));
 }
 async function createWindow() {
   const size=initialWindow();
   mainWindow=new BrowserWindow({
     width:size.width,height:size.height,minWidth:840,minHeight:600,
-    title:'纸间 · Paper Space',show:false,backgroundColor:'#e9ddc8',titleBarStyle:'hidden',titleBarOverlay:{color:'#ece0cb',symbolColor:'#574126',height:38},autoHideMenuBar:true,
+    title:uiText("纸间 · Paper Space"),show:false,backgroundColor:'#e8e4dc',titleBarStyle:'hidden',titleBarOverlay:{color:'#f0ebe2',symbolColor:'#574126',height:38},autoHideMenuBar:true,
     icon:join(sourceRoot,'desktop','icon.png'),
     webPreferences:{preload:join(sourceRoot,'desktop','preload.cjs'),nodeIntegration:false,contextIsolation:true,sandbox:true,webSecurity:true,devTools:true},
   });
@@ -97,32 +102,37 @@ else {
     server.close(()=>app.exit(0));server.closeAllConnections();
   });
   app.whenReady().then(async()=>{
+    ipcMain.handle('paper-space:ui-language',(event,language)=>{
+      if(!trustedSender(event,mainWindow,origin)||!['en','zh-CN'].includes(language))return{ok:false};
+      uiLanguage=language;try{writeFileSync(join(dataRoot,'ui-language.json'),JSON.stringify({language}));}catch{}
+      setupMenu();if(mainWindow&&!mainWindow.isDestroyed())mainWindow.setTitle(uiText('纸间 · Paper Space'));return{ok:true};
+    });
     const keys=createKeyStore(join(dataRoot,'credentials.enc.json'),safeStorage);
     const chats=createChatStore(dataRoot);
     ipcMain.handle('paper-space:menu',event=>{if(!trustedSender(event,mainWindow,origin))return;const menu=Menu.getApplicationMenu();if(!menu)return;return new Promise(resolve=>menu.popup({window:mainWindow,x:12,y:38,callback:resolve}));});
     ipcMain.handle('paper-space:quit',event=>{if(trustedSender(event,mainWindow,origin))app.quit();});
     ipcMain.handle('paper-space:chats',async(event,action,input)=>{
-      if(!trustedSender(event,mainWindow,origin))return{ok:false,error:'不受信任的对话存储请求'};
+      if(!trustedSender(event,mainWindow,origin))return{ok:false,error:uiText("不受信任的对话存储请求")};
       try{
         if(action==='status')return{ok:true,...await chats.status()};
         if(action==='save')return{ok:true,version:2,...await chats.save(chatSnapshot(input))};
         if(action==='read'&&typeof input==='string'&&input.length<=300)return{ok:true,...await chats.read(input)};
         if(action==='remove'&&Array.isArray(input)&&input.length<=1000){await chats.remove(input);return{ok:true};}
-        if(action==='choose'&&Array.isArray(input)&&input.length<=1000){const snapshots=input.map(chatSnapshot);const choice=await dialog.showOpenDialog(mainWindow,{title:'选择对话保存位置',properties:['openDirectory','createDirectory'],buttonLabel:'使用此目录'});if(choice.canceled)return{ok:true,cancelled:true};return{ok:true,...await chats.choose(choice.filePaths[0],snapshots)};}
-        return{ok:false,error:'无效对话存储操作'};
-      }catch{return{ok:false,error:'目录无法读写，请检查权限、磁盘空间或目录是否可用。'};}
+        if(action==='choose'&&Array.isArray(input)&&input.length<=1000){const snapshots=input.map(chatSnapshot);const choice=await dialog.showOpenDialog(mainWindow,{title:uiText("选择对话保存位置"),properties:['openDirectory','createDirectory'],buttonLabel:uiText("使用此目录")});if(choice.canceled)return{ok:true,cancelled:true};return{ok:true,...await chats.choose(choice.filePaths[0],snapshots)};}
+        return{ok:false,error:uiText("无效对话存储操作")};
+      }catch{return{ok:false,error:uiText("目录无法读写，请检查权限、磁盘空间或目录是否可用。")};}
     });
     ipcMain.handle('paper-space:keys',(event,action,input)=>{
-      if(!trustedSender(event,mainWindow,origin))return{ok:false,error:'不受信任的密钥请求'};
-      if(!['status','get','set','clear'].includes(action))return{ok:false,error:'无效密钥操作'};
-      try{return{ok:true,...keys[action](input)};}catch(error){return{ok:false,error:error.message};}
+      if(!trustedSender(event,mainWindow,origin))return{ok:false,error:uiText("不受信任的密钥请求")};
+      if(!['status','get','set','clear'].includes(action))return{ok:false,error:uiText("无效密钥操作")};
+      try{return{ok:true,...keys[action](input)};}catch(error){return{ok:false,error:uiError(error.message)};}
     });
     server=createServer({runtimeRoot:process.env.PAPER_SPACE_RUNTIME||defaults.runtimeRoot,dataRoot});
     await new Promise((resolve,reject)=>{server.once('error',reject);server.listen(port,'127.0.0.1',resolve);});
     setupMenu();await createWindow();
   }).catch(error=>{
     log('startup-failed',error.code||error.name);
-    dialog.showErrorBox('纸间启动失败',error.code==='EADDRINUSE'?`本机端口 ${port} 已被其他程序占用，请关闭占用程序后重试。`:String(error.message));
+    dialog.showErrorBox(uiText("纸间启动失败"),error.code==='EADDRINUSE'?uiText("本机端口 {0} 已被其他程序占用，请关闭占用程序后重试。", port):String(uiError(error.message)));
     app.quit();
   });
 }

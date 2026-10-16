@@ -1,0 +1,20 @@
+[
+  {
+    "name": "SourceSerif4",
+    "source": "https://raw.githubusercontent.com/google/fonts/main/ofl/sourceserif4/SourceSerif4%5Bopsz,wght%5D.ttf",
+    "sourceSha256": "97b2d4da6e3cb494b5a1e66ae176914d852ccabef49e0c02c0df25f3e39aca0b",
+    "woff2Sha256": "427813cab7cd142f29d44929ecdb9aac39210be624185640cfcf75e7b76c6492",
+    "bytes": 427412,
+    "license": "SourceSerif4-OFL.txt",
+    "conversion": "Lossless WOFF2 compression; no glyph subsetting or outline changes"
+  },
+  {
+    "name": "NotoSerifSC",
+    "source": "https://raw.githubusercontent.com/google/fonts/main/ofl/notoserifsc/NotoSerifSC%5Bwght%5D.ttf",
+    "sourceSha256": "050080d9255a86808f2945bffac582b31ef32bc36411ce29563b4961670c66f9",
+    "woff2Sha256": "72e408b5e9b3d791ccd6c91d549b0fe78997b6d6fb9cc50d73841587e927d19b",
+    "bytes": 11032332,
+    "license": "NotoSerifSC-OFL.txt",
+    "conversion": "Lossless WOFF2 compression; no glyph subsetting or outline changes"
+  }
+]
