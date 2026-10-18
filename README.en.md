@@ -10,6 +10,12 @@ A local-first reading workspace for papers and documents. Read PDFs in their ori
 
 **[Download for Windows](https://github.com/martin2026US-lab/paper-space/releases/latest)** · [Changelog](docs/CHANGELOG.md) · [MIT license](LICENSE)
 
+## Magazine reading in 1.2.1
+
+Use the top-right **Classic / Magazine** switch. Existing installations keep Classic by default. Magazine uses a flat warm-white surface, olive accents and bundled serif fonts, with a narrow chapter index and a single reading column. On small laptops, opening the assistant collapses the index into a utility rail; library and contents remain available on demand. Page controls and notes sit in the footer, while bilingual translation controls stay above the text.
+
+Styles share the same documents, originals, annotations, conversations and model settings, with separate layout preferences. Switching keeps the current page, reading position and question draft and sends no content.
+
 ## New in 1.2.0
 
 - **Bilingual reading:** originals above translations, with per-paragraph or current-page translation, collapsible results, cancellation, and shared caches. Opening the view sends no document text.

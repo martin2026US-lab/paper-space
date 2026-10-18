@@ -1,4 +1,5 @@
 import {uiText,uiError,uiDateLocale,createUILanguageSelect} from './ui-language.mjs';
+import {createMagazineUI} from './magazine-ui.mjs';
 import {createBilingualReader} from './bilingual-reader.mjs';
 import {createBackupUI} from './backup-ui.mjs';
 import {createRuntimeUI} from './runtime-ui.mjs';
@@ -37,7 +38,7 @@ import {findSourceBlock,highlightSource} from './highlight.mjs';
 pdfjs.GlobalWorkerOptions.workerSrc='/vendor/pdfjs/build/pdf.worker.mjs';
 const $=id=>document.getElementById(id);
 const state={docs:[],doc:null,pdf:null,page:1,view:'original',selection:null,excluded:new Set(),history:[],outputLanguage:'zh-CN',busy:false,controller:null,renderEpoch:0,config:{baseUrl:'',model:'',apiKey:'',format:'openai'}};
-let workspaceTools,bilingualReader,backupUI,runtimeUI;
+let workspaceTools,bilingualReader,backupUI,runtimeUI,magazineUI;
 let db,toastTimer,modelManager,translationManager,chatStore,conversationUI,structureUI,crossPageUI,personalNotesUI;
 const navGate=navigationGate();let navigationLock=null,chapterNavigation;
 const readerTools=createReaderTools({state,callModel,saveDoc,showSettings,getTranslationConfig:()=>translationManager.resolve(),translateText:(...args)=>translationManager.translate(...args),showTranslationSettings:()=>translationManager.open(),locate,generate:explainBlock,discuss:(b,c)=>{setSelection({...b,text:b?.text||c.explanation,page:b?.page||c.page,blockId:c.blockId,sourceSnapshot:b?structuredClone(b):undefined});$('question').value=uiText("请进一步解释这一段，说明它为什么重要。");updateContext();$('question').focus();}});
@@ -45,7 +46,7 @@ const library=createLibrary({state,$,node,button,saveDoc,purgeDocs,activate,read
 function toast(text){$('toast').textContent=text;$('toast').hidden=false;clearTimeout(toastTimer);toastTimer=setTimeout(()=>$('toast').hidden=true,5000);}
 function node(tag,cls,text){const e=document.createElement(tag);if(cls)e.className=cls;if(text!==undefined)e.textContent=text;return e;}
 function button(text,fn,cls=''){const e=node('button',cls,text);e.addEventListener('click',fn);return e;}
-function busy(value,label=uiText("模型正在阅读材料…")){state.busy=value;$('sendBtn').hidden=value;$('stopBtn').hidden=!value;$('outputLanguage').disabled=value;for(const id of ['explainBtn','overviewBtn'])$(id).disabled=value;let el=$('busyNote');if(el)el.remove();if(value){el=node('div','busy-note',label);el.id='busyNote';$('chatMessages').append(el);$('chatMessages').scrollTop=$('chatMessages').scrollHeight;}}
+function busy(value,label=uiText("模型正在阅读材料…")){state.busy=value;$('sendBtn').hidden=value;$('stopBtn').hidden=!value;$('outputLanguage').disabled=value;for(const id of ['explainBtn','overviewBtn'])$(id).disabled=value;let el=$('busyNote');if(el)el.remove();magazineUI?.update();if(value){el=node('div','busy-note',label);el.id='busyNote';$('chatMessages').append(el);$('chatMessages').scrollTop=$('chatMessages').scrollHeight;}}
 async function initDB(){db=await new Promise((resolve,reject)=>{const req=indexedDB.open('paper-space',2);req.onupgradeneeded=()=>{const database=req.result;if(!database.objectStoreNames.contains('documents'))database.createObjectStore('documents',{keyPath:'id'});const cursor=req.transaction.objectStore('documents').openCursor();cursor.onsuccess=()=>{const c=cursor.result;if(c){const doc=c.value;ensureConversations(doc,{newName:uiText('新对话'),legacyName:uiText('历史对话')});c.update(doc);c.continue();}};};req.onsuccess=()=>resolve(req.result);req.onerror=()=>reject(req.error);});}
 async function allDocs(){return new Promise((resolve,reject)=>{const req=db.transaction('documents').objectStore('documents').getAll();req.onsuccess=()=>resolve(req.result);req.onerror=()=>reject(req.error);});}
 async function saveLocal(doc){if(!doc||!db)return false;try{await new Promise((resolve,reject)=>{const tx=db.transaction('documents','readwrite');tx.objectStore('documents').put(doc);tx.oncomplete=resolve;tx.onerror=()=>reject(tx.error);tx.onabort=()=>reject(tx.error);});return true;}catch{toast(uiText("本机存储空间不足；当前文档仍可阅读，请导出笔记。"));return false;}}
@@ -277,12 +278,13 @@ document.querySelector('.reading').addEventListener('dragover',e=>{e.preventDefa
 let outlineFrame; $('readerScroll').addEventListener('scroll',()=>{cancelAnimationFrame(outlineFrame);outlineFrame=requestAnimationFrame(()=>syncOutline(true));},{passive:true});
 for(const type of ['wheel','touchstart','pointerdown','keydown'])$('readerScroll').addEventListener(type,()=>{navigationLock=null;},{passive:true});
 let resizeTimer,layoutAnchor=null;
-function rememberLayout(){const s=$('readerScroll');layoutAnchor={doc:state.doc,page:state.page,view:state.view,epoch:state.renderEpoch,ratio:s.scrollTop/Math.max(1,s.scrollHeight-s.clientHeight)};}
+function rememberLayout(){const s=$('readerScroll'),rect=s.getBoundingClientRect(),visible=[...s.querySelectorAll('.bilingual-source,.word-block')].find(n=>n.getBoundingClientRect().bottom>rect.top+12),blockId=visible?.dataset.blockId,offset=visible?visible.getBoundingClientRect().top-rect.top:0;layoutAnchor={doc:state.doc,page:state.page,view:state.view,epoch:state.renderEpoch,ratio:s.scrollTop/Math.max(1,s.scrollHeight-s.clientHeight),blockId,offset};}
 function resizeReading(){
   if(!layoutAnchor)rememberLayout();clearTimeout(resizeTimer);
   resizeTimer=setTimeout(async()=>{
     const anchor=layoutAnchor;layoutAnchor=null;
-    if(!anchor||!anchor.doc||state.doc!==anchor.doc||state.page!==anchor.page||state.view!==anchor.view||state.renderEpoch!==anchor.epoch||state.view!=='original')return;
+    if(!anchor||!anchor.doc||state.doc!==anchor.doc||state.page!==anchor.page||state.view!==anchor.view||state.renderEpoch!==anchor.epoch )return;
+    if(state.view!=='original'){const s=$('readerScroll'),block=[...s.querySelectorAll('.bilingual-source,.word-block')].find(n=>n.dataset.blockId===anchor.blockId);s.scrollTop=block?s.scrollTop+block.getBoundingClientRect().top-s.getBoundingClientRect().top-anchor.offset:anchor.ratio*Math.max(0,s.scrollHeight-s.clientHeight);syncOutline(true);return;}
     const rendered=renderReading(),epoch=state.renderEpoch;await rendered;
     if(state.doc!==anchor.doc||state.page!==anchor.page||state.view!==anchor.view||state.renderEpoch!==epoch)return;
     const s=$('readerScroll');s.scrollTo({top:anchor.ratio*Math.max(0,s.scrollHeight-s.clientHeight),behavior:'instant'});syncOutline(true);
@@ -300,7 +302,8 @@ async function restoreDocuments(documents,settings){
   if(Object.keys(settings).length)toast(uiText('接口配置已导入，重新打开应用后可使用；现有配置与密钥保持不变。'));
 }
 async function init(){workspaceTools=createWorkspaceTools({state,getChapters:outlineItems,getActive:outlineActive,navigate:goto,activate,toast,onBeforeLayout:rememberLayout,onLayoutChange:resizeReading,closeNavigation:()=>chapterNavigation?.close()});chapterNavigation=createChapterNavigation({host:$('outline'),trigger:$('chapterWheelBtn'),getItems:outlineItems,onNavigate:item=>goto(item.page,item),onNotes:item=>personalNotesUI.openChapter(item),getNoteCount:item=>state.doc?notesForChapter(state.doc,item).length:0});personalNotesUI=createPersonalNotesUI({state,saveDoc,locate:async anchor=>{if(anchor.kind==='chapter-note'){const chapter=resolveChapter(state.doc,anchor.chapter);await goto(chapter?.page||anchor.page,chapter||undefined);if(!chapter)toast(uiText("章节已变化，已定位到保存时的来源页。"));}else await locate(anchor);},toast,onChange:()=>{syncTabs();chapterNavigation.refreshNotes();}});crossPageUI=createCrossPageUI({state,saveDoc,renderReading,locate,toast});startup.stage(uiText("正在读取本机文献…"));conversationUI=createConversationUI({state,saveDoc,refresh:()=>{updateChips();renderChat();updateContext();},toast,reset:()=>readerTools.reset()});structureUI=createStructureUI({state,saveDoc,renderReading,refresh:()=>{updateChips();renderChat();updateContext();},toast,reset:()=>readerTools.reset()});chatStore=createDesktopUI({state,toast,flush:saveLocal});loadConfig();setupOutputLanguage();translationManager=createTranslationManager({storage:readingStore(),getReadingConfig:()=>state.config,getReadingLanguage:()=>state.outputLanguage,isMutating:()=>state.mutating,openReadingSettings:showSettings,toast,onChange:()=>{readerTools.closeTranslation();if(state.view==='bilingual')renderReading();else if(state.doc)readerTools.attach();}});await translationManager.ready;
-  bilingualReader=createBilingualReader({state,getConfig:()=>translationManager.resolve(),translate:(...args)=>translationManager.translate(...args),saveDoc,showSettings:()=>translationManager.open(),toast,onBusy:value=>busy(value,uiText('正在翻译双语页面…'))});
+  bilingualReader=createBilingualReader({state,getConfig:()=>translationManager.resolve(),translate:(...args)=>translationManager.translate(...args),saveDoc,showSettings:()=>translationManager.open(),toast,onBusy:value=>busy(value,uiText('正在翻译双语页面…')),onExplain:(unit,button)=>readerTools.openBlock(unit.id,button)});
+  magazineUI=createMagazineUI({state,workspaceTools,toast});
   const taskBusy=()=>state.busy||state.mutating||bilingualReader?.busy||backupUI?.busy;
   backupUI=createBackupUI({state,isBusy:()=>state.busy||state.mutating||bilingualReader?.busy,toast,readDocuments:async()=>state.docs.map(doc=>{const copy=structuredClone(doc);if(doc===state.doc){copy.lastPage=state.page;copy.backupReadingPosition={view:state.view,ratio:$('readerScroll').scrollTop/Math.max(1,$('readerScroll').scrollHeight-$('readerScroll').clientHeight)};}return copy;}),commitRestore:restoreDocuments});
   runtimeUI=createRuntimeUI({toast,isBusy:taskBusy,onReady:()=>{if(state.doc?.type==='pdf'&&state.doc.parser!=='docling')void recognition.start(state.doc);}});

@@ -1,0 +1,39 @@
+{
+  "repository": "https://github.com/phosphor-icons/core",
+  "commit": "2b75f3ad12b420c9504ef05df8d2564a28f8500e",
+  "weight": "regular",
+  "files": [
+    {
+      "name": "books.svg",
+      "sha256": "38560cd9dec996bc3f79c10675ced1d2b3bd2e5ef497f3966733e5d787af5e11"
+    },
+    {
+      "name": "list.svg",
+      "sha256": "fb1851842c74b40a3f42ce3d6ae0e67ede556b624218e79c0f4ead7d9ceec51f"
+    },
+    {
+      "name": "magnifying-glass.svg",
+      "sha256": "f9fa2561978a9a3291e8ae0ebfcb651104f5069fade8f84871627bca68889cde"
+    },
+    {
+      "name": "gear-six.svg",
+      "sha256": "2bb05ec80cc37505a3f21c74989dbb297ab8442a668f5ffbd6a8f7c1d5794c7b"
+    },
+    {
+      "name": "arrow-left.svg",
+      "sha256": "3c2001cf957d182fc54927e4b286cc8cf66dd97830f441ca2650d42a63a9006a"
+    },
+    {
+      "name": "x.svg",
+      "sha256": "7397b15e1fa66eaf6ff9b59fe91d483cb5c3bcf75b2fe052097ab6f0593b513a"
+    },
+    {
+      "name": "note-pencil.svg",
+      "sha256": "85f05d1a02f8d808ca9b023e765e7dec7ec2d706313dddf464010f35c9469264"
+    },
+    {
+      "name": "translate.svg",
+      "sha256": "1e49dc31f3a172c9c7c67361511ee5314598b3f5b32788219325f589487f76c5"
+    }
+  ]
+}

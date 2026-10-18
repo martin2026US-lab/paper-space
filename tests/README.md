@@ -24,3 +24,7 @@ On Windows, `npx electron tests/ui-language-desktop.cjs` also checks native Elec
 `npx electron tests/v120-electron.cjs` exercises bilingual requests, cancellation, cache sharing, backup downloads, conflict copies, corruption rejection, and atomic restore failures using synthetic data. `python tests/test_runtime_migration.py` checks migration without touching a real profile.
 
 On Windows, `npx electron tests/v120-desktop.cjs` checks native backup files and component management. Set `PAPER_SPACE_COMPONENT_TEST_ROOT` to a prepared, external Docling environment to also exercise activation. Node unit tests require no runtime or external downloads.
+
+## Magazine reading checks
+
+`npx electron tests/magazine-electron.cjs` uses a fresh isolated profile and synthetic documents to verify both styles, independent layout preferences, bundled fonts, paragraph explanations, translation cancellation, library/notes access, preserved source data and drafts, English controls, narrow layouts, and original PDF rendering. Screenshots and results stay under `.test-data/`; no personal reading library is opened.

@@ -78,5 +78,5 @@ export function createReaderTools({state,callModel,saveDoc,showSettings,discuss,
   host.addEventListener('pointerdown',e=>{pointer={x:e.clientX,y:e.clientY,button:e.button};});
   host.addEventListener('click',e=>{if(state.view!=='original'||state.mutating||!pointer||pointer.button!==0||e.detail>1||e.target.closest('a,button')||Math.hypot(e.clientX-pointer.x,e.clientY-pointer.y)>5||window.getSelection()?.toString().trim())return;const info=clickedSentence(e);if(!info||info.sentence.text.length<2)return;clearTimeout(timer);timer=setTimeout(()=>translate(info),180);});
   host.addEventListener('dblclick',()=>clearTimeout(timer));
-  return{reset,attach,closeTranslation,closeDrawer};
+  return{reset,attach,closeTranslation,closeDrawer,openBlock:(blockId,button)=>openCard(state.doc.cards.find(c=>c.blockId===blockId&&noteInLanguage(c,state.outputLanguage))||{blockId,pending:true},button)};
 }

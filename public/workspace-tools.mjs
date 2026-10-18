@@ -1,4 +1,5 @@
 import {uiText,uiHTML,uiError,uiDateLocale} from './ui-language.mjs';
+import {loadReadingStyle,saveReadingStyle,loadMagazineLayout,MAGAZINE_LAYOUT_KEY} from './reading-style.mjs';
 import {chapterTree,chapterAncestors} from './chapter-navigation.mjs';
 
 export function matchesQuery(text,query){
@@ -15,14 +16,16 @@ export function loadLayout(storage){
   try{const v=JSON.parse(storage.getItem('paper-space-layout')||'{}');return{focus:v.focus===true,assistant:v.assistant!==false};}catch{return{focus:false,assistant:true};}
 }
 export function createWorkspaceTools({state,getChapters,getActive,navigate,activate,toast,onLayoutChange,onBeforeLayout=()=>{},closeNavigation=()=>{}}){
-  const $=id=>document.getElementById(id),layout=loadLayout(localStorage),dialog=$('finderDialog'),input=$('finderInput'),results=$('finderResults'),menu=$('readingMenu');
+  const classicLayout=loadLayout(localStorage),magazineLayout=loadMagazineLayout(localStorage);let readingStyle=loadReadingStyle(localStorage),layout=readingStyle==='magazine'?magazineLayout:classicLayout;
+  const $=id=>document.getElementById(id),dialog=$('finderDialog'),input=$('finderInput'),results=$('finderResults'),menu=$('readingMenu');
   let scope='chapters',entries=[],selected=0,opener=null,pending=false;
   const narrow=window.matchMedia('(max-width:1000px)');let narrowOpened=false;
-  const assistantVisible=()=>!layout.focus&&layout.assistant&&(!narrow.matches||narrowOpened);
+  const assistantVisible=()=>!layout.focus&&layout.assistant&&(readingStyle==='magazine'||!narrow.matches||narrowOpened);
   const make=(tag,cls,text)=>{const e=document.createElement(tag);e.className=cls;if(text!==undefined)e.textContent=text;return e;};
   function applyLayout(notify=true){
     if(notify)onBeforeLayout();
     const assistant=document.querySelector('.conversation');
+    document.body.classList.toggle('magazine-style',readingStyle==='magazine');
     document.body.classList.toggle('reading-focus',layout.focus);
     document.body.classList.toggle('assistant-hidden',!assistantVisible());
     document.querySelector('.library').inert=layout.focus;
@@ -30,14 +33,16 @@ export function createWorkspaceTools({state,getChapters,getActive,navigate,activ
     $('focusBtn').textContent=layout.focus?uiText("退出专注"):uiText("专注阅读");
     $('focusBtn').setAttribute('aria-pressed',String(layout.focus));
     $('assistantToggle').setAttribute('aria-pressed',String(assistantVisible()));
+    $('assistantToggle').textContent=readingStyle==='magazine'&&assistantVisible()?uiText('收起助手'):uiText('阅读助手');
     $('assistantToggle').title=uiText("{0}阅读助手", assistantVisible()?uiText("收起"):uiText("打开"));
-    try{localStorage.setItem('paper-space-layout',JSON.stringify(layout));}catch{}
+    try{localStorage.setItem(readingStyle==='magazine'?MAGAZINE_LAYOUT_KEY:'paper-space-layout',JSON.stringify(layout));}catch{}
+    document.dispatchEvent(new CustomEvent('paper-space:layout'));
     if(notify){closeNavigation();onLayoutChange();}
   }
   function toggleFocus(){layout.focus=!layout.focus;applyLayout();}
   function openAssistant(){if(!assistantVisible()){layout.focus=false;layout.assistant=true;narrowOpened=narrow.matches;applyLayout();}}
   $('focusBtn').onclick=toggleFocus;
-  $('assistantToggle').onclick=()=>{if(narrow.matches){narrowOpened=!assistantVisible();layout.focus=false;if(narrowOpened)layout.assistant=true;}else if(layout.focus){layout.focus=false;layout.assistant=true;}else layout.assistant=!layout.assistant;applyLayout();};
+  $('assistantToggle').onclick=()=>{if(readingStyle!=='magazine'&&narrow.matches){narrowOpened=!assistantVisible();layout.focus=false;if(narrowOpened)layout.assistant=true;}else if(layout.focus){layout.focus=false;layout.assistant=true;}else layout.assistant=!layout.assistant;applyLayout();};
   $('assistantClose').onclick=()=>{narrowOpened=false;layout.assistant=false;applyLayout();$('assistantToggle').focus();};
   narrow.addEventListener('change',()=>{narrowOpened=false;applyLayout();});
   $('findBtn').onclick=()=>open('documents');$('chapterFindBtn').onclick=()=>open('chapters');$('currentChapter').onclick=()=>open('chapters');
@@ -92,5 +97,6 @@ export function createWorkspaceTools({state,getChapters,getActive,navigate,activ
     $('chapterFindBtn').disabled=!state.doc;$('currentChapter').disabled=!state.doc;$('personalNotesBtn').disabled=!state.doc;
   }
   applyLayout(false);
-  return{update,openAssistant,open};
+  function setReadingStyle(value){const next=value==='magazine'?'magazine':'classic';if(next===readingStyle)return true;if(state.busy||state.mutating||document.querySelector('.translation-popup .translation-result[aria-busy="true"]')){toast(uiText('请先结束当前任务，再切换阅读风格。'));return false;}if(!saveReadingStyle(localStorage,next)){toast(uiText('阅读风格未能保存，请检查本机存储。'));return false;}onBeforeLayout();readingStyle=next;layout=next==='magazine'?magazineLayout:classicLayout;narrowOpened=false;applyLayout(false);closeNavigation();onLayoutChange();return true;}
+  return{update,openAssistant,open,toggleFocus,setReadingStyle,get readingStyle(){return readingStyle;}};
 }

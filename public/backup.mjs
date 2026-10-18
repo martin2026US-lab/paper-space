@@ -3,7 +3,7 @@ import {loadTranslationSettings} from './translation-config.mjs';
 const encoder=new TextEncoder();
 const sha=async text=>Array.from(new Uint8Array(await crypto.subtle.digest('SHA-256',encoder.encode(text)))).map(n=>n.toString(16).padStart(2,'0')).join('');
 const maxBytes=2_000_000_000,maxRecord=100_000_000;
-const preferenceKeys=['paper-space-output-language','paper-space-ui-language','paper-space-layout'];
+const preferenceKeys=['paper-space-output-language','paper-space-ui-language','paper-space-layout','paper-space-reading-style','paper-space-magazine-layout'];
 function base64(bytes){let text='';for(let i=0;i<bytes.length;i+=32768)text+=String.fromCharCode(...bytes.subarray(i,i+32768));return btoa(text);}
 export function encodeBackupValue(value){
  if(value instanceof ArrayBuffer)return{$paperBinary:'ArrayBuffer',data:base64(new Uint8Array(value))};
@@ -22,12 +22,12 @@ export function decodeBackupValue(value,depth=0){
  return Object.fromEntries(Object.entries(value).map(([k,v])=>[k,decodeBackupValue(v,depth+1)]));
 }
 export function backupSettings(storage){
- const settings={};for(const key of preferenceKeys){const value=storage.getItem(key);if(value===null)continue;if(key==='paper-space-layout'){const layout=JSON.parse(value);settings[key]=JSON.stringify({focus:layout.focus===true,assistant:layout.assistant!==false});}else if(key==='paper-space-ui-language'){if(['en','zh-CN'].includes(value))settings[key]=value;}else if(['zh-CN','zh-TW','en','ja','ko','fr','de','es','pt','ru','ar','it'].includes(value))settings[key]=value;}
+ const settings={};for(const key of preferenceKeys){const value=storage.getItem(key);if(value===null)continue;if(key==='paper-space-reading-style'){if(['classic','magazine'].includes(value))settings[key]=value;}else if(key==='paper-space-layout'||key==='paper-space-magazine-layout'){const layout=JSON.parse(value);settings[key]=JSON.stringify({focus:layout.focus===true,assistant:key==='paper-space-magazine-layout'?layout.assistant===true:layout.assistant!==false});}else if(key==='paper-space-ui-language'){if(['en','zh-CN'].includes(value))settings[key]=value;}else if(['zh-CN','zh-TW','en','ja','ko','fr','de','es','pt','ru','ar','it'].includes(value))settings[key]=value;}
  const models=storage.getItem('paper-space-models');if(models){const clean=restoreProfiles(JSON.parse(models));settings['paper-space-models']=JSON.stringify(persistedProfiles(clean.profiles,clean.activeId));}
  if(storage.getItem('paper-space-translation'))settings['paper-space-translation']=JSON.stringify(loadTranslationSettings(storage));
  return settings;
 }
-export async function createBackup(documents,storage,{onProgress=()=>{},appVersion='1.2.0'}={}){
+export async function createBackup(documents,storage,{onProgress=()=>{},appVersion='1.2.1'}={}){
  if(documents.length>10000)throw Error('备份文献数量过多。');
  const header=JSON.stringify({kind:'paper-space-backup',version:1,appVersion,createdAt:new Date().toISOString(),settings:backupSettings(storage)}),digests=[];
  async function* records(){yield header+'\n';for(const [i,doc]of documents.entries()){const data=encodeBackupValue(doc),text=JSON.stringify(data);if(text.length>maxRecord)throw Error('单篇文献超过备份大小限制。');const hash=await sha(text);digests.push(hash);yield JSON.stringify({kind:'document',sha256:hash,data})+'\n';onProgress(i+1,documents.length);}yield JSON.stringify({kind:'end',documents:documents.length,sha256:await sha(header+'\n'+digests.join('\n'))})+'\n';}
