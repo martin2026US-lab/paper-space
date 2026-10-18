@@ -1,0 +1,26 @@
+import test from 'node:test';import assert from 'node:assert/strict';import {mkdtemp,mkdir,writeFile,readFile,rm} from 'node:fs/promises';import {tmpdir} from 'node:os';import {join} from 'node:path';
+import {createRuntimeManager,runtimeSpec,DOCLING_VERSION,externalComponentRoot} from '../desktop/runtime-manager.mjs';
+async function environment(root,legacy=true){await mkdir(join(root,legacy?'python':'venv/Scripts'),{recursive:true});await writeFile(join(root,legacy?'python/python.exe':'venv/Scripts/python.exe'),'synthetic');await mkdir(join(root,'models'),{recursive:true});await writeFile(join(root,'models/ready.json'),JSON.stringify({docling:DOCLING_VERSION}));}
+async function fixture(fn){const root=await mkdtemp(join(tmpdir(),'paper-runtime-'));try{await fn(root);}finally{await rm(root,{recursive:true,force:true});}}
+test('Existing offline runtimes remain usable without network, with their legacy Python path',()=>fixture(async root=>{
+ const legacy=join(root,'old');await environment(legacy);let calls=0;const manager=createRuntimeManager({dataRoot:join(root,'data'),componentRoot:join(root,'components'),appRoot:join(root,'app'),legacyRoots:[legacy],fetchImpl:()=>{calls++;throw Error('No network');}});assert.equal((await manager.status()).available,true);assert.equal((await manager.current()).root,legacy);assert.match((await manager.current()).pythonPath,/site-packages/);assert.equal(calls,0);
+}));
+test('One-click installation uses official CPU packages, isolated caches and activates only verified models',()=>fixture(async root=>{
+ const calls=[],components=join(root,'components');const run=async(command,args,options)=>{calls.push({command,args,env:options?.env});if(args[0]==='venv'){await mkdir(join(args.at(-1),'Scripts'),{recursive:true});await writeFile(join(args.at(-1),'Scripts/python.exe'),'test');}if(args[0]?.endsWith('download_models.py')){await mkdir(args[1],{recursive:true});await writeFile(join(args[1],'ready.json'),'{}');}return'PAPER_SPACE_DOCLING_OK';};
+ const manager=createRuntimeManager({dataRoot:join(root,'data'),componentRoot:components,appRoot:join(root,'app'),sourceRoot:root,platform:'win32',run,prepareTool:async()=>{}});await manager.install();while((await manager.status()).busy)await new Promise(r=>setTimeout(r,5));const state=await manager.status();assert.equal(state.phase,'ready');assert.equal(state.available,true);assert.ok(calls.some(c=>c.args.includes('https://download.pytorch.org/whl/cpu')));assert.ok(calls.some(c=>c.args.includes('docling=='+DOCLING_VERSION)));assert.ok(calls.some(c=>c.env?.HF_HOME?.startsWith(components)));assert.ok((await runtimeSpec(state.root)).python.endsWith('python.exe'));const saved=JSON.parse(await readFile(join(root,'data/docling-runtime.json')));assert.equal(saved.root,state.root);
+}));
+test('Download failure preserves the working runtime and exposes a retryable error',()=>fixture(async root=>{
+ const old=join(root,'old');await environment(old);const manager=createRuntimeManager({dataRoot:join(root,'data'),componentRoot:join(root,'components'),appRoot:join(root,'app'),legacyRoots:[old],platform:'win32',fetchImpl:async()=>new Response('offline',{status:503})});await manager.install();while((await manager.status()).busy)await new Promise(r=>setTimeout(r,5));assert.equal((await manager.status()).phase,'error');assert.equal((await manager.current()).root,old);assert.match((await manager.status()).error,/503/);
+}));
+test('Components cannot be configured inside the application directory',()=>fixture(async root=>{
+ const appRoot=join(root,'app');const manager=createRuntimeManager({dataRoot:join(root,'data'),componentRoot:join(root,'components'),appRoot});await assert.rejects(manager.setLocation(join(appRoot,'models')),/程序目录之外/);assert.equal(externalComponentRoot(appRoot),join(root,'PaperSpace-components'));
+}));
+
+test('Cancelling setup leaves the working environment active and permits a later retry',()=>fixture(async root=>{
+ const old=join(root,'old');await environment(old);let started;const entered=new Promise(r=>started=r);
+ const manager=createRuntimeManager({dataRoot:join(root,'data'),componentRoot:join(root,'components'),appRoot:join(root,'app'),legacyRoots:[old],sourceRoot:root,platform:'win32',prepareTool:async()=>{},run:async(_command,args,{signal}={})=>{if(args[0]==='python'){started();await new Promise((resolve,reject)=>signal.addEventListener('abort',()=>reject(Error('cancelled')),{once:true}));}}});
+ await manager.install();await entered;manager.cancel();while((await manager.status()).busy)await new Promise(r=>setTimeout(r,5));assert.equal((await manager.status()).phase,'cancelled');assert.equal((await manager.current()).root,old);
+}));
+test('A configuration write failure does not switch the active recognition environment',()=>fixture(async root=>{
+ const old=join(root,'old'),other=join(root,'other');await environment(old);await environment(other,false);const blocked=join(root,'blocked');await writeFile(blocked,'not a directory');const manager=createRuntimeManager({dataRoot:blocked,componentRoot:join(root,'components'),appRoot:join(root,'app'),legacyRoots:[old],run:async()=> 'OK'});assert.equal((await manager.current()).root,old);await assert.rejects(manager.configure(other));assert.equal((await manager.current()).root,old);
+}));

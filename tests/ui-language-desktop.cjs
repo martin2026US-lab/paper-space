@@ -12,7 +12,7 @@ app.on('browser-window-created',(_event,window)=>{win=window;window.show=()=>{};
 async function run(){
  const js=code=>win.webContents.executeJavaScript(code),until=async(code)=>{const end=Date.now()+20000;while(Date.now()<end){try{if(await js(code))return;}catch{}await sleep(80);}throw Error('Timeout: '+code);};
  await until("document.getElementById('usageDialog')?.open||document.getElementById('startupScreen')?.hidden");
- assert.equal(app.getPath('userData').toLowerCase(),data.toLowerCase());assert.equal((await js("fetch('/api/health').then(r=>r.json())")).version,'1.1.0');
+ assert.equal(app.getPath('userData').toLowerCase(),data.toLowerCase());assert.equal((await js("fetch('/api/health').then(r=>r.json())")).version,JSON.parse(fs.readFileSync(path.join(root,'package.json'))).version);
  if(await js("document.documentElement.lang!=='en'")){await js("document.getElementById('usageUILanguage').value='en';document.getElementById('usageUILanguage').dispatchEvent(new Event('change'))");await until("document.documentElement.lang==='en'&&document.getElementById('usageDialog')?.open");}
  await sleep(150);assert.deepEqual(Menu.getApplicationMenu().items.map(i=>i.label),['File','Edit','View','Debug','Help']);assert.equal(Menu.getApplicationMenu().items[1].submenu.items.find(i=>i.role==='redo').label,'Redo');result.checks.push('Trusted UI selection updates real Electron menus in English');
  assert.equal(JSON.parse(fs.readFileSync(path.join(data,'ui-language.json'),'utf8')).language,'en');

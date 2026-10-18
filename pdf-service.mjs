@@ -5,10 +5,11 @@ import {resolve,join} from 'node:path';
 import {fileURLToPath} from 'node:url';
 
 const sourceRoot=fileURLToPath(new URL('./',import.meta.url));
-export function createPdfService({runtimeRoot=process.env.PAPER_SPACE_RUNTIME||resolve(sourceRoot,'runtime'),dataRoot=process.env.PAPER_SPACE_PDF_DATA||resolve(sourceRoot,'data')}={}){
+export function createPdfService({runtimeRoot=process.env.PAPER_SPACE_RUNTIME||resolve(sourceRoot,'runtime'),dataRoot=process.env.PAPER_SPACE_PDF_DATA||resolve(sourceRoot,'data'),runtimeProvider}={}){
   const python=process.env.PAPER_SPACE_PYTHON||join(runtimeRoot,'python','python.exe'),models=join(runtimeRoot,'models'),cache=join(dataRoot,'pdf-cache');
   let running=null;
-  async function available(){try{await access(python);await access(join(models,'ready.json'));return true;}catch{return false;}}
+  async function configuration(){return runtimeProvider?await runtimeProvider():{python,models,pythonPath:join(runtimeRoot,'docling','Lib','site-packages')};}
+  async function available(){try{const spec=await configuration();if(!spec)return false;await access(spec.python);await access(join(spec.models,'ready.json'));return true;}catch{return false;}}
   async function parse(bytes,signal){
     if(!await available())throw Error('本机 Docling 运行环境尚未准备完成，请按 README 配置可选的本机识别环境。');
     const key=createHash('sha256').update('docling-layout-v1').update(bytes).digest('hex'),resultFile=join(cache,key+'.json');
@@ -17,8 +18,9 @@ export function createPdfService({runtimeRoot=process.env.PAPER_SPACE_RUNTIME||r
     running={kill(){}};const inputFile=join(cache,key+'.pdf');let child;
     try{
       await mkdir(cache,{recursive:true});await writeFile(inputFile,bytes);
+      const spec=await configuration();if(!spec)throw Error('Docling environment unavailable');
       const result=await new Promise((resolveResult,reject)=>{
-        child=spawn(python,[join(sourceRoot,'python','parse_pdf.py'),inputFile,resultFile,models],{windowsHide:true,env:{...process.env,PYTHONPATH:join(runtimeRoot,'docling','Lib','site-packages'),PYTHONNOUSERSITE:'1',PYTHONDONTWRITEBYTECODE:'1',HF_HUB_OFFLINE:'1',TRANSFORMERS_OFFLINE:'1',HF_HUB_DISABLE_TELEMETRY:'1',DO_NOT_TRACK:'1',OMP_NUM_THREADS:'4',TOKENIZERS_PARALLELISM:'false'}});running=child;
+        child=spawn(spec.python,[join(sourceRoot,'python','parse_pdf.py'),inputFile,resultFile,spec.models],{windowsHide:true,env:{...process.env,PYTHONPATH:spec.pythonPath||'',PYTHONNOUSERSITE:'1',PYTHONDONTWRITEBYTECODE:'1',HF_HUB_OFFLINE:'1',TRANSFORMERS_OFFLINE:'1',HF_HUB_DISABLE_TELEMETRY:'1',DO_NOT_TRACK:'1',OMP_NUM_THREADS:'4',TOKENIZERS_PARALLELISM:'false'}});running=child;
         let errorText='';child.stderr.on('data',data=>{errorText=(errorText+data.toString()).slice(-4000);});
         let cancelled=false;const abort=()=>{cancelled=true;child.kill();};
         signal?.addEventListener('abort',abort,{once:true});if(signal?.aborted)abort();

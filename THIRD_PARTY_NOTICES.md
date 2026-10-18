@@ -10,7 +10,7 @@ The MIT license at the repository root applies to original Paper Space code. It 
 | Electron | 44.5.1 | MIT; installed through npm, not bundled here |
 | Docling (optional) | 2.132.0 | MIT; installed separately |
 
-PDF.js font and WASM notices are retained in `public/vendor/pdfjs/standard_fonts/` and `public/vendor/pdfjs/wasm/`. Model weights and Python dependencies have separate licenses; review their model cards and package notices before redistribution. No model weights or runtime binaries are tracked in Git. The Windows installer includes offline runtime components with package notices and model licenses; see build/model-licenses.
+PDF.js font and WASM notices are retained in `public/vendor/pdfjs/standard_fonts/` and `public/vendor/pdfjs/wasm/`. Model weights and Python dependencies have separate licenses; review their model cards and package notices before redistribution. No model weights or runtime binaries are tracked in Git. Version 1.2 stores optional recognition components separately. One-click setup downloads Docling from its official PyPI distribution, CPU PyTorch wheels, and official model repositories. Their own licenses apply; package notices remain in installed distributions. Older bundled runtime notices are retained when migrated. The bootstrap tool is uv, downloaded from the official astral-sh/uv releases and checked against a pinned SHA-256; uv is MIT/Apache-2.0 licensed.
 
 ## Example paper and promotional media
 

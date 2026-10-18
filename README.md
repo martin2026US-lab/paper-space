@@ -9,12 +9,18 @@
 本机优先的 AI 论文阅读工作台。保留 PDF 原貌，把翻译、段落解读、章节批注和带来源的对话放在同一个阅读空间里。无需注册，AI 使用你自己的接口。
 
 [![Tests](https://github.com/martin2026US-lab/paper-space/actions/workflows/test.yml/badge.svg)](https://github.com/martin2026US-lab/paper-space/actions/workflows/test.yml)
-![Version](https://img.shields.io/badge/version-1.1.0-b28a4d)
+![Version](https://img.shields.io/badge/version-1.2.0-b28a4d)
 ![License](https://img.shields.io/badge/license-MIT-806043)
 
 ![阅读工作台](docs/assets/workspace.jpg)
 
 ▶ **[在线观看 58 秒 AI 功能宣传片](https://martin2026US-lab.github.io/paper-space/)** · [下载视频（MP4）](https://github.com/martin2026US-lab/paper-space/releases/download/v1.0.2/paper-space-ai-demo.mp4)
+
+## 1.2.0 新增
+
+- **段落双语阅读**：阅读区切换「双语阅读」，原文在上、译文在下。可逐段翻译或翻译当前页，支持收起、取消与缓存复用；进入视图不会自动调用接口。
+- **完整备份与恢复**：「更多 → 备份与恢复」导出压缩的 .paperbackup 文件，包含原文件字节、文献库（含回收站）、批注、完整会话、引用、译文缓存和接口元数据。校验成功并确认后才恢复，重复文献创建副本，保留现有资料。API 密钥与模型权重不包含在可携带备份中。
+- **轻量安装与独立组件**：安装包不再携带 Python、Docling 与识别模型；通过「更多 → 文档识别组件」从官方源一键下载配置，或接入已有环境。组件目录独立于程序，后续更新不重复下载。升级会优先保留旧版识别环境。
 
 ## 1.1.0 新增
 
@@ -38,7 +44,7 @@
 
 **[下载 Windows 安装包](https://github.com/martin2026US-lab/paper-space/releases/latest)** · [安装与升级说明](docs/INSTALL.md)
 
-面向 Windows 10 / 11 x64，内置运行环境和离线识别模型。下载 Setup.exe 安装即可，无需配置 Node.js 或 Python。个人资料保存在用户目录，升级与卸载保留。AI 功能使用你自己的模型接口。
+面向 Windows 10 / 11 x64。下载 Setup.exe 即可安装阅读器；PDF 原版、Word 和文本阅读无需配置 Node.js、Python 或识别模型。需要文档结构识别时，在应用中一键配置可选 Docling 组件。个人资料保存在用户目录，升级与卸载保留。AI 功能使用你自己的模型接口。
 
 ### 独立翻译服务
 
@@ -74,6 +80,9 @@ npm run desktop
 
 ### 可选：本机 PDF 结构识别
 
+Windows 桌面版可直接在「更多 → 文档识别组件」选择保存目录，再点击「一键下载并配置」。使用官方 Docling/PyPI、PyTorch CPU 与 Hugging Face 模型源；工具来自 uv 官方仓库并核验 SHA-256。Python、下载缓存和模型保存在所选组件目录，安装失败或取消不会替换正在使用的环境。首次配置需要联网，之后解析保持离线。
+
+
 未配置 Docling 时，仍可显示 PDF 原文和提取可选文字；逐段语义解读需要成功完成结构识别。扫描件 OCR 暂未启用。
 
 使用 **Python 3.12** 创建独立环境（以下为 Windows PowerShell；需预留模型及依赖所需磁盘空间）：
@@ -87,7 +96,7 @@ npm start
 # 或 npm run desktop
 ```
 
-每次启动需要设置 `PAPER_SPACE_PYTHON`，或者将它配置为用户环境变量。模型下载是显式的一次性联网操作；解析文档时禁用远程服务与模型自动下载，使用 CPU。`PAPER_SPACE_RUNTIME` 可覆盖运行环境目录，`PAPER_SPACE_PDF_DATA` 可覆盖浏览器版解析缓存目录。完整模型安装脚本尚未在全新机器验证，网络下载失败时原文阅读仍可使用。
+每次启动需要设置 `PAPER_SPACE_PYTHON`，或者将它配置为用户环境变量。模型下载是显式的一次性联网操作；解析文档时禁用远程服务与模型自动下载，使用 CPU。`PAPER_SPACE_RUNTIME` 可覆盖运行环境目录，`PAPER_SPACE_PDF_DATA` 可覆盖浏览器版解析缓存目录。Windows 一键配置已在独立新环境完成真实下载与离线解析验证；网络下载失败时仍可阅读原文。
 
 ## 首次使用说明
 
@@ -97,7 +106,7 @@ npm start
 
 ## 数据与 API
 
-纸间不内置对话大模型、不预置 API Key，也不默认连接 AI 服务。Windows 安装包中的 Docling 模型仅在本机识别文档结构，保留这些模型不等于向云端发送文献。
+纸间不内置对话大模型、不预置 API Key，也不默认连接 AI 服务。可选 Docling 模型仅在本机识别文档结构，首次安装从官方源下载。识别文档时不启用远程服务。
 
 文献、笔记和对话留在本机。应用仅监听回环地址，导入文件不会上传。点击翻译、生成解读、导读或发送对话时，才向你配置的模型接口发送相应材料；全文导读会使用全文。设置中的连接测试与模型检测也会访问所配置接口。
 

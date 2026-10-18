@@ -17,19 +17,10 @@
     "THIRD_PARTY_NOTICES.md",
     "!public/demo.pdf",
     "model-service.mjs",
-    "translation-service.mjs"
-  ],
-  "extraResources": [
-    {
-      "from": "build/runtime",
-      "to": "runtime",
-      "filter": [
-        "**/*",
-        "!**/__pycache__/**",
-        "!**/*.pyc",
-        "!**/.cache/**"
-      ]
-    }
+    "translation-service.mjs",
+    "python/download_models.py",
+    "python/requirements.txt",
+    "python/constraints-windows.txt"
   ],
   "win": {
     "target": [

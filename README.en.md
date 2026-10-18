@@ -10,6 +10,12 @@ A local-first reading workspace for papers and documents. Read PDFs in their ori
 
 **[Download for Windows](https://github.com/martin2026US-lab/paper-space/releases/latest)** · [Changelog](docs/CHANGELOG.md) · [MIT license](LICENSE)
 
+## New in 1.2.0
+
+- **Bilingual reading:** originals above translations, with per-paragraph or current-page translation, collapsible results, cancellation, and shared caches. Opening the view sends no document text.
+- **Full backup and restore:** export a compressed .paperbackup archive containing your library (including trash), source bytes, notes, complete conversations, citations, translations, and endpoint metadata. Verify before restoring. Duplicate documents become copies; existing data and model selections are kept. API keys and model weights are excluded.
+- **Smaller installs and updates:** Python, Docling, and recognition models are optional components stored outside the app. Open **More → Document recognition** to download from official sources or configure an existing environment. Updates retain these components.
+
 ## English UI
 
 Choose **English** on the first-use notice, or open **More → Language & translation → Interface language**. The choice is saved on this device. Switching languages keeps the current page, scroll position, and unsent question.
@@ -30,7 +36,7 @@ Translation API protocols include LibreTranslate, DeepL, and Translator v3 compa
 
 ## Windows installation
 
-Download `Paper-Space-1.1.0-Windows-x64-Setup.exe` and `SHA256SUMS.txt` from the release. The installer includes Electron, Python, Docling, and offline layout models. It supports Windows 10/11 x64 and requires no separate Node.js or Python installation. Allow at least 6 GB of free disk space for installation and extraction.
+Download `Paper-Space-1.2.0-Windows-x64-Setup.exe` and `SHA256SUMS.txt` from the release. The lightweight installer includes the reader and Electron. It supports Windows 10/11 x64 and needs no system Node.js or Python. Optional Docling setup downloads an isolated Python environment, CPU dependencies, and official layout models; allow at least 6 GB of free space for that component. Choose a folder on your preferred drive. Recognition runs offline after setup. Existing bundled runtimes are preserved outside the app during upgrades.
 
 Verify the download in PowerShell:
 
@@ -50,7 +56,7 @@ cd paper-space
 npm start
 ```
 
-Open `http://127.0.0.1:4317`. For the Electron desktop app, run `npm ci` and `npm run desktop`. To download the optional public sample paper, run `npm run setup:demo`. Offline PDF layout recognition requires the optional Python/Docling runtime described in the [setup guide](README.md).
+Open `http://127.0.0.1:4317`. For the Electron desktop app, run `npm ci` and `npm run desktop`. To download the optional public sample paper, run `npm run setup:demo`. The desktop app offers one-click optional Docling setup under **More → Document recognition**. Source installations can follow the optional Python/Docling [setup guide](README.md).
 
 ```sh
 npm test

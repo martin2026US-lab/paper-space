@@ -1,9 +1,11 @@
 """Explicit one-time model download; document parsing itself stays offline."""
 from pathlib import Path
+import sys
 from docling.utils.model_downloader import download_models
 import json
 
-models = Path(__file__).resolve().parents[1] / "runtime" / "models"
+models = Path(sys.argv[1]) if len(sys.argv)>1 else Path(__file__).resolve().parents[1] / "runtime" / "models"
+models.mkdir(parents=True, exist_ok=True)
 download_models(output_dir=models, with_layout=True, with_tableformer=True,
                 with_code_formula=True, with_picture_classifier=False,
                 with_rapidocr=False, with_easyocr=False)

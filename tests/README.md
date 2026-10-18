@@ -18,3 +18,9 @@ Run in a separate browser profile so test documents do not mix with your reading
 After `npm ci`, run `npx electron tests/ui-language-electron.cjs` for the real-browser language suite. It starts its own loopback-only mock model service and checks consent, language persistence, source preservation, translation targets, model selection, reading position, drafts, and narrow layouts.
 
 On Windows, `npx electron tests/ui-language-desktop.cjs` also checks native Electron menus, language IPC, and localized key errors. Prepare the optional offline runtime first. Both suites use isolated profiles under `.test-data/`; neither opens the normal reading library.
+
+## 1.2 regression checks
+
+`npx electron tests/v120-electron.cjs` exercises bilingual requests, cancellation, cache sharing, backup downloads, conflict copies, corruption rejection, and atomic restore failures using synthetic data. `python tests/test_runtime_migration.py` checks migration without touching a real profile.
+
+On Windows, `npx electron tests/v120-desktop.cjs` checks native backup files and component management. Set `PAPER_SPACE_COMPONENT_TEST_ROOT` to a prepared, external Docling environment to also exercise activation. Node unit tests require no runtime or external downloads.

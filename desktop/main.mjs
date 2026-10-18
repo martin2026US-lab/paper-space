@@ -2,6 +2,9 @@ import {formatUI,uiError as translateUIError} from '../public/ui-language.mjs';
 let uiLanguage='zh-CN';
 const uiText=(key,...values)=>formatUI(key,uiLanguage,...values);
 const uiError=value=>translateUIError(value,uiLanguage);
+import {createRuntimeManager,externalComponentRoot,OFFICIAL_DOCLING} from './runtime-manager.mjs';
+import {writeFile,rename,unlink} from 'node:fs/promises';
+import {randomUUID} from 'node:crypto';
 import {app,BrowserWindow,Menu,dialog,screen,shell,safeStorage,ipcMain} from 'electron';
 import {createKeyStore,trustedSender} from './key-store.mjs';
 import {createChatStore,chatSnapshot} from './chat-store.mjs';
@@ -24,7 +27,7 @@ if(!Number.isInteger(port)||port<1024||port>65535)throw new Error('无效本机�
 if(testRoot){const target=dataRoot.toLowerCase();const forbidden=[defaults.dataRoot,...['data','runtime'].map(name=>resolve(portableRoot,name))].map(p=>p.toLowerCase());if(port===4319||forbidden.some(p=>target===p||target.startsWith(p+'\\')))throw new Error('隔离测试不得使用正式资料目录或端口');}
 const origin=`http://127.0.0.1:${port}`;
 const debugMode=process.argv.includes('--debug');
-let mainWindow,server,quitting=false;
+let mainWindow,server,runtime,quitting=false;
 
 mkdirSync(logRoot,{recursive:true});
 try{uiLanguage=JSON.parse(readFileSync(join(dataRoot,'ui-language.json'),'utf8')).language==='en'?'en':'zh-CN';}catch{}
@@ -61,7 +64,7 @@ function setupMenu() {
     {label:uiText("编辑"),submenu:[{label:uiText("撤销"),role:'undo'},{label:uiText("重做"),role:'redo'},{type:'separator'},{label:uiText("剪切"),role:'cut'},{label:uiText("复制"),role:'copy'},{label:uiText("粘贴"),role:'paste'},{label:uiText("全选"),role:'selectAll'}]},
     {label:uiText("视图"),submenu:[{label:uiText("刷新界面"),role:'reload',accelerator:'CommandOrControl+R'},{label:uiText("忽略缓存并刷新"),role:'forceReload',accelerator:'CommandOrControl+Shift+R'},{type:'separator'},{label:uiText("放大"),role:'zoomIn'},{label:uiText("缩小"),role:'zoomOut'},{label:uiText("恢复缩放"),role:'resetZoom'},{type:'separator'},{label:uiText("全屏"),role:'togglefullscreen',accelerator:'F11'}]},
     {label:uiText("调试"),submenu:[{label:uiText("开发者工具"),accelerator:'F12',click:toggleTools},{label:uiText("打开界面源码目录"),click:()=>openFolder(join(sourceRoot,'public'))},{label:uiText("打开应用数据目录"),click:()=>openFolder(dataRoot)},{label:uiText("打开诊断日志目录"),click:()=>openFolder(logRoot)},{type:'separator'},{label:uiText("重启应用"),click:()=>{app.relaunch();app.quit();}}]},
-    {label:uiText("帮助"),submenu:[{label:uiText("调试说明"),click:()=>dialog.showMessageBox(mainWindow,{type:'info',title:uiText("纸间 · 调试说明"),message:uiText("F12 打开开发者工具；Ctrl+R 刷新界面。"),detail:uiText("修改 public/app.mjs、style.css 或 index.html 后刷新即可。修改 server.mjs 或 desktop/main.mjs 后，通过“调试 → 重启应用”重新加载。\n\n安装版数据保存在用户目录的 PaperSpace 文件夹，源码版保存在项目 data 文件夹。API Key 可在设置中选择由 Windows 系统加密记住，并可按接口清除。")})},{label:uiText("关于纸间"),click:()=>dialog.showMessageBox(mainWindow,{type:'info',title:uiText("关于纸间"),message:uiText("纸间 {0} · 本机论文阅读工作台", app.getVersion()),detail:uiText("Electron {0}\n无需登录。文件在本机解析；AI 功能使用你配置的接口。\n\n安装版内置本机文档识别环境；个人数据与程序目录分开保存。", process.versions.electron)})}]},
+    {label:uiText("帮助"),submenu:[{label:uiText("调试说明"),click:()=>dialog.showMessageBox(mainWindow,{type:'info',title:uiText("纸间 · 调试说明"),message:uiText("F12 打开开发者工具；Ctrl+R 刷新界面。"),detail:uiText("修改 public/app.mjs、style.css 或 index.html 后刷新即可。修改 server.mjs 或 desktop/main.mjs 后，通过“调试 → 重启应用”重新加载。\n\n安装版数据保存在用户目录的 PaperSpace 文件夹，源码版保存在项目 data 文件夹。API Key 可在设置中选择由 Windows 系统加密记住，并可按接口清除。")})},{label:uiText("关于纸间"),click:()=>dialog.showMessageBox(mainWindow,{type:'info',title:uiText("关于纸间"),message:uiText("纸间 {0} · 本机论文阅读工作台", app.getVersion()),detail:uiText("Electron {0}\n无需登录。文件在本机解析；AI 功能使用你配置的接口。\n\n文档识别环境可独立配置；个人数据与程序目录分开保存。", process.versions.electron)})}]},
   ]));
 }
 async function createWindow() {
@@ -98,7 +101,7 @@ else {
   app.on('window-all-closed',()=>app.quit());
   app.on('before-quit',event=>{
     if(quitting||!server?.listening)return;
-    event.preventDefault();quitting=true;saveWindow();log('exit');
+    event.preventDefault();quitting=true;runtime?.cancel();saveWindow();log('exit');
     server.close(()=>app.exit(0));server.closeAllConnections();
   });
   app.whenReady().then(async()=>{
@@ -106,6 +109,16 @@ else {
       if(!trustedSender(event,mainWindow,origin)||!['en','zh-CN'].includes(language))return{ok:false};
       uiLanguage=language;try{writeFileSync(join(dataRoot,'ui-language.json'),JSON.stringify({language}));}catch{}
       setupMenu();if(mainWindow&&!mainWindow.isDestroyed())mainWindow.setTitle(uiText('纸间 · Paper Space'));return{ok:true};
+    });
+    runtime=createRuntimeManager({dataRoot,componentRoot:testRoot?join(dataRoot,'components'):externalComponentRoot(portableRoot),legacyRoots:[process.env.PAPER_SPACE_RUNTIME||defaults.runtimeRoot],appRoot:portableRoot,sourceRoot});
+    await runtime.current();
+    ipcMain.handle('paper-space:runtime',async(event,action)=>{if(!trustedSender(event,mainWindow,origin))return{ok:false,error:'Untrusted component request'};try{
+      if(action==='status')return{ok:true,...await runtime.status()};if(action==='install')return{ok:true,...await runtime.install()};if(action==='cancel')return runtime.cancel();if(action==='official'){await shell.openExternal(OFFICIAL_DOCLING);return{ok:true};}
+      if(['location','configure'].includes(action)){if(runtime.busy)throw Error('请等待组件操作结束。');const choice=await dialog.showOpenDialog(mainWindow,{title:uiText(action==='configure'?'选择已有 Docling 环境':'选择组件保存目录'),properties:['openDirectory','createDirectory'],defaultPath:(await runtime.status()).installRoot});if(choice.canceled)return{ok:true,cancelled:true};return{ok:true,...await (action==='configure'?runtime.configure(choice.filePaths[0]):runtime.setLocation(choice.filePaths[0]))};}
+      return{ok:false,error:'Invalid component action'};
+    }catch(error){return{ok:false,error:uiError(error.message)};}});
+    ipcMain.handle('paper-space:backup-save',async(event,input)=>{if(!trustedSender(event,mainWindow,origin))return{ok:false,error:'Untrusted backup request'};let temporary;
+      try{if(!(input?.bytes instanceof Uint8Array)||input.bytes.byteLength>2_000_000_000||input.bytes[0]!==31||input.bytes[1]!==139)throw Error('无效备份文件。');const chosen=await dialog.showSaveDialog(mainWindow,{title:uiText('保存完整备份'),defaultPath:'Paper-Space-'+new Date().toISOString().slice(0,10)+'.paperbackup',filters:[{name:'Paper Space backup',extensions:['paperbackup']}]});if(chosen.canceled)return{ok:true,cancelled:true};temporary=chosen.filePath+'.'+randomUUID()+'.tmp';await writeFile(temporary,input.bytes,{flag:'wx'});await rename(temporary,chosen.filePath);return{ok:true};}catch(error){return{ok:false,error:uiError(error.message)};}finally{if(temporary)await unlink(temporary).catch(()=>{});}
     });
     const keys=createKeyStore(join(dataRoot,'credentials.enc.json'),safeStorage);
     const chats=createChatStore(dataRoot);
@@ -127,7 +140,7 @@ else {
       if(!['status','get','set','clear'].includes(action))return{ok:false,error:uiText("无效密钥操作")};
       try{return{ok:true,...keys[action](input)};}catch(error){return{ok:false,error:uiError(error.message)};}
     });
-    server=createServer({runtimeRoot:process.env.PAPER_SPACE_RUNTIME||defaults.runtimeRoot,dataRoot});
+    server=createServer({runtimeProvider:()=>runtime.current(),runtimeRoot:process.env.PAPER_SPACE_RUNTIME||defaults.runtimeRoot,dataRoot});
     await new Promise((resolve,reject)=>{server.once('error',reject);server.listen(port,'127.0.0.1',resolve);});
     setupMenu();await createWindow();
   }).catch(error=>{

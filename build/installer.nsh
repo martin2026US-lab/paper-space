@@ -22,6 +22,18 @@
 
   !macro customInit
     Call PaperSpaceCheckInstallPath
+    ReadRegStr $R0 HKCU "${INSTALL_REGISTRY_KEY}" InstallLocation
+    ${If} ${FileExists} "$R0\resources\runtime\models\ready.json"
+      InitPluginsDir
+      File /oname=$PLUGINSDIR\paper-space-migrate.py "${BUILD_RESOURCES_DIR}\migrate-runtime.py"
+      nsExec::ExecToStack '"$R0\resources\runtime\python\python.exe" -I "$PLUGINSDIR\paper-space-migrate.py" "$R0" "$APPDATA\PaperSpace"'
+      Pop $R1
+      Pop $R2
+      ${If} $R1 != 0
+        MessageBox MB_ICONSTOP|MB_OK "Unable to preserve Docling. Please check disk space and try again."
+        Abort
+      ${EndIf}
+    ${EndIf}
   !macroend
 
   !macro customPageAfterChangeDir
