@@ -1,3 +1,4 @@
+import {glossaryContext} from './translation-quality.mjs';
 import {uiText,uiHTML,uiError,uiDateLocale} from './ui-language.mjs';
 import {OUTPUT_LANGUAGES,normalizeOutputLanguage} from './output-language.mjs';
 export const TRANSLATION_KEY='paper-space-translation';
@@ -58,7 +59,7 @@ export function saveTranslationSettings(storage,settings){
 export function translationCredential(config){
  return{id:'paper-translation-'+config.provider+'-v1',baseUrl:config.baseUrl,format:config.provider==='ai'?config.format:'translation-'+config.provider,...(config.provider==='azure'?{region:config.region||''}:{})};
 }
-export function translationCacheKey(text,config,scope='sentence'){
+export function translationCacheKey(text,config,scope='sentence'){const terms=glossaryContext(text,config.glossary||[],config.targetLanguage||config.outputLanguage);if(terms.length)return JSON.stringify(['glossary-v1',JSON.parse(translationCacheKey(text,{...config,glossary:[]},scope)),terms]);
  // Existing AI caches remain usable; all dedicated services have a separate namespace.
  const language=normalizeOutputLanguage(config.targetLanguage||config.outputLanguage);
  if(['ollama','ai','inherit'].includes(config.provider)){

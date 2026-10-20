@@ -1,3 +1,5 @@
+import {checkTranslation,reviewTranslation} from './quality-service.mjs';
+import {recognizeRemote,recognitionCapabilities} from './recognition-service.mjs';
 import {requestChat} from './model-service.mjs';
 import {translateText,translationLanguages} from './translation-service.mjs';
 import http from 'node:http';
@@ -24,15 +26,19 @@ export function createServer(options={}) {
       const host = req.headers.host;
       if (!/^127\.0\.0\.1:\d+$/.test(host || '')) return json(res,403,{error:'仅允许本机访问。'});
       const url = new URL(req.url, `http://${host}`);
-      if (url.pathname === '/api/health') return json(res,200,{name:'paper-space',version:'1.2.2'});
-      if (url.pathname === '/api/pdf/status' && req.method === 'GET') return json(res,200,{available:await pdfService.available(),parser:'docling'});
+      if (url.pathname === '/api/health') return json(res,200,{name:'paper-space',version:'1.3.0'});
+      if (url.pathname === '/api/pdf/status' && req.method === 'GET') return json(res,200,{available:await pdfService.available(),busy:pdfService.busy===true,parser:'docling'});
       if (url.pathname === '/api/pdf/parse' && req.method === 'POST') {
         if(req.headers.origin!==`http://${host}`||req.headers['content-type']!=='application/pdf')return json(res,403,{error:'请求来源不允许。'});
         let size=0;const chunks=[];
         for await(const chunk of req){size+=chunk.length;if(size>50_000_000)throw Error('PDF 请控制在 50 MB 以内。');chunks.push(chunk);}
         const bytes=Buffer.concat(chunks);if(!bytes.subarray(0,1024).includes(Buffer.from('%PDF-')))throw Error('文件不是有效的 PDF。');
-        const abort=new AbortController();res.on('close',()=>{if(!res.writableEnded)abort.abort();});
-        return json(res,200,await pdfService.parse(bytes,abort.signal));
+        let config={};try{config=JSON.parse(decodeURIComponent(req.headers['x-paper-recognition']||'%7B%7D'));}catch{throw Error('识别配置无效。');}if(!['local','service',undefined].includes(config.provider))throw Error('无效识别服务。');config.apiKey=req.headers['x-api-key']||'';
+        const abort=new AbortController(),timer=setTimeout(()=>abort.abort(),15*60*1000);res.on('close',()=>{if(!res.writableEnded)abort.abort();});const stream=req.headers.accept==='application/x-ndjson';if(stream)res.writeHead(200,{'Content-Type':'application/x-ndjson; charset=utf-8','Cache-Control':'no-store'});const event=value=>{if(stream&&!res.destroyed)res.write(JSON.stringify(value)+'\n');};
+        try{event({type:'progress',stage:'start',message:config.provider==='service'?'正在请求自定义识别服务':'正在准备本机识别'});const result=config.provider==='service'?await recognizeRemote(bytes,config,{signal:abort.signal}):await pdfService.parse(bytes,abort.signal,{mode:config.mode,force:config.force===true,onProgress:p=>event({type:'progress',...p})});if(stream){event({type:'result',result});res.end();return;}return json(res,200,result);}catch(error){if(stream){event({type:'error',message:error.name==='AbortError'?'识别已停止或超时。':error.message});res.end();return;}throw error;}finally{clearTimeout(timer);}
+      }
+      if(['/api/translation/check','/api/translation/review','/api/recognition/test'].includes(url.pathname)&&req.method==='POST'){
+        if(req.headers.origin!==`http://${host}`||!req.headers['content-type']?.startsWith('application/json'))return json(res,403,{error:'请求来源不允许。'});const input=await body(req),abort=new AbortController(),timer=setTimeout(()=>abort.abort(),url.pathname==='/api/recognition/test'?15000:120000);res.on('close',()=>{if(!res.writableEnded)abort.abort();});try{return json(res,200,url.pathname==='/api/translation/check'?checkTranslation(input):url.pathname==='/api/translation/review'?await reviewTranslation(input,{signal:abort.signal}):await recognitionCapabilities(input,{signal:abort.signal}));}finally{clearTimeout(timer);}
       }
       if (url.pathname === '/api/models' && req.method === 'POST') {
         if (req.headers.origin !== `http://${host}` || !req.headers['content-type']?.startsWith('application/json')) return json(res,403,{error:'请求来源不允许。'});

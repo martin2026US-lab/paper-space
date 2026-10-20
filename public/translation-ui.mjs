@@ -2,7 +2,7 @@ import {uiText,uiHTML,uiError,uiDateLocale} from './ui-language.mjs';
 import {createLocalModelPicker} from './local-model-picker.mjs';
 import {OUTPUT_LANGUAGES,outputLanguage} from './output-language.mjs';
 import {TRANSLATION_CONNECTIONS,TRANSLATION_PROTOCOLS,connectionForProvider,TRANSLATION_KEY,providerLabel,loadTranslationSettings,saveTranslationSettings,translationCredential,translationUrl,languageCode,cleanTranslationConfig} from './translation-config.mjs';
-export function createTranslationManager({storage,getReadingConfig,getReadingLanguage,onChange,isMutating,toast,openReadingSettings}){
+export function createTranslationManager({storage,getReadingConfig,getReadingLanguage,onChange,isMutating,toast,openReadingSettings,augmentConfig=c=>c}){
  const $=id=>document.getElementById(id),vault=window.paperKeys,dialog=$('translationSettingsDialog');
  const settings=loadTranslationSettings(storage,getReadingLanguage()),keys=new Map(),savedKeys=new Set();let controller=null,serial=0,formBusy=false,canRemember=false,localPicker;
  const credentialKey=config=>JSON.stringify(translationCredential(config));
@@ -14,7 +14,7 @@ export function createTranslationManager({storage,getReadingConfig,getReadingLan
   $('translationCurrentProvider').textContent=providerLabel(settings.provider)+(settings.provider==='ollama'?' · '+settings.configs.ollama.model:'');
   onChange(resolve());
  }
- function resolve(){const provider=settings.provider;const config=provider==='inherit'?{...getReadingConfig()}:{...settings.configs[provider]};return{...config,provider,targetLanguage:settings.targetLanguage,outputLanguage:settings.targetLanguage,apiKey:provider==='inherit'?config.apiKey||'':provider==='ollama'?'':keys.get(credentialKey({provider,...config}))||''};}
+ function resolve(){const provider=settings.provider;const config=provider==='inherit'?{...getReadingConfig()}:{...settings.configs[provider]};return augmentConfig({...config,provider,targetLanguage:settings.targetLanguage,outputLanguage:settings.targetLanguage,apiKey:provider==='inherit'?config.apiKey||'':provider==='ollama'?'':keys.get(credentialKey({provider,...config}))||''});}
  function cancel(){serial++;controller?.abort();controller=null;}
  function lock(value){formBusy=value;for(const el of dialog.querySelectorAll('input,select,button[type=submit],#translationDetectLanguages,#translationTest'))el.disabled=value;if(!value)$('translationRememberKey').disabled=!canRemember;localPicker?.sync();}
  async function request(path,body,signal){const response=await fetch(path,{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify(body),signal});const data=await response.json();if(!response.ok)throw Error(data.error||uiText("翻译服务请求失败。"));return data;}

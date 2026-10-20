@@ -20,7 +20,9 @@
     "translation-service.mjs",
     "python/download_models.py",
     "python/requirements.txt",
-    "python/constraints-windows.txt"
+    "python/constraints-windows.txt",
+    "quality-service.mjs",
+    "recognition-service.mjs"
   ],
   "win": {
     "target": [

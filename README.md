@@ -9,12 +9,22 @@
 本机优先的 AI 论文阅读工作台。保留 PDF 原貌，把翻译、段落解读、章节批注和带来源的对话放在同一个阅读空间里。无需注册，AI 使用你自己的接口。
 
 [![Tests](https://github.com/martin2026US-lab/paper-space/actions/workflows/test.yml/badge.svg)](https://github.com/martin2026US-lab/paper-space/actions/workflows/test.yml)
-![Version](https://img.shields.io/badge/version-1.2.2-b28a4d)
+![Version](https://img.shields.io/badge/version-1.3.0-b28a4d)
 ![License](https://img.shields.io/badge/license-MIT-806043)
 
 ![阅读工作台](docs/assets/workspace.jpg)
 
 ▶ **[在线观看 58 秒 AI 功能宣传片](https://martin2026US-lab.github.io/paper-space/)** · [下载视频（MP4）](https://github.com/martin2026US-lab/paper-space/releases/download/v1.0.2/paper-space-ai-demo.mp4)
+
+## 1.3.0 翻译质量与识别体验
+
+- **本机基础质检**：检查数字、引用、单位和术语；按需展开提示，不将启发式检查当作准确率评分。
+- **独立 AI 复核**：沿用阅读 AI 或自配 OpenAI / Anthropic 兼容接口。只在点击时发送当前原文与译文，建议经确认后采用，可撤销；原文与历史译文保留。
+- **术语表**：导入/导出 CSV、TSV、JSON，按目标语言匹配。AI 翻译使用相关术语约束；专用翻译 API 输出做一致性检查，不做生硬替换。变更术语后使用独立缓存。
+- **文档识别**：快速/精细模式、真实阶段与耗时、排队、取消、重试及错误详情；支持自配 Docling Serve v1 与服务端 OCR，远程仅手动开始才上传 PDF。
+- **升级兼容**：完整备份包括术语、识别与复核元数据、修订历史；密钥仍使用本机加密或会话存储，保持经典/杂志风格和原有模型配置。
+
+[翻译质量与识别接口说明](docs/QUALITY-RECOGNITION.md)
 
 ## 1.2.2 阅读尺寸与配色修复
 

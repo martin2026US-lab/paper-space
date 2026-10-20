@@ -1,10 +1,12 @@
+import {recognitionUrl} from '../public/recognition-config.mjs';
 import {translationUrl} from '../public/translation-config.mjs';
 import {readFileSync,writeFileSync,renameSync,mkdirSync,unlinkSync} from 'node:fs';
 import {dirname} from 'node:path';
 export function identity(input){
   if(!input||typeof input.id!=='string'||! /^[A-Za-z0-9_-]{1,100}$/.test(input.id))throw new Error('无效接口标识');
   const url=new URL(input.baseUrl);if(!['http:','https:'].includes(url.protocol)||url.username||url.password)throw new Error('无效接口地址');
-  if(!['openai','anthropic','translation-deepl','translation-azure','translation-libre'].includes(input.format))throw new Error('无效接口格式');
+  if(!['openai','anthropic','translation-deepl','translation-azure','translation-libre','recognition-docling'].includes(input.format))throw new Error('无效接口格式');
+  if(input.format==='recognition-docling')recognitionUrl(input.baseUrl);
   if(input.format.startsWith('translation-'))translationUrl(input.baseUrl,input.format.slice(12));
   if(input.format==='translation-azure'&&input.region&&!/^[a-z0-9-]{1,100}$/.test(input.region))throw Error('无效服务区域');
   return{id:input.id,binding:JSON.stringify(input.format==='translation-azure'?[url.href,input.format,input.region||'']:[url.href,input.format])};

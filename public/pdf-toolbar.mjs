@@ -1,5 +1,5 @@
 import {uiText,uiHTML,uiError,uiDateLocale} from './ui-language.mjs';
-export function createPdfToolbar({count,parsed,corrected,conflict,archivedCount,onAdjust,onRecover,onReparse,onArchive,recognition=null,gaps=[],onReview,onDismiss}){
+export function createPdfToolbar({count,parsed,corrected,conflict,archivedCount,onAdjust,onRecover,onReparse,onArchive,onSettings,onCancel,recognition=null,gaps=[],onReview,onDismiss}){
   const el=(tag,cls,text)=>{const n=document.createElement(tag);n.className=cls;if(text!==undefined)n.textContent=text;return n;};
   const bar=el('div','pdf-paragraph-notice');bar.setAttribute('aria-label',uiText("本页阅读辅助"));
   const info=el('div','pdf-page-info'),title=el('div','pdf-page-summary');
@@ -11,7 +11,7 @@ export function createPdfToolbar({count,parsed,corrected,conflict,archivedCount,
   const primary=el('div','pdf-edit-actions');
   primary.append(button(uiText("结构校正"),onAdjust),button(uiText("补充漏识别"),onRecover));
   const secondary=el('div','pdf-secondary-actions');
-  const retry=button(recognition&&recognition.phase!=='error'?uiText("识别中…"):uiText("重新识别"),onReparse,'pdf-action-quiet');retry.disabled=!!recognition&&recognition.phase!=='error';secondary.append(retry);
+  const retry=button(recognition&&!['error','cancelled'].includes(recognition.phase)?uiText("识别中…"):uiText("重新识别"),onReparse,'pdf-action-quiet');retry.disabled=!!recognition&&!['error','cancelled'].includes(recognition.phase);secondary.append(retry);if(onSettings)secondary.append(button(uiText('识别设置'),onSettings,'pdf-action-quiet'));if(onCancel&&recognition&&!['error','cancelled'].includes(recognition.phase))secondary.append(button(uiText('停止识别'),onCancel,'pdf-action-quiet'));
   if(archivedCount)secondary.append(button(uiText("旧版旁注 {0}", archivedCount),onArchive,'pdf-action-quiet'));
   actions.append(primary,secondary);bar.append(info,actions);
   if(conflict){const warning=el('div','pdf-structure-conflict',uiText("识别结果有差异，已保留手动校正。"));warning.setAttribute('role','status');warning.append(button(uiText("查看校正"),onAdjust,'pdf-action-quiet'));bar.append(warning);}

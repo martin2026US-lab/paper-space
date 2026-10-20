@@ -1,0 +1,13 @@
+source,target,language,note
+image segmentation,图像分割,zh-CN,项目示例；可按领域习惯修改
+segmentation,分割,zh-CN,
+lesion,病灶,zh-CN,
+confidence interval,置信区间,zh-CN,
+cross-validation,交叉验证,zh-CN,
+external validation,外部验证,zh-CN,
+data leakage,数据泄漏,zh-CN,
+false positive,假阳性,zh-CN,
+sensitivity,灵敏度,zh-CN,可按项目统一为敏感度
+specificity,特异度,zh-CN,
+calibration,校准,zh-CN,
+attention mechanism,注意力机制,zh-CN,

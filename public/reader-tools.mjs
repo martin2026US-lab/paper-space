@@ -9,7 +9,7 @@ import {highlightSource} from './highlight.mjs';
 import {pdfBlockSpans} from './pdf-text.mjs';
 const create=(tag,cls,text)=>{const e=document.createElement(tag);e.className=cls||'';if(cls==='card-explanation')e.dir='auto';if(text!==undefined)e.textContent=text;return e;};
 const action=(label,fn,cls='button')=>{const e=create('button',cls,label);e.onclick=fn;return e;};
-export function createReaderTools({state,callModel,saveDoc,showSettings,discuss,locate,generate,getTranslationConfig,translateText,showTranslationSettings}){
+export function createReaderTools({state,callModel,saveDoc,showSettings,discuss,locate,generate,getTranslationConfig,translateText,showTranslationSettings,mountQuality}){
   const slot=new RequestSlot();let drawer,popup,pointer,timer,activeButton,translationButton;
   const reading=document.querySelector('.reading'),host=document.getElementById('readingContent');
   function closeTranslation(restoreFocus=false){clearTimeout(timer);slot.cancel();popup?.remove();popup=null;translationButton?.setAttribute('aria-expanded','false');if(restoreFocus&&translationButton?.isConnected)translationButton.focus({preventScroll:true});translationButton=null;host.querySelectorAll('.sentence-highlight,.paragraph-translation-highlight').forEach(e=>e.remove());host.querySelectorAll('.translation-located').forEach(e=>e.classList.remove('translation-located'));}
@@ -70,9 +70,9 @@ export function createReaderTools({state,callModel,saveDoc,showSettings,discuss,
     const result=create('div','translation-result');result.setAttribute('role','status');result.dir='auto';popup.append(result);reading.append(popup);if(isParagraph)heading.lastChild.focus({preventScroll:true});
     if(['ollama','ai','inherit'].includes(config.provider)&&!config.model){result.textContent=uiText("请先配置翻译模型或选择专用翻译服务。");popup.append(action(uiText("设置翻译服务"),showTranslationSettings));return;}
     let key;try{if(isParagraph&&info.sentence.text.length>24000)throw Error(uiText("这段原文超过 24,000 字符，请选择较短内容。"));key=translationCacheKey(info.sentence.text,config,isParagraph?'paragraph':'sentence');}catch(e){result.textContent=uiError(e.message);popup.append(action(uiText("设置翻译服务"),showTranslationSettings));return;}
-    doc.translations||={};if(doc.translations[key]){result.textContent=doc.translations[key];popup.append(create('small','translation-cache',uiText("本机缓存")));return;}
+    doc.translations||={};if(doc.translations[key]){result.textContent=doc.translations[key];popup.append(create('small','translation-cache',uiText("本机缓存")));mountQuality?.({host:popup,result,doc,text:info.sentence.text,config,scope:isParagraph?'paragraph':'sentence',key});return;}
     const token=slot.begin();result.setAttribute('aria-busy','true');result.textContent=isParagraph?uiText("正在翻译整个段落…"):uiText("正在翻译这个句子…");
-    try{const text=await translateText(info.sentence.text,config,{scope:isParagraph?'paragraph':'sentence',signal:token.signal});if(!slot.current(token)||doc!==state.doc||epoch!==state.renderEpoch)return;result.textContent=text;doc.translations[key]=text;await saveDoc(doc);}
+    try{const text=await translateText(info.sentence.text,config,{scope:isParagraph?'paragraph':'sentence',signal:token.signal});if(!slot.current(token)||doc!==state.doc||epoch!==state.renderEpoch)return;result.textContent=text;doc.translations[key]=text;await saveDoc(doc);mountQuality?.({host:popup,result,doc,text:info.sentence.text,config,scope:isParagraph?'paragraph':'sentence',key});}
     catch(e){if(!slot.current(token)||e.name==='AbortError')return;result.textContent=uiText("翻译失败：{0}", uiError(e.message));popup.append(action(uiText("重试"),()=>translate(info)));}finally{result.setAttribute('aria-busy','false');}
   }
   host.addEventListener('pointerdown',e=>{pointer={x:e.clientX,y:e.clientY,button:e.button};});

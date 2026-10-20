@@ -10,6 +10,16 @@ A local-first reading workspace for papers and documents. Read PDFs in their ori
 
 **[Download for Windows](https://github.com/martin2026US-lab/paper-space/releases/latest)** · [Changelog](docs/CHANGELOG.md) · [MIT license](LICENSE)
 
+## New in 1.3.0
+
+- Local translation checks flag numbers, citations, units and glossary mismatches without a quality score.
+- Optional AI review uses the reading model or an independent OpenAI/Anthropic endpoint. Proposed changes require acceptance and can be undone; original text and previous translations are preserved.
+- CSV/TSV/JSON glossaries match the target language. Relevant terms guide AI translation and isolate caches; dedicated translation APIs are checked without forced text replacement.
+- Background recognition adds Fast/Detailed modes, real stages and elapsed time, queue/cancel/retry controls, and a custom Docling Serve v1 connection with optional service OCR. Remote recognition always requires an explicit start.
+- Backups carry glossaries, safe endpoint metadata and revision history, excluding keys and model weights.
+
+[Quality and recognition API details](docs/QUALITY-RECOGNITION.md)
+
 ## 1.2.2 Reading size and palette fixes
 
 Magazine mode uses warm paper, graphite text and restrained olive selection accents across PDF, Word, the assistant and settings. PDFs fit the available reading width by default, with whole-page and percentage zoom options and aligned selectable text. Stable Library / Contents buttons switch the sidebar, and PDF recognition tools sit inside a compact disclosure. Classic mode and existing documents, annotations and model settings remain available.

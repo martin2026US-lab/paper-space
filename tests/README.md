@@ -32,3 +32,7 @@ On Windows, `npx electron tests/v120-desktop.cjs` checks native backup files and
 ## PDF sizing and magazine palette
 
 `npx electron tests/v122-electron.cjs` checks actual available-width PDF scaling, 96-dpi percentage zoom, selectable text/source preservation, assistant resizing, stable sidebar toggles, shared neutral surfaces, English labels, Classic isolation and laptop/mobile bounds using synthetic PDF/Word fixtures. `--baseline` optionally captures the previous local installation before upgrading.
+
+## Translation quality and recognition
+
+`npx electron tests/v130-electron.cjs` uses only isolated synthetic files and loopback mock endpoints to check glossary/cache binding, reviewer separation, accept/undo/cancel, manual-only remote recognition, progress/cancel/retry, byte preservation, English labels and narrow dialogs. `tests/quality-recognition.test.mjs` covers core parsing, routes, source isolation and full backup round-trips. Tests do not open a personal library or call cloud services.
