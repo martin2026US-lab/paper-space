@@ -35,7 +35,8 @@
     ],
     "icon": "desktop/icon.ico",
     "artifactName": "Paper-Space-${version}-Windows-x64-Setup.${ext}",
-    "signExecutable": false
+    "signExecutable": false,
+    "signAndEditExecutable": false
   },
   "nsis": {
     "include": "build/installer.nsh",
