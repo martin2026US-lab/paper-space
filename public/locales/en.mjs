@@ -1,5 +1,16 @@
 // Application UI only. Document text and model prompts are never passed through this catalog.
 export default {
+"PDF 缩放":"PDF zoom",
+"适合宽度":"Fit width",
+"整页":"Fit page",
+"PDF 原版 · 阅读辅助":"Original PDF · Reading tools",
+"结构待核对":"Review structure",
+"{0} 处待核对":"{0} items to review",
+"识别未完成":"Recognition incomplete",
+"侧栏内容":"Sidebar content",
+"文献库":"Library",
+"阅读目录":"Contents",
+
 "解读":"Explain",
 "双语":"Bilingual",
 "原文":"Original",
@@ -590,7 +601,7 @@ export default {
   "保存在这台电脑": "Saved on this computer",
   "无需注册 · 自有 API": "No account · Bring your own API",
   "阅读工作台": "Reading workspace",
-  "桌面 1.2.1": "Desktop 1.2.1",
+  "桌面 1.2.2": "Desktop 1.2.2",
   "✎ 个人批注": "✎ Notes",
   "专注阅读 · Ctrl Shift F": "Focus · Ctrl Shift F",
   "阅读助手": "Assistant",

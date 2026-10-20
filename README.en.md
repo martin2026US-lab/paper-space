@@ -10,9 +10,13 @@ A local-first reading workspace for papers and documents. Read PDFs in their ori
 
 **[Download for Windows](https://github.com/martin2026US-lab/paper-space/releases/latest)** · [Changelog](docs/CHANGELOG.md) · [MIT license](LICENSE)
 
+## 1.2.2 Reading size and palette fixes
+
+Magazine mode uses warm paper, graphite text and restrained olive selection accents across PDF, Word, the assistant and settings. PDFs fit the available reading width by default, with whole-page and percentage zoom options and aligned selectable text. Stable Library / Contents buttons switch the sidebar, and PDF recognition tools sit inside a compact disclosure. Classic mode and existing documents, annotations and model settings remain available.
+
 ## Magazine reading in 1.2.1
 
-Use the top-right **Classic / Magazine** switch. Existing installations keep Classic by default. Magazine uses a flat warm-white surface, olive accents and bundled serif fonts, with a narrow chapter index and a single reading column. On small laptops, opening the assistant collapses the index into a utility rail; library and contents remain available on demand. Page controls and notes sit in the footer, while bilingual translation controls stay above the text.
+Use the top-right **Classic / Magazine** switch. Existing installations keep Classic by default. Magazine uses bundled serif fonts, with a narrow chapter index and a single reading column. On small laptops, opening the assistant collapses the index into a utility rail; library and contents remain available on demand. Page controls and notes sit in the footer, while bilingual translation controls stay above the text.
 
 Styles share the same documents, originals, annotations, conversations and model settings, with separate layout preferences. Switching keeps the current page, reading position and question draft and sends no content.
 

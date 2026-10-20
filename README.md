@@ -9,16 +9,20 @@
 本机优先的 AI 论文阅读工作台。保留 PDF 原貌，把翻译、段落解读、章节批注和带来源的对话放在同一个阅读空间里。无需注册，AI 使用你自己的接口。
 
 [![Tests](https://github.com/martin2026US-lab/paper-space/actions/workflows/test.yml/badge.svg)](https://github.com/martin2026US-lab/paper-space/actions/workflows/test.yml)
-![Version](https://img.shields.io/badge/version-1.2.1-b28a4d)
+![Version](https://img.shields.io/badge/version-1.2.2-b28a4d)
 ![License](https://img.shields.io/badge/license-MIT-806043)
 
 ![阅读工作台](docs/assets/workspace.jpg)
 
 ▶ **[在线观看 58 秒 AI 功能宣传片](https://martin2026US-lab.github.io/paper-space/)** · [下载视频（MP4）](https://github.com/martin2026US-lab/paper-space/releases/download/v1.0.2/paper-space-ai-demo.mp4)
 
+## 1.2.2 阅读尺寸与配色修复
+
+杂志风格改为暖白纸面、石墨色文字与少量灰绿选中标记，统一 PDF、Word、助手及设置窗口。PDF 默认适合当前阅读区宽度，可选择整页或百分比缩放；原文件与文字层保持对应。左侧通过固定的「文献库 / 阅读目录」按钮切换，结构识别工具收在可展开的辅助栏中。经典风格、现有文献、批注及模型配置保留。
+
 ## 1.2.1 杂志阅读
 
-右上角可在「经典 / 杂志」间切换，原有安装默认保留经典风格。杂志风格采用暖白、橄榄色与本机衬线字体，窄目录搭配单栏正文；小屏打开阅读助手时，目录收成工具栏，按需展开文献和章节。翻页与批注放在底部，双语页顶部可直接选择目标语言、翻译本页或停止。
+右上角可在「经典 / 杂志」间切换，原有安装默认保留经典风格。杂志风格采用本机衬线字体，窄目录搭配单栏正文；小屏打开阅读助手时，目录收成工具栏，按需展开文献和章节。翻页与批注放在底部，双语页顶部可直接选择目标语言、翻译本页或停止。
 
 两种风格共用现有文献、原文件、批注、会话及模型配置，分别记住布局。切换保留当前页、阅读位置和问题草稿，不自动发送内容。
 

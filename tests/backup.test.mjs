@@ -3,7 +3,7 @@ import {createBackup,readBackup,planRestore,backupSettings,mergeBackupSettings,v
 const store=(values={})=>({getItem:key=>values[key]??null});
 const doc=()=>({id:'paper',name:'试验.pdf',type:'pdf',pages:2,lastPage:2,bytes:new Uint8Array([37,80,68,70,0,255]).buffer,blocks:[{id:'b1',page:1,text:'Original 42 [7].',coordinates:new Float32Array([1.25,2.5])}],cards:[{title:'解释',explanation:'说明',blockId:'b1',page:1}],summary:'Guide',personalNotes:[{id:'n',text:'私有批注',anchor:{docId:'paper',page:1,text:'Original'}}],conversations:[{id:'c',name:'Conversation',history:[{role:'user',text:'Question'},{role:'assistant',text:'Answer',materials:[{id:'b1',text:'Original 42 [7].'}]}]}],activeConversationId:'c',history:[],translations:{cache:'译文'},deletedAt:2,structure:{operations:[{label:'校正',sourceSnapshot:{text:'原文'}}]}});
 test('Full compressed backup round-trips original bytes, typed geometry, trash, notes, evidence, and translation caches',async()=>{
- const original=doc(),blob=await createBackup([original],store());const restored=await readBackup(blob);assert.deepEqual(restored.documents,[original]);assert.equal(restored.appVersion,'1.2.1');assert.equal(restored.documents[0].bytes.byteLength,6);
+ const original=doc(),blob=await createBackup([original],store());const restored=await readBackup(blob);assert.deepEqual(restored.documents,[original]);assert.equal(restored.appVersion,'1.2.2');assert.equal(restored.documents[0].bytes.byteLength,6);
 });
 test('Backup exports only model metadata and safe preferences, excluding keys, credentials and consent',async()=>{
  const model={version:2,profiles:[{id:'p',name:'Endpoint',baseUrl:'http://127.0.0.1:11434/v1',model:'hy',models:[{id:'hy'}],apiKey:'SECRET',password:'SECRET'}],activeId:'p'};

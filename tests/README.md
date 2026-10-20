@@ -28,3 +28,7 @@ On Windows, `npx electron tests/v120-desktop.cjs` checks native backup files and
 ## Magazine reading checks
 
 `npx electron tests/magazine-electron.cjs` uses a fresh isolated profile and synthetic documents to verify both styles, independent layout preferences, bundled fonts, paragraph explanations, translation cancellation, library/notes access, preserved source data and drafts, English controls, narrow layouts, and original PDF rendering. Screenshots and results stay under `.test-data/`; no personal reading library is opened.
+
+## PDF sizing and magazine palette
+
+`npx electron tests/v122-electron.cjs` checks actual available-width PDF scaling, 96-dpi percentage zoom, selectable text/source preservation, assistant resizing, stable sidebar toggles, shared neutral surfaces, English labels, Classic isolation and laptop/mobile bounds using synthetic PDF/Word fixtures. `--baseline` optionally captures the previous local installation before upgrading.

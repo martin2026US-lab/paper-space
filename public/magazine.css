@@ -147,3 +147,89 @@ body.magazine-style{--ink:#282b29;--muted:#66695f;--blue:#6f7968;--blue-soft:#ee
 @media(max-width:960px){.magazine-style .conversation{position:absolute;right:0;top:0;bottom:0;z-index:26;width:min(350px,calc(100% - 32px));min-width:0;box-shadow:-6px 0 18px #282b291a}.magazine-style .topbar{gap:10px}.magazine-style .reading-style-switch button{font-size:11px;padding-inline:9px}.magazine-style .reader-toolbar{padding-inline:20px}.magazine-style .doc-heading h1{font-size:17px}}
 @media(max-width:700px){.magazine-style .topbar{height:54px;min-height:54px;padding-inline:10px;gap:8px}.magazine-style .app{grid-template-rows:54px minmax(0,1fr)}.magazine-style .magazine-brand{min-width:0;padding:0;border:0;font-size:0;gap:0}.magazine-brand img{width:26px;height:26px}.magazine-style .doc-heading h1{font-size:15px}.magazine-style .top-actions{gap:3px}.magazine-style .top-actions>.button,.magazine-style .top-actions .reading-menu summary{font-size:11px;padding-inline:5px;min-width:0}.magazine-style .reading-style-switch button{padding:3px 6px;font-size:10px;min-height:28px}.magazine-style .topbar .reading-style-switch{padding:1px}.magazine-style .reading-menu .menu-chevron{display:none}.magazine-style .reader-toolbar{height:auto;min-height:50px;flex-wrap:wrap;gap:8px;padding:4px 14px}.magazine-style .view-tabs{height:42px;gap:16px}.magazine-style .view-tabs button{font-size:12px;min-height:32px}.magazine-style .magazine-translation-tools:not([hidden]){gap:8px;margin-left:auto}.magazine-translation-tools select{max-width:100px}.magazine-translation-tools button .editorial-icon{display:none}.magazine-style .reader-scroll{padding:10px 18px 26px}.magazine-style .bilingual-source,.magazine-style .word-block{font-size:17px!important;line-height:1.8!important}.magazine-style .bilingual-source.word-heading,.magazine-style .word-heading{font-size:25px!important}.magazine-style .bilingual-target{font-size:17px;padding-left:12px}.magazine-style .reader-footer{padding-inline:10px;gap:8px}.magazine-style #readerStatus{display:none}.magazine-style .magazine-footer-pager{margin-right:auto}.magazine-style .reading-location{padding-inline:14px}.magazine-style .magazine-sidebar-dismiss:not([hidden]),.magazine-style.magazine-sidebar-open .library{top:54px}.magazine-style .reading-spread{padding-right:42px}.magazine-style .reader-footer #magazineNotes{display:flex}.magazine-style .reader-footer .page-controls{margin:0}.reading-style-switch button{padding-inline:7px;font-size:10px}}
 @media(max-width:460px){.magazine-style .magazine-brand{display:none}.magazine-style .app,.magazine-style.magazine-compact .app{grid-template-columns:44px minmax(0,1fr)}.magazine-style.magazine-compact .magazine-rail{padding-inline:0}.magazine-rail .editorial-icon{width:19px;height:19px}.magazine-rail button{font-size:9px}.magazine-style.magazine-sidebar-open .library{left:44px;width:min(256px,calc(100% - 44px))}.magazine-style .magazine-sidebar-dismiss:not([hidden]){left:44px}.magazine-style .top-actions>#assistantToggle{font-size:10px}.magazine-style .top-actions .reading-menu summary{font-size:10px}.magazine-style .doc-heading h1{font-size:14px}.magazine-style .reading-style-switch button{padding-inline:4px;font-size:9px}}
+
+/* 1.2.2 — warm paper, graphite type, restrained olive selection accents. */
+body.magazine-style{--ink:#292b27;--muted:#71736a;--blue:#6b715a;--blue-soft:#eeefe9;--line:#deddd5;--bg:#fbfaf7;--paper:#fbfaf7;background:var(--paper);color:var(--ink);accent-color:var(--blue)}
+.magazine-style :is(.topbar,.desktop-titlebar,.reader-toolbar,.reader-footer,.library,.conversation,.assistant-heading,.composer-area){background:var(--paper);border-color:var(--line);box-shadow:none}
+.magazine-style .topbar :is(h1,button,summary),.magazine-style .assistant-heading strong{color:var(--ink)}
+.magazine-style .reading-style-switch button[aria-pressed=true]{background:var(--blue);color:#fff}
+.magazine-sidebar-switch{display:flex;flex:1;min-width:0;gap:2px;padding:3px;border:1px solid var(--line);border-radius:4px;background:transparent}
+.magazine-style .magazine-sidebar-header{margin-bottom:20px;gap:7px}
+.magazine-style .magazine-sidebar-switch button{flex:1;justify-content:center;text-align:center;white-space:nowrap;min-height:32px;padding:5px;font-size:12px;color:var(--muted);border-radius:2px}
+.magazine-style .magazine-sidebar-switch button[aria-pressed=true]{background:#eeefe9;color:#505742;font-weight:600}
+.magazine-style .magazine-sidebar-header #magazineSidebarClose{color:var(--muted);width:22px}
+.magazine-style .outline-label .chapter-label{background:transparent;color:var(--muted)}
+.magazine-style .outline-label .search-icon{filter:none;stroke:currentColor}
+.magazine-style .chapter-empty{color:var(--muted)}
+.magazine-style .nav-label span{background:#eeefe9;color:#656c57}
+.magazine-style .outline-label .chapter-label{background:transparent}
+.magazine-style #outline .chapter-target:hover,.magazine-style .settings-button:hover,.magazine-style .top-actions>.button:hover,.magazine-style .top-actions .reading-menu>summary:hover{background:#f0f0ea;color:var(--ink)}
+.magazine-style .document-name small,.magazine-style .document-delete,.magazine-style .trash-button{color:var(--muted)}
+.magazine-style .reader-scroll{background:var(--paper);scrollbar-color:#c8cbbf transparent}
+.magazine-style .reading-spread.pdf-spread{max-width:none;width:100%;padding:0 48px 24px 0;margin:0}
+.magazine-style .pdf-spread .paper-sheet{border-radius:0;background:var(--paper);box-shadow:none}
+.magazine-style .pdf-spread .pdf-page{background:var(--paper)}
+.magazine-style .pdf-page canvas{mix-blend-mode:multiply}
+.magazine-style .pdf-tools-compact{display:block;width:min(100%,var(--pdf-fit-width,100%));padding:0;margin:0 0 14px;background:transparent;border:0;border-bottom:1px solid var(--line);border-radius:0;box-shadow:none;color:var(--muted)}
+.magazine-style .pdf-tools-disclosure>summary{padding:8px 0;min-height:34px;cursor:pointer;font:12px/1.5 var(--ui-font);color:var(--muted)}
+.magazine-style .pdf-tools-state{margin-left:14px;font-size:11px;color:var(--muted);border-left:1px solid var(--line);padding-left:12px}
+.magazine-style .pdf-tools-content{display:flex;flex-wrap:wrap;align-items:center;gap:12px;padding:6px 0 14px}
+.magazine-style .pdf-page-info{flex:1 1 180px}
+.magazine-style :is(.pdf-page-summary,.pdf-page-hint,.pdf-correction-status){color:var(--muted)}
+.magazine-style .pdf-gap-notice,.magazine-style .pdf-structure-conflict{border-color:var(--line);background:transparent;color:var(--muted)}
+.magazine-style .pdf-gap-review{background:#eeefe9!important;border-color:#c7ccbc!important;color:#505742!important}
+.magazine-style .word-image-notice{display:flex;align-items:center;gap:14px;justify-content:space-between;flex-wrap:wrap;padding:6px 0 12px;margin:0 0 12px;border-bottom:1px solid var(--line);background:transparent;border-radius:0;color:var(--muted);font-size:11px}
+.magazine-style .word-image-notice .button{min-height:30px;padding:5px 9px;font-size:11px}
+.magazine-style .word-table :is(td,th){border-color:#d0d2c7}
+.magazine-style .word-table th{background:#efefe9}
+.magazine-style .word-table tr:nth-child(even) td{background:#f4f4ef}
+.magazine-style .button,.magazine-style .quiet{background:transparent;border:1px solid var(--line);box-shadow:none;color:#59614d}
+.magazine-style .button.dark,.magazine-style .primary{background:#6b715a;color:#fff;border-color:#6b715a}
+.magazine-style .button:not(.dark):hover,.magazine-style .quiet:hover{background:#eeefe9}
+.magazine-style .bilingual-actions .button{border:0}
+.magazine-style .bilingual-target{background:transparent;color:var(--ink)}
+.magazine-pdf-tools{display:none}
+.magazine-style .magazine-pdf-tools:not([hidden]){display:flex;align-items:center;gap:8px;flex:none}
+.magazine-pdf-tools button{font-size:12px;min-height:32px;padding:5px 8px;color:#59614d;border:1px solid var(--line);border-radius:3px;background:transparent}
+.magazine-pdf-tools select{min-height:32px;max-width:135px;font:12px var(--ui-font);background:transparent;color:var(--ink);border:1px solid var(--line);border-radius:3px;padding:5px 7px}
+.magazine-pdf-tools small{color:var(--muted);font-size:10px;font-variant-numeric:tabular-nums;min-width:30px}
+.magazine-style .magazine-translation-tools button:hover,.magazine-pdf-tools button:hover{background:#eeefe9}
+.magazine-style .assistant-heading .icon-button:hover{background:#eeefe9}
+.magazine-style .suggestions button{background:transparent;border-color:var(--line);color:#626958!important}
+.magazine-style .welcome>p,.magazine-style .demo-note{color:var(--muted)!important}
+.magazine-style .composer{border-color:#d7dbce;background:var(--paper);box-shadow:none}
+.magazine-style .send-button{background:var(--blue);color:#fff;border-radius:50%}
+.magazine-style .reading-menu-content{background:var(--paper);border-color:var(--line);box-shadow:0 8px 20px #282b2914}
+.magazine-style .menu-caption,.magazine-style .menu-shortcuts span{color:var(--muted)}
+.magazine-style .menu-shortcuts{border-color:var(--line)}
+.magazine-style kbd{color:#6b715a;border-color:#d0d2c6;background:#f5f5ef}
+.magazine-style .annotation-drawer,.magazine-style .translation-popup,.magazine-style .selection-menu,.magazine-style dialog{background:var(--paper);border-color:#c9cdbf;color:var(--ink);box-shadow:0 8px 25px #282b291a}
+.magazine-style dialog::backdrop{background:#292c244a;backdrop-filter:none}
+.magazine-style dialog :is(h1,h2,h3,label,.dialog-intro,.dialog-note,.dialog-close,.management-help,.management-eyebrow,.management-heading){color:#565e4b}
+.magazine-style dialog :is(input:not([type=checkbox]),select,textarea){background:#fffefa;color:var(--ink);border-color:#d0d3c6}
+.magazine-style .dialog-note,.magazine-style #backupPreview{background:#f0f1eb;color:#626b54}
+.magazine-style dialog :is(.discover-row small,.discovery-status,.model-list-heading strong,.model-list-heading span,.model-list-heading button,.model-empty,.model-check small,.manual-model,.model-group-heading,.model-group-heading span,.model-option small){color:#6e7562}
+.magazine-style dialog .detected-models{background:#f6f6f0;border-color:var(--line)}
+.magazine-style dialog .model-check{border-color:var(--line)}
+.magazine-style dialog input[type=checkbox]{accent-color:var(--blue)}
+.magazine-style dialog .model-option{background:#f6f6f0;border-color:var(--line);color:var(--ink)}
+.magazine-style dialog .model-option.selected{background:#eeefe9;border-color:#a1aa91}
+.magazine-style .finder-result.selected,.magazine-style .finder-result:hover{background:#eeefe9;border-color:#bfc7b1}
+.magazine-style .finder-result :is(strong,small),.magazine-style .finder-kind,.magazine-style .finder-count,.magazine-style .finder-footer{color:#626b54;border-color:var(--line)}
+.magazine-style .markdown-body :is(strong,h1,h2,h3,h4,h5,h6),.magazine-style .card-explanation{color:var(--ink)}
+.magazine-style .markdown-body :is(code,pre,blockquote,th),.magazine-style .translation-source{background:#f0f1eb;color:#565e4b;border-color:#c8cebd}
+.magazine-style .markdown-body :is(td,th){border-color:#d0d3c7}
+.magazine-style .annotation-drawer small,.magazine-style .annotation-source{color:var(--muted)}
+.magazine-style .source-highlight{background:#c7d2b544;border-color:#9fac89}
+.magazine-style .textLayer ::selection{background:#9cae7c66;color:transparent}
+.magazine-style .loading,.magazine-style .loading::before{color:#737d65}
+@media(max-width:1100px){.magazine-style .magazine-pdf-tools:not([hidden]){gap:5px}.magazine-pdf-tools button{padding-inline:6px;font-size:11px}.magazine-pdf-tools select{max-width:115px;font-size:11px}.magazine-pdf-tools small{display:none}}
+@media(max-width:700px){.magazine-style .magazine-pdf-tools:not([hidden]){margin-left:auto}.magazine-style .reader-toolbar:has(.magazine-pdf-tools:not([hidden])){padding-block:5px}.magazine-style .reading-spread.pdf-spread{padding-right:40px}.magazine-style .pdf-tools-state{margin-left:7px;padding-left:7px}.magazine-style .pdf-page-info{flex-basis:100%}.magazine-style .pdf-page-actions{flex-wrap:wrap;gap:7px}.magazine-style .magazine-sidebar-switch button{font-size:12px}}
+
+.magazine-style dialog{border-radius:4px}
+.magazine-style *{scrollbar-color:#c5c8bc transparent}
+.magazine-style ::-webkit-scrollbar-thumb{background:#c5c8bc;border-color:transparent}
+.magazine-style ::-webkit-scrollbar-track,.magazine-style ::-webkit-scrollbar-button{background:transparent}
+.magazine-style .magazine-rail .editorial-icon{opacity:.64}
+@media(min-width:701px){.magazine-style .bilingual-source.word-heading{font-size:40px!important;line-height:1.22!important}}
+@media(min-width:1151px){.magazine-style .conversation{width:clamp(330px,32vw,420px);min-width:330px}}
