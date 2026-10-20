@@ -54,7 +54,9 @@
       "en_US"
     ],
     "language": "2052",
-    "displayLanguageSelector": true
+    "displayLanguageSelector": true,
+    "installerIcon": "desktop/icon.ico",
+    "uninstallerIcon": "desktop/icon.ico"
   },
   "publish": null
 }

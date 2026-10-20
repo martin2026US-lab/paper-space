@@ -36,6 +36,18 @@
     ${EndIf}
   !macroend
 
+  ; Keep the upstream runtime unchanged; branding belongs to the managed links.
+  !macro customInstall
+    ${If} ${FileExists} "$newStartMenuLink"
+      CreateShortCut "$newStartMenuLink" "$appExe" "" "$INSTDIR\resources\app\desktop\icon.ico" 0 "" "" "${APP_DESCRIPTION}"
+      WinShell::SetLnkAUMI "$newStartMenuLink" "${APP_ID}"
+    ${EndIf}
+    ${If} ${FileExists} "$newDesktopLink"
+      CreateShortCut "$newDesktopLink" "$appExe" "" "$INSTDIR\resources\app\desktop\icon.ico" 0 "" "" "${APP_DESCRIPTION}"
+      WinShell::SetLnkAUMI "$newDesktopLink" "${APP_ID}"
+    ${EndIf}
+  !macroend
+
   !macro customPageAfterChangeDir
     !undef MUI_PAGE_CUSTOMFUNCTION_PRE
     !define MUI_PAGE_CUSTOMFUNCTION_PRE PaperSpaceBeforeInstall
