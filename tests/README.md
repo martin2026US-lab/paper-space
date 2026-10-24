@@ -40,3 +40,7 @@ On Windows, `npx electron tests/v120-desktop.cjs` checks native backup files and
 ## Classic typography and menu checks
 
 `npx electron tests/classic-ui-electron.cjs` checks bundled serif fonts, enlarged Classic controls, identical More menu row styles, reachable commands at laptop/mobile heights, English labels, and Magazine isolation using an isolated synthetic profile. `--baseline` optionally captures the previous local installation. The native `tests/magazine-desktop.cjs` suite also checks Classic toolbar bounds and font sizes at laptop resolutions.
+
+## 1.3.2 PDF controls and Magazine typography
+
+`npx electron tests/v132-electron.cjs` verifies complete button borders/backgrounds, consistent control sizing, cross-page and recognition-settings actions, larger Magazine serif controls, responsive tools, PDF zoom/text alignment, English labels and unchanged source bytes. Synthetic files and isolated profiles are used; `--baseline` captures the installed previous version.

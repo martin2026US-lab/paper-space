@@ -1,0 +1,71 @@
+/* Shared PDF commands: quiet actions remain complete, readable buttons. */
+.pdf-paragraph-notice .pdf-page-actions{gap:10px;align-items:center}
+.pdf-paragraph-notice :is(.pdf-edit-actions,.pdf-secondary-actions){gap:7px;flex-wrap:wrap}
+.pdf-paragraph-notice .pdf-secondary-actions{border:0;padding-left:0}
+.app .pdf-paragraph-notice .pdf-page-actions .button{appearance:none;display:inline-flex;align-items:center;justify-content:center;min-height:38px;margin:0;padding:8px 12px;border:1px solid #d4c6b1;border-radius:6px;background:#fffaf1;background-image:none;box-shadow:none;color:#63513d;font:500 14px/1.5 var(--ui-font);text-shadow:none;white-space:normal;text-align:center;overflow-wrap:anywhere}
+.app .pdf-paragraph-notice .pdf-page-actions .button:hover{background:#eee5d6;border-color:#b9a285;color:#493c2c}
+.app .pdf-paragraph-notice .pdf-page-actions .button:focus-visible{outline:2px solid #997748;outline-offset:2px}
+.app .pdf-paragraph-notice .pdf-page-actions .button:disabled{opacity:.55;cursor:default}
+.app .pdf-paragraph-notice .pdf-page-actions .button:disabled:hover{background:#fffaf1;border-color:#d4c6b1;color:#63513d}
+.pdf-paragraph-notice .pdf-page-summary strong{font-size:14px;line-height:1.5}
+.pdf-paragraph-notice .pdf-page-hint{font-size:12px;line-height:1.7}
+.pdf-paragraph-notice .pdf-page-info{flex:1 1 230px}
+.pdf-paragraph-notice .pdf-page-actions{flex:0 1 auto}
+/* Magazine retains its flat paper surface with the same legible serif controls. */
+body.magazine-style{--ui-font:'Paper Serif','Paper Han Serif','Noto Serif CJK SC','Songti SC',SimSun,serif;font-family:var(--ui-font);font-size:15px;font-optical-sizing:auto}
+.magazine-style :is(button,input,select,textarea,summary){font-family:var(--ui-font);font-optical-sizing:auto}
+.magazine-style .app{grid-template-rows:64px minmax(0,1fr)}
+.magazine-style .topbar{height:64px;min-height:64px;gap:16px}
+.magazine-style .top-actions{max-width:none;flex-wrap:nowrap;gap:7px}
+.magazine-style .top-actions>.button,.magazine-style .top-actions .reading-menu>summary{font-size:14px;min-height:38px;padding:7px 10px}
+.magazine-style .reading-style-switch button{font-size:14px;min-height:34px;padding:5px 10px}
+.magazine-style .doc-heading h1{font-size:21px}
+.magazine-style .view-tabs button{font-size:15px;min-height:42px}
+.magazine-style .magazine-sidebar-switch button{font-size:14px;min-height:36px}
+.magazine-style .outline-label{font-size:12px}
+.magazine-style #outline .chapter-target{font-size:15px;line-height:1.65}
+.magazine-style #outline .chapter-children .chapter-target{font-size:14px}
+.magazine-style .document-name{font-size:14px;line-height:1.65}
+.magazine-style .document-name small{font-size:12px}
+.magazine-style.magazine-library-open .library>.primary{font-size:15px;min-height:40px}
+.magazine-style.magazine-library-open .library>.library-find{font-size:14px;min-height:40px}
+.magazine-style .settings-model strong{font-size:13px}
+.magazine-style .settings-model small{font-size:12px}
+.magazine-style .assistant-heading strong{font-size:18px}
+.magazine-style .assistant-tabs button{font-size:14px}
+.magazine-style .conversation-bar .button{font-size:13px}
+.magazine-style .welcome>p,.magazine-style .suggestions button{font-size:14px;line-height:1.8}
+.magazine-style .composer textarea{font-size:15px;line-height:1.7}
+.magazine-style .model-caption,.magazine-style .model-caption button,.magazine-style .material-button{font-size:12px}
+.magazine-style .top-actions .reading-menu-content>button{font-size:15px;min-height:42px;border-radius:3px}
+.magazine-style .reading-menu-content{backdrop-filter:none}
+.magazine-style .menu-caption,.magazine-style .menu-shortcuts span{font-size:12px}
+.magazine-style dialog{font-family:var(--ui-font);font-size:15px;line-height:1.7}
+.magazine-style dialog label{font-size:14px}
+.magazine-style dialog :is(input:not([type=checkbox]):not([type=file]),select,textarea){font-family:var(--ui-font);font-size:15px;min-height:40px}
+.magazine-style dialog .button{font-size:14px;min-height:38px}
+.magazine-style .pdf-tools-disclosure>summary{font-size:14px;min-height:38px;display:flex;align-items:center;gap:8px;list-style:none}
+.magazine-style .pdf-tools-disclosure>summary::before{content:'›';font:20px/1 var(--ui-font);transform:rotate(0);width:12px;flex:none}
+.magazine-style .pdf-tools-disclosure[open]>summary::before{transform:rotate(90deg)}
+.magazine-style .pdf-tools-state{font-size:12px;margin-left:auto}
+.magazine-style .pdf-tools-content{gap:12px;padding:10px 0 16px}
+.magazine-style .pdf-paragraph-notice .pdf-page-actions .button{border-color:var(--line);border-radius:3px;background:#f6f5ef;color:#464b40;font-size:14px}
+.magazine-style .pdf-paragraph-notice .pdf-page-actions .button:hover{background:#e9ece2;border-color:#aeb6a0;color:var(--ink)}
+.magazine-style .pdf-paragraph-notice .pdf-page-actions .button:focus-visible{outline-color:var(--blue)}
+.magazine-style .pdf-paragraph-notice .pdf-page-actions .button:disabled:hover{background:#f6f5ef;border-color:var(--line);color:#464b40}
+.magazine-style .pdf-paragraph-notice .pdf-page-summary strong{color:var(--ink)}
+.magazine-style .magazine-pdf-tools :is(button,select){font-size:14px;min-height:36px;padding:6px 9px}
+.magazine-style .magazine-pdf-tools select{max-width:150px}
+.magazine-style .magazine-pdf-tools small{display:none}
+.magazine-style .magazine-translation-tools :is(button,select){font-size:14px;min-height:36px}
+.magazine-style .magazine-rail button{font-size:12px}
+.magazine-style.magazine-sidebar-open .library,.magazine-style .magazine-sidebar-dismiss:not([hidden]){top:64px}
+@media(max-width:1150px){.magazine-style .topbar{padding-inline:14px;gap:10px}.magazine-style .magazine-brand{min-width:0;font-size:0;padding-right:12px;gap:0}.magazine-style .doc-heading h1{font-size:19px}.magazine-style .reader-toolbar{height:auto;min-height:58px;flex-wrap:wrap;padding:7px 18px;gap:10px}.magazine-style .view-tabs{height:42px;gap:18px}.magazine-style .magazine-pdf-tools:not([hidden]){margin-left:auto;gap:6px}.magazine-style .magazine-translation-tools:not([hidden]){margin-left:auto;flex-wrap:wrap}}
+@media(max-width:700px){.magazine-style .magazine-brand{display:none}.magazine-style .topbar{padding-inline:10px;gap:6px}.magazine-style .doc-heading h1{font-size:16px}.magazine-style .top-actions{gap:3px}.magazine-style .top-actions>.button,.magazine-style .top-actions .reading-menu>summary{font-size:13px;padding-inline:6px}.magazine-style .reading-style-switch button{font-size:13px;padding-inline:6px}.magazine-style .view-tabs button{font-size:14px}.magazine-style .magazine-sidebar-switch button{font-size:14px}.magazine-style .magazine-pdf-tools :is(button,select){font-size:13px;padding-inline:7px}.magazine-style .pdf-tools-state{font-size:11px}.pdf-paragraph-notice .pdf-page-info{flex-basis:100%}.pdf-paragraph-notice .pdf-page-actions{width:100%}.pdf-paragraph-notice .pdf-page-actions>div{flex:1 1 100%}.pdf-paragraph-notice .pdf-page-actions .button{flex:1 1 auto}}
+
+.magazine-style .reader-footer{font-size:12px}
+.magazine-style .reader-footer .page-controls :is(input,label){font-size:14px}
+.magazine-style .reader-footer #magazineNotes{font-size:14px;min-height:34px}
+.magazine-style #currentChapter,.magazine-style #readingProgress{font-size:12px}
+.magazine-style .desktop-titlebar,.magazine-style .desktop-titlebar button{font-family:var(--ui-font);font-size:13px}
+.magazine-style dialog :is(.dialog-intro,.dialog-note,.discovery-status){font-size:13px;line-height:1.8}
