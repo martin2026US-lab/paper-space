@@ -3,8 +3,8 @@
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
-  <meta name="description" content="58 秒认识纸间：保留论文原貌，在原文旁翻译、解读与批注。">
-  <title>纸间 · 58 秒功能演示</title>
+  <meta name="description" content="60 秒认识纸间 1.3.2：双语阅读、带来源讨论、翻译质检与本机备份。">
+  <title>纸间 1.3.2 · 60 秒功能演示</title>
   <style>
     :root{color-scheme:light;--ink:#473626;--muted:#806d58;--line:#dfd0b8;--accent:#805d38}
     *{box-sizing:border-box}body{margin:0;background:#f5efdf;color:var(--ink);font:16px/1.65 system-ui,"Microsoft YaHei",sans-serif}
@@ -24,15 +24,15 @@
 <body>
 <main>
   <header><a class="brand" href="https://github.com/martin2026US-lab/paper-space">纸间 <span>PAPER SPACE</span></a><a class="repo" href="https://github.com/martin2026US-lab/paper-space">查看开源项目 ↗</a></header>
-  <section class="intro"><p class="eyebrow">58 秒 · AI 阅读功能演示</p><h1>让问题，从原文里长出来。</h1><p>原文、翻译、解读与自己的理解，留在同一张阅读书桌上。</p></section>
+  <section class="intro"><p class="eyebrow">60 秒 · 纸间 1.3.2 功能演示</p><h1>让问题，从原文里长出来。</h1><p>原文、翻译、解读与自己的理解，留在同一张阅读书桌上。</p></section>
   <div class="screen">
-    <video id="demo" controls playsinline preload="metadata" poster="assets/cover.jpg" aria-label="纸间 AI 阅读功能宣传片" tabindex="0"><source src="assets/paper-space-ai-demo.mp4" type="video/mp4">浏览器不支持视频播放，请使用下方下载链接。</video>
+    <video id="demo" controls playsinline preload="metadata" poster="assets/paper-space-v132-poster.jpg" aria-label="纸间 AI 阅读功能宣传片" tabindex="0"><source src="assets/paper-space-v1.3.2-promo-60s-fixed.mp4" type="video/mp4">浏览器不支持视频播放，请使用下方下载链接。</video>
     <button class="play" id="play" type="button" aria-label="播放宣传片">▶ 播放宣传片</button>
     <p id="videoError" role="status" hidden>视频暂时无法播放，请使用下方“下载视频”后在本机观看。</p>
   </div>
-  <div class="actions"><a class="download" href="https://github.com/martin2026US-lab/paper-space/releases/latest">下载 Windows 安装包</a><a class="secondary" href="https://github.com/martin2026US-lab/paper-space/releases/download/v1.0.2/paper-space-ai-demo.mp4" download>下载视频 · MP4 / 6.2 MB</a></div>
-  <section class="details" aria-label="演示内容"><div><h2>读懂原文</h2><p>保留 PDF 页面，单击句子翻译，逐段解读。</p></div><div><h2>留下理解</h2><p>章节对应个人批注，对话中的来源可回到原文。</p></div><div><h2>由你选择 AI</h2><p>不内置对话模型与 API Key。本机识别，AI 接口自行配置。</p></div></section>
-  <footer>演示仅使用公开论文《Attention Is All You Need》。AI 输出来自实际调用，等待过程经过剪辑。网页不包含 API Key 或私人文献。</footer>
+  <div class="actions"><a class="download" href="https://github.com/martin2026US-lab/paper-space/releases/latest">下载 Windows 安装包</a><a class="secondary" href="https://github.com/martin2026US-lab/paper-space/releases/download/v1.3.2/paper-space-v1.3.2-promo-60s-fixed.mp4" download>下载固定画面版 · MP4 / 4.6 MB</a></div>
+  <section class="details" aria-label="演示内容"><div><h2>读懂原文</h2><p>经典与杂志风格自由切换，段落双语对照，原文始终在旁。</p></div><div><h2>核对与积累</h2><p>术语与译文复核、带来源讨论和个人批注，资料可完整备份。</p></div><div><h2>由你选择 AI</h2><p>阅读、翻译与复核可独立配置，连接本机模型或自己的接口。</p></div></section>
+  <footer>界面使用演示资料和示例对话，AI 效果随所选模型而异。配乐为原创合成；网页不包含 API Key 或私人文献。</footer>
 </main>
 <script>
   const video=document.getElementById('demo'),play=document.getElementById('play'),error=document.getElementById('videoError');

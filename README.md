@@ -14,7 +14,7 @@
 
 ![阅读工作台](docs/assets/workspace.jpg)
 
-▶ **[在线观看 58 秒 AI 功能宣传片](https://martin2026US-lab.github.io/paper-space/)** · [下载视频（MP4）](https://github.com/martin2026US-lab/paper-space/releases/download/v1.0.2/paper-space-ai-demo.mp4)
+▶ **[在线观看 60 秒新版宣传片](https://martin2026US-lab.github.io/paper-space/)** · [下载视频（MP4）](https://github.com/martin2026US-lab/paper-space/releases/download/v1.3.2/paper-space-v1.3.2-promo-60s-fixed.mp4)
 
 ## 1.3.2 阅读工具与杂志界面
 
@@ -165,9 +165,9 @@ Node 测试使用合成材料与本机模拟模型，不需要真实 API Key。�
 
 ## 当前边界
 
-DOCX 使用语义阅读视图，阅读分页不是 Word 原始页码；复杂表格、公式及跨页关系仍需核对原文。上下文检索使用本机关键词，不是向量检索。AI 结果可能有误，请通过来源定位核对。尚未提供扫描件 OCR、云同步、图片提问或完整可恢复备份。
+DOCX 使用语义阅读视图，阅读分页不是 Word 原始页码；复杂表格、公式及跨页关系仍需核对原文。上下文检索使用本机关键词，不是向量检索。AI 结果可能有误，请通过来源定位核对。本机默认识别不包含扫描件 OCR，可按需接入带 OCR 的识别服务；尚未提供云同步或图片提问。完整备份与恢复已提供。
 
-宣传片中的翻译与段落解读来自真实模型调用，等待时间经过剪辑；应用未接入模型时，示例解释会明确标记为预置演示。
+新版宣传片采用固定画面与柔和原创配乐，使用演示资料和示例对话，AI 效果随所选模型而异。应用未接入模型时，示例解释会明确标记为预置演示。
 
 ## License
 

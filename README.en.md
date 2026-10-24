@@ -10,6 +10,10 @@ A local-first reading workspace for papers and documents. Read PDFs in their ori
 
 **[Download for Windows](https://github.com/martin2026US-lab/paper-space/releases/latest)** · [Changelog](docs/CHANGELOG.md) · [MIT license](LICENSE)
 
+▶ **[Watch the new 60-second film](https://martin2026US-lab.github.io/paper-space/)** · [Download MP4](https://github.com/martin2026US-lab/paper-space/releases/download/v1.3.2/paper-space-v1.3.2-promo-60s-fixed.mp4)
+
+The film uses stationary interface shots, a soft original score and illustrative demo data. AI results depend on the configured model.
+
 ## New in 1.3.2
 
 PDF reading tools share consistent buttons, including cross-page paragraphs, re-recognition and settings. Magazine interactions now use larger bundled serif typography across navigation, toolbars, the assistant and dialogs. Narrow toolbars wrap while source documents and saved settings remain intact.
@@ -64,15 +68,15 @@ Translation API protocols include LibreTranslate, DeepL, and Translator v3 compa
 
 ## Windows installation
 
-Download `Paper-Space-1.2.0-Windows-x64-Setup.exe` and `SHA256SUMS.txt` from the release. The lightweight installer includes the reader and Electron. It supports Windows 10/11 x64 and needs no system Node.js or Python. Optional Docling setup downloads an isolated Python environment, CPU dependencies, and official layout models; allow at least 6 GB of free space for that component. Choose a folder on your preferred drive. Recognition runs offline after setup. Existing bundled runtimes are preserved outside the app during upgrades.
+Download `Paper-Space-1.3.2-Windows-x64-Setup.exe` and `SHA256SUMS-1.3.2.txt` from the release. The lightweight installer includes the reader and Electron. It supports Windows 10/11 x64 and needs no system Node.js or Python. Optional Docling setup downloads an isolated Python environment, CPU dependencies, and official layout models; allow at least 6 GB of free space for that component. Choose a folder on your preferred drive. Recognition runs offline after setup. Existing bundled runtimes are preserved outside the app during upgrades.
 
 Verify the download in PowerShell:
 
 ```powershell
-Get-FileHash .\Paper-Space-1.1.0-Windows-x64-Setup.exe -Algorithm SHA256
+Get-FileHash .\Paper-Space-1.3.2-Windows-x64-Setup.exe -Algorithm SHA256
 ```
 
-Compare the result with `SHA256SUMS.txt`. The installer is currently unsigned. Updates and uninstalling preserve personal data in `%APPDATA%\PaperSpace`; app files and personal data are stored separately. Close the running app before upgrading.
+Compare the result with `SHA256SUMS-1.3.2.txt`. The installer is currently unsigned. Updates and uninstalling preserve personal data in `%APPDATA%\PaperSpace`; app files and personal data are stored separately. Close the running app before upgrading.
 
 ## Run from source
 
@@ -98,6 +102,6 @@ Tests use synthetic documents and local mock endpoints. See [tests/README.md](te
 
 Importing and layout recognition run locally. Translation, explanations, guides, and chat send the relevant content to the endpoint you configure when you request them; guides use the full text. Model discovery and connection tests also contact that endpoint. Provider terms govern its handling of transmitted data. Use documents and APIs in accordance with applicable laws, permissions, and confidentiality requirements. AI output needs source verification.
 
-DOCX uses a reading layout rather than Word's original pagination. Scanned-page OCR, cloud sync, and a complete restorable backup are not provided. Local text retrieval uses keywords. Reading fonts are included locally; PDF fonts keep their original appearance.
+DOCX uses a reading layout rather than Word's original pagination. Default local recognition does not include scanned-page OCR; an OCR-enabled recognition service can be configured separately. Cloud sync and image questions are not provided. Full backup and restore are available. Local text retrieval uses keywords. Reading fonts are included locally; PDF fonts keep their original appearance.
 
 Original code is MIT licensed. Libraries, fonts, layout models, and example-paper excerpts retain their own licenses. See [third-party notices](THIRD_PARTY_NOTICES.md).
