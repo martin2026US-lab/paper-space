@@ -77,6 +77,8 @@ export function createWorkspaceTools({state,getChapters,getActive,navigate,activ
   }
   input.oninput=()=>{selected=0;render();};
   input.onkeydown=e=>{if(e.isComposing)return;if(e.key==='ArrowDown'||e.key==='ArrowUp'){e.preventDefault();selected=Math.max(0,Math.min(entries.length-1,selected+(e.key==='ArrowDown'?1:-1)));mark();}else if(e.key==='Enter'){e.preventDefault();void choose(selected);}};
+  function fitReadingMenu(){if(!menu.open)return;const panel=menu.querySelector('.reading-menu-content'),top=panel.getBoundingClientRect().top;panel.style.maxHeight=Math.max(40,window.innerHeight-top-12)+'px';}
+  menu.addEventListener('toggle',()=>requestAnimationFrame(fitReadingMenu));window.addEventListener('resize',()=>requestAnimationFrame(fitReadingMenu));document.fonts?.ready.then(fitReadingMenu);
   menu.addEventListener('click',e=>{if(e.target.closest('button'))menu.open=false;});
   document.addEventListener('pointerdown',e=>{if(!menu.contains(e.target))menu.open=false;});
   const overlayEscape=new WeakSet();

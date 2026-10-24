@@ -1,0 +1,80 @@
+/* Larger classic controls, with the locally bundled, licensed reading serifs. */
+body:not(.magazine-style){--ui-font:'Paper Serif','Paper Han Serif','Noto Serif CJK SC','Songti SC',SimSun,serif;font-family:var(--ui-font);font-size:15px;line-height:1.5;font-optical-sizing:auto}
+body:not(.magazine-style) :is(button,input,select,textarea){font-family:var(--ui-font);font-optical-sizing:auto}
+body:not(.magazine-style) .library{width:244px;padding:18px 16px 12px}
+body:not(.magazine-style) .import-button{min-height:46px;font-size:16px;font-weight:550}
+body:not(.magazine-style) .library-find{font-size:14px;line-height:1.5;min-height:42px;padding:9px 10px}
+body:not(.magazine-style) .library-find kbd{font-size:11px}
+body:not(.magazine-style) .nav-label{font-size:13px;letter-spacing:.2px;margin-top:18px}
+body:not(.magazine-style) .document-name{font-size:14px;font-weight:500;line-height:1.6}
+body:not(.magazine-style) .document-name small{font-size:12px;line-height:1.6}
+body:not(.magazine-style) .document-list{max-height:25vh}
+body:not(.magazine-style) .doc-icon{font-size:10px;height:26px;min-height:26px;align-self:flex-start}
+body:not(.magazine-style) .document-delete{min-width:30px;min-height:36px;font-size:19px}
+body:not(.magazine-style) .trash-button{font-size:14px;min-height:34px;text-align:left}
+body:not(.magazine-style) .outline{min-height:60px}
+body:not(.magazine-style) #outline .chapter-target{font-family:var(--ui-font);font-size:14px;font-weight:450;line-height:1.65;padding:9px 8px}
+body:not(.magazine-style) #outline .chapter-target.active{font-weight:600}
+body:not(.magazine-style) #outline .chapter-children .chapter-target{font-size:13px;line-height:1.7;padding:8px 7px}
+body:not(.magazine-style) .chapter-empty{font-size:13px;line-height:1.8}
+body:not(.magazine-style) .chapter-toggle{min-height:38px}
+body:not(.magazine-style) .settings-model strong{font-size:14px;font-weight:550}
+body:not(.magazine-style) .settings-model small{font-size:12px;margin-top:3px}
+body:not(.magazine-style) .settings-button{min-height:54px}
+body:not(.magazine-style) .topbar,body.desktop-app:not(.magazine-style) .topbar{height:72px;min-height:72px;padding:12px 20px;gap:14px}
+body:not(.magazine-style) .doc-heading h1{font-size:23px;line-height:1.4;font-weight:550}
+body:not(.magazine-style) .top-actions{gap:7px}
+body:not(.magazine-style) .top-actions>.button,body:not(.magazine-style) .top-actions .reading-menu>summary{font-size:14px;line-height:1.4;min-height:40px;padding:8px 12px;font-weight:450}
+body:not(.magazine-style) .reading-style-switch button{font-size:14px;min-height:34px;padding:5px 10px}
+body:not(.magazine-style) .desktop-titlebar{font-family:var(--ui-font);font-size:13px}
+body:not(.magazine-style) .desktop-titlebar button{font-size:13px}
+body:not(.magazine-style) .reader-toolbar{height:56px;min-height:56px;padding-inline:20px;gap:14px}
+body:not(.magazine-style) .view-tabs{gap:24px}
+body:not(.magazine-style) .view-tabs button{font-size:15px;line-height:1.5;font-weight:450}
+body:not(.magazine-style) .view-tabs button.active{font-weight:600}
+body:not(.magazine-style) .page-controls input{font-size:14px;width:42px;min-height:31px}
+body:not(.magazine-style) .page-controls label{font-size:13px}
+body:not(.magazine-style) .page-controls button{width:30px;height:32px}
+body:not(.magazine-style) .reader-toolbar .explain-button{font-size:14px;min-height:36px;padding:6px 11px}
+body:not(.magazine-style) .reading-location{height:30px}
+body:not(.magazine-style) #currentChapter,body:not(.magazine-style) #readingProgress{font-size:12px}
+body:not(.magazine-style) .reader-footer{height:30px;min-height:30px;font-size:12px;gap:12px}
+body:not(.magazine-style) #readerStatus{min-width:0;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+body:not(.magazine-style) .button,body:not(.magazine-style) .quiet{font-size:14px;line-height:1.5;font-weight:450;min-height:36px}
+body:not(.magazine-style) .assistant-heading{min-height:56px}
+body:not(.magazine-style) .assistant-heading strong{font-size:17px;font-weight:600}
+body:not(.magazine-style) .assistant-tabs{height:44px}
+body:not(.magazine-style) .assistant-tabs button{font-size:14px;min-height:40px}
+body:not(.magazine-style) .conversation-bar #conversationBtn{font-size:13px;min-height:32px}
+body:not(.magazine-style) .suggestions button{font-size:14px;line-height:1.65}
+body:not(.magazine-style) .welcome>p{font-size:14px}
+body:not(.magazine-style) .composer textarea{font-size:15px;line-height:1.7}
+body:not(.magazine-style) .model-caption,body:not(.magazine-style) .model-caption button{font-size:12px}
+body:not(.magazine-style) .material-button{font-size:13px}
+body:not(.magazine-style) .paragraph-actions .paragraph-translate{font-size:14px}
+body:not(.magazine-style) .pdf-page-hint,body:not(.magazine-style) .pdf-correction-status{font-size:12px;line-height:1.6}
+body:not(.magazine-style) .pdf-page-summary{font-size:14px}
+body:not(.magazine-style) .pdf-page-actions .button{font-size:13px;min-height:36px}
+body:not(.magazine-style) dialog{font-family:var(--ui-font);font-size:15px;line-height:1.6;max-height:calc(100dvh - 40px)}
+body:not(.magazine-style) dialog label{font-size:14px;line-height:1.6}
+body:not(.magazine-style) dialog :is(input:not([type=checkbox]):not([type=file]),select,textarea){font-family:var(--ui-font);font-size:15px;line-height:1.5;min-height:40px}
+body:not(.magazine-style) dialog :is(.dialog-intro,.dialog-note,.dialog-actions>span,.discovery-status,.translation-status){font-size:13px;line-height:1.85}
+body:not(.magazine-style) dialog .button{font-size:14px;min-height:38px}
+body:not(.magazine-style) .quality-actions .button{font-size:13px;min-height:32px}
+body:not(.magazine-style) .translation-quality{font-size:13px}
+body:not(.magazine-style) .finder-result strong{font-size:15px}
+body:not(.magazine-style) .finder-result small{font-size:13px}
+/* Menu commands share row styling, including commands created with .button. */
+.app .top-actions .reading-menu-content>button{display:block!important;width:100%;max-width:none!important;text-align:left;font:inherit;line-height:1.5;min-height:40px;margin:0;padding:9px 12px;border:0;border-radius:7px;background:transparent;box-shadow:none;white-space:normal}
+.app .top-actions .reading-menu-content>button:hover,.app .top-actions .reading-menu-content>button:focus-visible{background:#eee5d6}
+.magazine-style .app .top-actions .reading-menu-content>button:hover,.magazine-style .app .top-actions .reading-menu-content>button:focus-visible{background:#eeefe9}
+.reading-menu-content{width:min(272px,calc(100vw - 28px));max-height:calc(100dvh - 150px);overflow-y:auto;overscroll-behavior:contain;scrollbar-width:thin}
+body:not(.magazine-style) .reading-menu-content{font-family:var(--ui-font);font-size:15px;line-height:1.5;background:#fffaf1;backdrop-filter:none}
+body:not(.magazine-style) .top-actions .reading-menu-content>button{min-height:44px;font-size:15px;color:#5d4c3a}
+body:not(.magazine-style) .menu-caption{font-size:12px;font-weight:500;padding:7px 12px 9px}
+body:not(.magazine-style) .menu-shortcuts span{font-size:12px;line-height:1.6}
+body:not(.magazine-style) .menu-shortcuts kbd{font-size:11px}
+@media(min-width:1650px){body:not(.magazine-style) .library{width:260px}}
+@media(max-width:1200px){body:not(.magazine-style) .library{width:226px;padding-inline:12px}body:not(.magazine-style) .doc-heading h1{font-size:21px}}
+@media(max-width:1100px){body:not(.magazine-style) .topbar,body.desktop-app:not(.magazine-style) .topbar{height:auto;min-height:108px;flex-wrap:wrap;padding:10px 16px;gap:8px}body:not(.magazine-style) .doc-heading{flex-basis:100%}body:not(.magazine-style) .top-actions{width:100%;justify-content:flex-end;gap:6px}body:not(.magazine-style) .top-actions>.button,body:not(.magazine-style) .top-actions .reading-menu>summary{font-size:14px;padding-inline:10px}body:not(.magazine-style) .reader-toolbar{padding-inline:14px;gap:10px}body:not(.magazine-style) .view-tabs{gap:16px}}
+@media(max-width:760px){body:not(.magazine-style) .library{display:none}body:not(.magazine-style) .top-actions{flex-wrap:wrap}body:not(.magazine-style) .top-actions>#assistantToggle{margin-left:0}body:not(.magazine-style) .reader-toolbar{height:auto;min-height:58px;flex-wrap:wrap;padding-block:7px}body:not(.magazine-style) .view-tabs{min-height:38px}body:not(.magazine-style) .view-tabs button{font-size:14px}body:not(.magazine-style) .reading-style-switch button{font-size:13px;padding-inline:8px}body:not(.magazine-style) .top-actions>.button,body:not(.magazine-style) .top-actions .reading-menu>summary{font-size:13px;padding-inline:9px}body:not(.magazine-style) .reader-footer{padding-inline:12px}body:not(.magazine-style) dialog{padding:20px}}

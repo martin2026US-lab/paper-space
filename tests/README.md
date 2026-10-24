@@ -36,3 +36,7 @@ On Windows, `npx electron tests/v120-desktop.cjs` checks native backup files and
 ## Translation quality and recognition
 
 `npx electron tests/v130-electron.cjs` uses only isolated synthetic files and loopback mock endpoints to check glossary/cache binding, reviewer separation, accept/undo/cancel, manual-only remote recognition, progress/cancel/retry, byte preservation, English labels and narrow dialogs. `tests/quality-recognition.test.mjs` covers core parsing, routes, source isolation and full backup round-trips. Tests do not open a personal library or call cloud services.
+
+## Classic typography and menu checks
+
+`npx electron tests/classic-ui-electron.cjs` checks bundled serif fonts, enlarged Classic controls, identical More menu row styles, reachable commands at laptop/mobile heights, English labels, and Magazine isolation using an isolated synthetic profile. `--baseline` optionally captures the previous local installation. The native `tests/magazine-desktop.cjs` suite also checks Classic toolbar bounds and font sizes at laptop resolutions.

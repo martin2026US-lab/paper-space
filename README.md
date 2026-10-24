@@ -9,12 +9,16 @@
 本机优先的 AI 论文阅读工作台。保留 PDF 原貌，把翻译、段落解读、章节批注和带来源的对话放在同一个阅读空间里。无需注册，AI 使用你自己的接口。
 
 [![Tests](https://github.com/martin2026US-lab/paper-space/actions/workflows/test.yml/badge.svg)](https://github.com/martin2026US-lab/paper-space/actions/workflows/test.yml)
-![Version](https://img.shields.io/badge/version-1.3.0-b28a4d)
+![Version](https://img.shields.io/badge/version-1.3.1-b28a4d)
 ![License](https://img.shields.io/badge/license-MIT-806043)
 
 ![阅读工作台](docs/assets/workspace.jpg)
 
 ▶ **[在线观看 58 秒 AI 功能宣传片](https://martin2026US-lab.github.io/paper-space/)** · [下载视频（MP4）](https://github.com/martin2026US-lab/paper-space/releases/download/v1.0.2/paper-space-ai-demo.mp4)
+
+## 1.3.1 经典风格调整
+
+经典风格的常用按钮、目录和设置采用随应用提供的开源衬线字体，字号提高至约 14–16px。「更多」菜单统一条目样式，修复新增条目出现按钮边框的问题；小屏下菜单按可用高度滚动，工具栏自动换行。杂志风格、PDF 原貌及现有资料和模型配置保留。
 
 ## 1.3.0 翻译质量与识别体验
 

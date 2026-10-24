@@ -10,6 +10,10 @@ A local-first reading workspace for papers and documents. Read PDFs in their ori
 
 **[Download for Windows](https://github.com/martin2026US-lab/paper-space/releases/latest)** · [Changelog](docs/CHANGELOG.md) · [MIT license](LICENSE)
 
+## New in 1.3.1
+
+Classic controls, chapter navigation and settings use bundled open-source serif fonts at approximately 14–16px. More menu commands share consistent borderless rows; laptop layouts wrap the toolbar and scroll the menu within the available height. Magazine styling, original PDF rendering, existing documents, notes and model settings are preserved.
+
 ## New in 1.3.0
 
 - Local translation checks flag numbers, citations, units and glossary mismatches without a quality score.
