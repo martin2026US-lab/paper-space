@@ -14,6 +14,10 @@ A local-first reading workspace for papers and documents. Read PDFs in their ori
 
 The film uses stationary interface shots, a soft original score and illustrative demo data. AI results depend on the configured model.
 
+## New in 1.3.4
+
+Chapter numbers occupy a separate lane, away from ticks and the pointer. Wheel and drag input now move continuously with display frames; cached ticks, bounded visible rows and a fixed heading prevent redraw and layout churn. The dial matches the Classic warm-paper or Magazine warm-white palette, settles after input and respects reduced-motion preferences.
+
 ## New in 1.3.3
 
 Both styles share separate Library / Contents views. Contents is now an arc-shaped chapter dial inspired by lens markings; the previous hover wheel is removed. Scroll, drag or use arrow keys to choose, then click or press Enter to read. Full titles, hierarchy, page references, search and chapter notes remain available. The sidebar choice is saved locally; navigation makes no model calls.
@@ -72,15 +76,15 @@ Translation API protocols include LibreTranslate, DeepL, and Translator v3 compa
 
 ## Windows installation
 
-Download `Paper-Space-1.3.3-Windows-x64-Setup.exe` and `SHA256SUMS-1.3.3.txt` from the release. The lightweight installer includes the reader and Electron. It supports Windows 10/11 x64 and needs no system Node.js or Python. Optional Docling setup downloads an isolated Python environment, CPU dependencies, and official layout models; allow at least 6 GB of free space for that component. Choose a folder on your preferred drive. Recognition runs offline after setup. Existing bundled runtimes are preserved outside the app during upgrades.
+Download `Paper-Space-1.3.4-Windows-x64-Setup.exe` and `SHA256SUMS-1.3.4.txt` from the release. The lightweight installer includes the reader and Electron. It supports Windows 10/11 x64 and needs no system Node.js or Python. Optional Docling setup downloads an isolated Python environment, CPU dependencies, and official layout models; allow at least 6 GB of free space for that component. Choose a folder on your preferred drive. Recognition runs offline after setup. Existing bundled runtimes are preserved outside the app during upgrades.
 
 Verify the download in PowerShell:
 
 ```powershell
-Get-FileHash .\Paper-Space-1.3.3-Windows-x64-Setup.exe -Algorithm SHA256
+Get-FileHash .\Paper-Space-1.3.4-Windows-x64-Setup.exe -Algorithm SHA256
 ```
 
-Compare the result with `SHA256SUMS-1.3.3.txt`. The installer is currently unsigned. Updates and uninstalling preserve personal data in `%APPDATA%\PaperSpace`; app files and personal data are stored separately. Close the running app before upgrading.
+Compare the result with `SHA256SUMS-1.3.4.txt`. The installer is currently unsigned. Updates and uninstalling preserve personal data in `%APPDATA%\PaperSpace`; app files and personal data are stored separately. Close the running app before upgrading.
 
 ## Run from source
 

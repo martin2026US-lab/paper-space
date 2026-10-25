@@ -9,12 +9,16 @@
 本机优先的 AI 论文阅读工作台。保留 PDF 原貌，把翻译、段落解读、章节批注和带来源的对话放在同一个阅读空间里。无需注册，AI 使用你自己的接口。
 
 [![Tests](https://github.com/martin2026US-lab/paper-space/actions/workflows/test.yml/badge.svg)](https://github.com/martin2026US-lab/paper-space/actions/workflows/test.yml)
-![Version](https://img.shields.io/badge/version-1.3.3-b28a4d)
+![Version](https://img.shields.io/badge/version-1.3.4-b28a4d)
 ![License](https://img.shields.io/badge/license-MIT-806043)
 
 ![阅读工作台](docs/assets/workspace.jpg)
 
 ▶ **[在线观看 60 秒新版宣传片](https://martin2026US-lab.github.io/paper-space/)** · [下载视频（MP4）](https://github.com/martin2026US-lab/paper-space/releases/download/v1.3.2/paper-space-v1.3.2-promo-60s-fixed.mp4)
+
+## 1.3.4 转盘修正
+
+目录编号采用独立栏位，避免与刻度和指针重叠；滚轮与拖动改为按显示帧连续跟随，复用刻度、限制可见章节更新，并固定标题区高度。转盘随经典/杂志风格使用暖纸色/暖白色，停止操作后保持静止，保留原有资料和配置。
 
 ## 1.3.3 弧形章节目录
 

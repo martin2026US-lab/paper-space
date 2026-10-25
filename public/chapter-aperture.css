@@ -1,4 +1,4 @@
-/* One sidebar surface at a time, shared by Classic and Magazine. */
+/* Shared Library / Contents surfaces. */
 .app .library>.magazine-sidebar-header{display:flex;flex:none;align-items:center;gap:7px;margin:0 0 15px;min-height:42px}
 .app .library>.brand{display:none}
 .app .magazine-sidebar-switch{display:flex;gap:3px;width:100%;padding:3px;border:1px solid var(--line);border-radius:7px;background:transparent}
@@ -9,8 +9,7 @@
 .sidebar-contents-mode .app .library>:is(.primary,.library-find,.document-list,.trash-button,.nav-label:not(.outline-label)){display:none!important}
 .sidebar-library-mode .app .library>:is(.outline,.outline-label){display:none!important}
 .sidebar-library-mode .app .library>.document-list{display:block;flex:1;min-height:0;max-height:none;overflow:auto}
-.sidebar-library-mode .app .library>.primary{display:flex}
-.sidebar-library-mode .app .library>.library-find{display:flex}
+.sidebar-library-mode .app .library>.primary,.sidebar-library-mode .app .library>.library-find{display:flex}
 .sidebar-library-mode .app .library>.nav-label:not(.outline-label){display:flex}
 .sidebar-library-mode .app .library>.trash-button{display:block;flex:none}
 .app .library>.outline-label{flex:none;margin:0 1px 10px;padding:0;border:0;font-size:13px}
@@ -18,47 +17,47 @@
 .app .library #outline.aperture-outline{display:flex;flex:1;flex-direction:column;min-height:180px;overflow:hidden;padding:0}
 .app .library .library-bottom{flex:none}
 .app .library #outline.aperture-outline[hidden]{display:none}
-.app #outline .chapter-aperture{display:flex;flex-direction:column;flex:1;min-height:0;isolation:isolate;overflow:hidden;border:1px solid #42453b;border-radius:12px;background:#252722;color:#eeece2;box-shadow:inset 0 1px 0 #ffffff10}
-.magazine-style .app #outline .chapter-aperture{border-radius:4px;background:#282a25}
-.app #outline .aperture-heading{padding:18px 16px 8px;flex:none}
-.app #outline .aperture-meta{display:flex;align-items:center;justify-content:space-between;gap:8px;margin-bottom:9px}
-.app #outline .aperture-status{color:#b6b8aa;font:12px/1.5 var(--ui-font)}
-.app #outline .aperture-count{color:#e6ce8d;font:500 14px/1.5 var(--ui-font);font-variant-numeric:tabular-nums;letter-spacing:1px;min-width:0}
-.app #outline .aperture-title{display:block;color:#f0e5c8;font:550 17px/1.55 var(--ui-font);overflow-wrap:anywhere}
-.app #outline .aperture-path{color:#a7ab9c;font:11px/1.6 var(--ui-font);white-space:nowrap;overflow:hidden;text-overflow:ellipsis;margin:7px 0 0}
-.app #outline .aperture-viewport{position:relative;flex:1;min-height:120px;overflow:hidden;touch-action:none;cursor:grab;outline-offset:-4px}
+/* Palette comes from the surrounding paper, rather than the phone reference. */
+.app #outline .chapter-aperture{--arc-bg:#f7f1e6;--arc-border:#d8cbb4;--arc-ink:#594932;--arc-muted:#786b57;--arc-label:#74654f;--arc-accent:#95703d;--arc-selected:#654b29;--arc-track:#d8c9aa;--arc-tick:#a99879;--arc-button:#7b6043;--arc-hover:#eee3cf;display:flex;flex-direction:column;flex:1;min-height:0;isolation:isolate;overflow:hidden;border:1px solid var(--arc-border);border-radius:10px;background:var(--arc-bg);color:var(--arc-ink);box-shadow:none}
+.magazine-style .app #outline .chapter-aperture{--arc-bg:#fbfaf7;--arc-border:#deddd5;--arc-ink:#41473a;--arc-muted:#6f7464;--arc-label:#626959;--arc-accent:#7c8667;--arc-selected:#4b553d;--arc-track:#d7dacf;--arc-tick:#a4ac97;--arc-button:#6b715a;--arc-hover:#eeefe9;border-radius:4px}
+.app #outline .aperture-heading{display:grid;grid-template-rows:18px 72px 18px;gap:6px;flex:0 0 144px;height:144px;max-height:none;padding:12px 14px;overflow:hidden}
+.app #outline .aperture-meta{display:flex;align-items:center;justify-content:space-between;gap:8px;min-width:0}
+.app #outline .aperture-status{color:var(--arc-muted);font:12px/18px var(--ui-font)}
+.app #outline .aperture-count{color:var(--arc-accent);font:550 14px/18px var(--ui-font);font-variant-numeric:tabular-nums;letter-spacing:1px;min-width:0}
+.app #outline .aperture-title{display:block;height:72px;min-height:0;margin:0;overflow:auto;scrollbar-width:thin;overflow-wrap:anywhere;color:var(--arc-ink);font:550 16px/24px var(--ui-font)}
+.app #outline .aperture-path{color:var(--arc-muted);font:11px/18px var(--ui-font);white-space:nowrap;overflow:hidden;text-overflow:ellipsis;margin:0}
+.app #outline .aperture-viewport{position:relative;flex:1;min-height:120px;overflow:hidden;contain:layout paint;touch-action:none;cursor:grab;outline-offset:-4px}
 .app #outline .aperture-viewport:active{cursor:grabbing}
 .app #outline .aperture-scale,.app #outline .aperture-choices{position:absolute;inset:0;width:100%;height:100%;pointer-events:none}
-.app #outline .aperture-track{fill:none;stroke:#b8bcab;stroke-width:14;opacity:.14}
-.app #outline .aperture-rim{fill:none;stroke:#0e100d;stroke-width:1}
-.app #outline .aperture-tick{stroke:#858a79;stroke-width:1;opacity:.7}
-.app #outline .aperture-tick.major{stroke:#e5e7dd;stroke-width:1.7;opacity:.9}
-.app #outline .aperture-pointer{position:absolute;right:7px;width:31px;height:3px;margin-top:-1.5px;background:#edcf80;box-shadow:0 0 0 3px #252722;pointer-events:none}
-.app #outline .aperture-item{position:absolute;left:10px;margin:0;min-height:0;transform:translateY(-50%);pointer-events:auto}
+.app #outline .aperture-track{fill:none;stroke:var(--arc-track);stroke-width:10;opacity:.55}
+.app #outline .aperture-rim{fill:none;stroke:var(--arc-border);stroke-width:1}
+.app #outline .aperture-tick{stroke:var(--arc-tick);stroke-width:1;opacity:.7}
+.app #outline .aperture-tick.major{stroke:var(--arc-muted);stroke-width:1.6;opacity:.85}
+.app #outline .aperture-pointer{position:absolute;right:7px;width:26px;height:3px;margin-top:-1.5px;background:var(--arc-accent);pointer-events:none}
+/* A real number column keeps every numeral away from the pointer and tick rail. */
+.app #outline .aperture-item{position:absolute;top:0;left:0;display:grid;grid-template-columns:var(--aperture-number-width,30px) minmax(0,1fr);gap:7px;align-items:center;height:76px;min-height:0;margin:0;pointer-events:auto;contain:layout style;will-change:transform}
 .app #outline .aperture-item[hidden]{display:none}
-.app #outline .aperture-item .chapter-target{display:-webkit-box;-webkit-box-orient:vertical;-webkit-line-clamp:3;overflow:hidden;width:100%;min-height:40px;margin:0;padding:3px 1px!important;border:0!important;border-radius:0!important;background:transparent!important;box-shadow:none!important;font:450 14px/1.7 var(--ui-font);text-align:right;color:#c3c7b8!important;overflow-wrap:anywhere;cursor:pointer;transition:none}
-.app #outline .aperture-item.is-selected .chapter-target{color:#f5e2a8!important;font-weight:600;font-size:16px}
-.app #outline .aperture-item.is-reading:not(.is-selected) .chapter-target{color:#eee9da!important;text-decoration:underline;text-decoration-color:#9b947d;text-underline-offset:5px}
-.app #outline .aperture-item .chapter-target:hover{color:#fff5d9!important;text-decoration:underline;text-underline-offset:5px}
-.app #outline .aperture-item .chapter-target:focus-visible{outline:2px solid #d6bf83;outline-offset:2px}
-.app #outline .aperture-ordinal{position:absolute;right:-30px;top:50%;transform:translateY(-50%);width:26px;min-width:0;font:500 12px/1.4 var(--ui-font);color:#c0c5b4;white-space:nowrap;text-align:center;pointer-events:none}
-.app #outline .aperture-item.is-selected .aperture-ordinal{color:#f1d786;font-size:14px}
-.app #outline .aperture-footer{padding:9px 12px 12px;flex:none;border-top:1px solid #51564770}
+.app #outline .aperture-item .chapter-target{display:-webkit-box;-webkit-box-orient:vertical;-webkit-line-clamp:3;overflow:hidden;width:100%;min-height:0;max-height:76px;margin:0;padding:3px 1px!important;border:0!important;border-radius:0!important;background:transparent!important;box-shadow:none!important;font:450 14px/1.55 var(--ui-font);text-align:right;color:var(--arc-label)!important;overflow-wrap:anywhere;cursor:pointer;transition:none}
+.app #outline .aperture-item.is-selected .chapter-target{color:var(--arc-selected)!important;font-weight:600;font-size:15px}
+.app #outline .aperture-item.is-reading:not(.is-selected) .chapter-target{color:var(--arc-ink)!important;text-decoration:underline;text-decoration-color:var(--arc-border);text-underline-offset:5px}
+.app #outline .aperture-item .chapter-target:hover{color:var(--arc-ink)!important;text-decoration:underline;text-underline-offset:5px}
+.app #outline .aperture-item .chapter-target:focus-visible{outline:2px solid var(--arc-accent);outline-offset:2px}
+.app #outline .aperture-ordinal{position:static;display:block;min-width:0;width:auto;overflow:hidden;text-overflow:ellipsis;padding:0;transform:none;font:500 12px/1.5 var(--ui-font);color:var(--arc-muted);white-space:nowrap;text-align:left;font-variant-numeric:tabular-nums}
+.app #outline .aperture-item.is-selected .aperture-ordinal{color:var(--arc-accent);font-weight:650}
+.app #outline .aperture-footer{padding:9px 12px 12px;flex:none;border-top:1px solid var(--arc-border)}
 .app #outline .aperture-controls{display:flex;align-items:center;gap:5px}
-.app #outline .aperture-step{display:grid;place-items:center;flex:none;width:32px;min-width:32px;height:34px;padding:7px;border:1px solid #5b6151;border-radius:4px;background:transparent;color:#e5e6db}
-.app #outline .aperture-icon{display:inline-block;width:17px;height:17px;flex:none;filter:brightness(0) invert(.85)}
+.app #outline .aperture-step{display:grid;place-items:center;flex:none;width:32px;min-width:32px;height:34px;padding:7px;border:1px solid var(--arc-border);border-radius:4px;background:transparent;color:var(--arc-ink)}
+.app #outline .aperture-icon{display:inline-block;width:17px;height:17px;flex:none;filter:none;opacity:.8}
 .app #outline .aperture-next .aperture-icon{transform:rotate(180deg)}
-.app #outline .aperture-enter{display:block;flex:1;min-width:0;min-height:34px;padding:6px 7px;border:1px solid #b8a471;border-radius:4px;background:#d4c18d;color:#272a21;font:550 13px/1.5 var(--ui-font);text-align:center}
-.app #outline .aperture-notes{display:flex;align-items:center;justify-content:center;gap:7px;width:100%;min-width:0;min-height:30px;margin:8px 0 0;padding:4px;border:0;background:transparent;box-shadow:none;color:#c6cbbb;font:12px/1.5 var(--ui-font)}
+.app #outline .aperture-enter{display:block;flex:1;min-width:0;min-height:34px;padding:6px 7px;border:1px solid var(--arc-button);border-radius:4px;background:var(--arc-button);color:#fffdf6;font:550 13px/1.5 var(--ui-font);text-align:center}
+.app #outline .aperture-notes{display:flex;align-items:center;justify-content:center;gap:7px;width:100%;min-width:0;min-height:30px;margin:8px 0 0;padding:4px;border:0;background:transparent;box-shadow:none;color:var(--arc-muted);font:12px/1.5 var(--ui-font)}
 .app #outline .aperture-notes .aperture-icon{width:14px;height:14px}
-.app #outline .aperture-help{margin:7px 0 0;color:#9ba18f;text-align:center;font:10px/1.5 var(--ui-font)}
-.app #outline .aperture-step:hover,.app #outline .aperture-notes:hover{background:#ffffff0d}
-.app #outline .aperture-enter:hover{background:#e1ce98}
+.app #outline .aperture-help{margin:7px 0 0;color:var(--arc-muted);text-align:center;font:10px/1.5 var(--ui-font)}
+.app #outline .aperture-step:hover,.app #outline .aperture-notes:hover{background:var(--arc-hover)}
+.app #outline .aperture-enter:hover{filter:brightness(.95)}
 .app #outline :is(.aperture-step,.aperture-enter,.aperture-notes):disabled{opacity:.4;cursor:default}
 @media(min-width:1101px){body:not(.magazine-style).sidebar-contents-mode .library{width:280px}.magazine-style.sidebar-contents-mode .app{grid-template-columns:260px minmax(0,1fr)}.magazine-style.magazine-compact.sidebar-contents-mode .app{grid-template-columns:56px minmax(0,1fr)}.magazine-style.reading-focus.sidebar-contents-mode .app{grid-template-columns:0 minmax(0,1fr)}}
-@media(max-width:1100px){.app #outline .aperture-heading{padding:13px 12px 7px}.app #outline .aperture-title{font-size:16px}.app #outline .aperture-footer{padding:7px 9px 9px}.app #outline .aperture-item.is-selected .chapter-target{font-size:15px}}
-@media(max-height:720px){.app .library>.magazine-sidebar-header{margin-bottom:10px}.app #outline .aperture-heading{padding-block:10px 4px}.app #outline .aperture-title{font-size:15px;line-height:1.5}.app #outline .aperture-path{margin-top:4px}.app #outline .aperture-help{display:none}.app #outline .aperture-footer{padding-block:6px}.app #outline .aperture-notes{margin-top:5px}}
-
-.app #outline .aperture-item.is-selected .aperture-ordinal{top:calc(50% + 22px);right:-27px}
-
-.app #outline .aperture-heading{max-height:40%;overflow:auto;scrollbar-width:thin}
+@media(max-width:1100px){.app #outline .aperture-heading{padding-inline:12px}.app #outline .aperture-footer{padding:7px 9px 9px}}
+@media(max-height:720px){.app .library>.magazine-sidebar-header{margin-bottom:10px}.app #outline .aperture-heading{flex-basis:108px;height:108px;grid-template-rows:18px 42px 16px;gap:4px;padding-block:10px}.app #outline .aperture-title{height:42px;font-size:15px;line-height:21px}.app #outline .aperture-path{line-height:16px}.app #outline .aperture-help{display:none}.app #outline .aperture-footer{padding-block:6px}.app #outline .aperture-notes{margin-top:5px}}
+@media(prefers-reduced-motion:reduce){.app #outline .aperture-item{will-change:auto}}
+@media(max-width:1100px){body:not(.magazine-style) .reader-toolbar{height:auto;flex-wrap:wrap;gap:8px}body:not(.magazine-style) .view-tabs{gap:12px;flex-shrink:0;min-height:42px}body:not(.magazine-style) .view-tabs button{white-space:nowrap}}

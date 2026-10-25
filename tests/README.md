@@ -48,3 +48,7 @@ On Windows, `npx electron tests/v120-desktop.cjs` checks native backup files and
 ## Arc chapter navigation
 
 Run npx electron tests/v133-electron.cjs to check separate sidebar views in both styles, wheel/keyboard preview and commit, real pointer dragging, nested headings and notes, persisted sidebar choice, laptop layouts, English labels and document/settings preservation with no inference calls. Historical v0.9.5–v1.0 browser fixtures include the retired chapter-wheel UI; current chapter behavior is covered here.
+
+## Continuous dial and label separation
+
+Run npx electron tests/v134-electron.cjs for a 32-chapter input trace, SVG tick reuse, stable heading dimensions, number/pointer collision checks at laptop sizes, matching Magazine colors and no idle drift. The optional --baseline flag loads the currently installed prior version. Frame interval measurements apply to the isolated test environment, not every device.

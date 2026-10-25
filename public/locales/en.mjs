@@ -608,7 +608,7 @@ export default {
   "保存在这台电脑": "Saved on this computer",
   "无需注册 · 自有 API": "No account · Bring your own API",
   "阅读工作台": "Reading workspace",
-  "桌面 1.3.3": "Desktop 1.3.3",
+  "桌面 1.3.4": "Desktop 1.3.4",
   "✎ 个人批注": "✎ Notes",
   "专注阅读 · Ctrl Shift F": "Focus · Ctrl Shift F",
   "阅读助手": "Assistant",
