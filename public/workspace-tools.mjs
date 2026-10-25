@@ -82,7 +82,7 @@ export function createWorkspaceTools({state,getChapters,getActive,navigate,activ
   menu.addEventListener('click',e=>{if(e.target.closest('button'))menu.open=false;});
   document.addEventListener('pointerdown',e=>{if(!menu.contains(e.target))menu.open=false;});
   const overlayEscape=new WeakSet();
-  document.addEventListener('keydown',e=>{if(e.key==='Escape'&&(document.querySelector('.annotation-drawer,.translation-popup')||!$('chapterWheelPanel')?.hidden||!$('selectionMenu').hidden))overlayEscape.add(e);},true);
+  document.addEventListener('keydown',e=>{if(e.key==='Escape'&&(document.querySelector('.annotation-drawer,.translation-popup')||!$('selectionMenu').hidden))overlayEscape.add(e);},true);
   document.addEventListener('keydown',e=>{
     if(e.defaultPrevented||e.isComposing||document.querySelector('dialog[open]')||document.body.classList.contains('is-starting'))return;
     const edit=e.target.closest?.('input,textarea,select,[contenteditable=true]');const key=e.key.toLowerCase();

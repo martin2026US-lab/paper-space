@@ -30,7 +30,7 @@ export function backupSettings(storage){
  if(storage.getItem('paper-space-translation'))settings['paper-space-translation']=JSON.stringify(loadTranslationSettings(storage));
  return settings;
 }
-export async function createBackup(documents,storage,{onProgress=()=>{},appVersion='1.3.2'}={}){
+export async function createBackup(documents,storage,{onProgress=()=>{},appVersion='1.3.3'}={}){
  if(documents.length>10000)throw Error('备份文献数量过多。');
  const header=JSON.stringify({kind:'paper-space-backup',version:1,appVersion,createdAt:new Date().toISOString(),settings:backupSettings(storage)}),digests=[];
  async function* records(){yield header+'\n';for(const [i,doc]of documents.entries()){const data=encodeBackupValue(doc),text=JSON.stringify(data);if(text.length>maxRecord)throw Error('单篇文献超过备份大小限制。');const hash=await sha(text);digests.push(hash);yield JSON.stringify({kind:'document',sha256:hash,data})+'\n';onProgress(i+1,documents.length);}yield JSON.stringify({kind:'end',documents:documents.length,sha256:await sha(header+'\n'+digests.join('\n'))})+'\n';}

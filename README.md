@@ -9,12 +9,16 @@
 本机优先的 AI 论文阅读工作台。保留 PDF 原貌，把翻译、段落解读、章节批注和带来源的对话放在同一个阅读空间里。无需注册，AI 使用你自己的接口。
 
 [![Tests](https://github.com/martin2026US-lab/paper-space/actions/workflows/test.yml/badge.svg)](https://github.com/martin2026US-lab/paper-space/actions/workflows/test.yml)
-![Version](https://img.shields.io/badge/version-1.3.2-b28a4d)
+![Version](https://img.shields.io/badge/version-1.3.3-b28a4d)
 ![License](https://img.shields.io/badge/license-MIT-806043)
 
 ![阅读工作台](docs/assets/workspace.jpg)
 
 ▶ **[在线观看 60 秒新版宣传片](https://martin2026US-lab.github.io/paper-space/)** · [下载视频（MP4）](https://github.com/martin2026US-lab/paper-space/releases/download/v1.3.2/paper-space-v1.3.2-promo-60s-fixed.mp4)
+
+## 1.3.3 弧形章节目录
+
+经典与杂志风格共用独立的「文献库 / 阅读目录」侧栏，选择保存在本机。阅读目录改为镜头刻度式弧形转盘，移除旧的章节漫游圆圈；滚动、拖动或方向键预选，点击章节或确认后阅读，Escape 返回当前章节。完整标题、层级路径、页码、搜索及章节批注保留，不自动移动或调用模型。
 
 ## 1.3.2 阅读工具与杂志界面
 

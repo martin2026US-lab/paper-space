@@ -44,3 +44,7 @@ On Windows, `npx electron tests/v120-desktop.cjs` checks native backup files and
 ## 1.3.2 PDF controls and Magazine typography
 
 `npx electron tests/v132-electron.cjs` verifies complete button borders/backgrounds, consistent control sizing, cross-page and recognition-settings actions, larger Magazine serif controls, responsive tools, PDF zoom/text alignment, English labels and unchanged source bytes. Synthetic files and isolated profiles are used; `--baseline` captures the installed previous version.
+
+## Arc chapter navigation
+
+Run npx electron tests/v133-electron.cjs to check separate sidebar views in both styles, wheel/keyboard preview and commit, real pointer dragging, nested headings and notes, persisted sidebar choice, laptop layouts, English labels and document/settings preservation with no inference calls. Historical v0.9.5–v1.0 browser fixtures include the retired chapter-wheel UI; current chapter behavior is covered here.
