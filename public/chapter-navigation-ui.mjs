@@ -56,6 +56,8 @@ export function createChapterNavigation({host,getItems,onNavigate,onNotes=()=>{}
  }
  function setActive(index){if(index===active)return;active=index;if(active>=0&&!drag)candidate=active;renderSelection();}
  function update(id,index){
+  // The library empty state can reset this host; recover the owned controls.
+  if(!host.contains(lens))host.replaceChildren(empty,lens);
   const nextItems=getItems(),key=JSON.stringify(nextItems.map(i=>[i.key,i.depth,i.blockId,i.y]));
   if(id!==docId){docId=id;signature='';revision++;pending=false;drag=null;wheelCarry=0;candidate=Math.max(0,index);}
   items=nextItems;if(key!==signature){signature=key;tree=chapterTree(items);ordinals=chapterOrdinals(items);candidate=Math.max(0,Math.min(items.length-1,index));renderChoices();}
