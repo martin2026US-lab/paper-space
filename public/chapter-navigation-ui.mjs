@@ -8,7 +8,7 @@ const svgNode=(tag,attrs)=>{const n=document.createElementNS('http://www.w3.org/
 
 export function createChapterNavigation({host,getItems,onNavigate,onNotes=()=>{},getNoteCount=()=>0,isBusy=()=>false}){
  let items=[],tree=[],docId=null,signature='',active=-1,candidate=0,ordinals=[],paths=[],pending=false,revision=0,geometry,drag=null,suppressClick=false;
- let rows=[],visible=new Set(),position=0,destination=0,motionFrame=0,layoutFrame=0,lastTime=0,wheelTimer,metadataKey='',lastCandidate=-1,lastActive=-1,numberWidth=30;
+ let rows=[],visible=new Set(),position=0,destination=0,motionFrame=0,layoutFrame=0,lastTime=0,wheelTimer,metadataKey='',lastCandidate=-1,lastActive=-1,numberWidth=30,clickTween=null;
  const reduced=matchMedia('(prefers-reduced-motion: reduce)');
  host.classList.add('aperture-outline');host.replaceChildren();
  const empty=el('p','chapter-empty',uiText('尚未识别到章节，可使用顶部翻页。'));
@@ -64,11 +64,26 @@ export function createChapterNavigation({host,getItems,onNavigate,onNotes=()=>{}
  function animate(time){
   motionFrame=0;if(!items.length||!geometry){lastTime=0;return;}
   const elapsed=lastTime?Math.min(32,time-lastTime):16.67;lastTime=time;
-  position=apertureStep(position,destination,elapsed,reduced.matches||!!drag);
+  let reached=null;
+  if(clickTween){
+   const tween=clickTween;if(tween.start===null)tween.start=time;
+   const progress=reduced.matches?1:Math.min(1,(time-tween.start)/tween.duration),ease=1-Math.pow(1-progress,3);
+   position=tween.from+(tween.to-tween.from)*ease;
+   if(progress>=1){position=destination=tween.to;clickTween=null;reached=tween.resolve;}
+  }else position=apertureStep(position,destination,elapsed,reduced.matches||!!drag);
   const nearest=Math.round(position);if(nearest!==candidate){candidate=nearest;renderMetadata();}
-  paint();if(Math.abs(position-destination)>.001)requestPaint();else lastTime=0;
+  paint();if(reached)reached(true);if(clickTween||Math.abs(position-destination)>.001)requestPaint();else lastTime=0;
  }
- function stopMotion(){clearTimeout(wheelTimer);if(motionFrame)cancelAnimationFrame(motionFrame);motionFrame=0;lastTime=0;}
+ function stopMotion(){
+  clearTimeout(wheelTimer);if(motionFrame)cancelAnimationFrame(motionFrame);motionFrame=0;lastTime=0;
+  if(clickTween){const tween=clickTween;clickTween=null;tween.resolve(false);}
+ }
+ function slideTo(index){
+  stopMotion();const target=clamp(index),distance=Math.abs(target-position);
+  if(reduced.matches||distance<.001||!geometry||!viewport.getClientRects().length){setPosition(target,true);return Promise.resolve(true);}
+  destination=target;
+  return new Promise(resolve=>{clickTween={from:position,to:target,start:null,duration:Math.min(260,140+distance*35),resolve};requestPaint();});
+ }
  function setPosition(value,immediate=false){
   destination=clamp(value);if(immediate||Math.abs(destination-position)>5){position=destination;candidate=Math.round(position);renderMetadata();}
   requestPaint();
@@ -80,7 +95,7 @@ export function createChapterNavigation({host,getItems,onNavigate,onNotes=()=>{}
   items.forEach((item,index)=>{
    const row=el('div','aperture-item chapter-row');row.dataset.index=index;row.dataset.key=item.key;row.dataset.depth=item.depth||0;row.hidden=true;row.inert=true;
    const ordinal=el('span','aperture-ordinal',ordinals[index]);ordinal.setAttribute('aria-hidden','true');
-   const target=button(item.title,()=>{if(suppressClick){suppressClick=false;return;}setPosition(index,true);void navigate(item);},'chapter-target');
+   const target=button(item.title,()=>{if(suppressClick){suppressClick=false;return;}void navigate(item);},'chapter-target');
    target.id='aperture-option-'+index;target.dataset.key=item.key;target.dataset.index=index;target.title=item.title;target.tabIndex=-1;target.setAttribute('role','option');target.setAttribute('aria-selected','false');target.setAttribute('aria-label',item.title+' · '+uiText('第 {0} 页',item.page));
    row.append(ordinal,target);fragment.append(row);rows.push({node:row,target,ordinal,visible:false});
   });choices.replaceChildren(fragment);metadataKey='';
@@ -97,9 +112,14 @@ export function createChapterNavigation({host,getItems,onNavigate,onNotes=()=>{}
   const n=getNoteCount(item),label=n?uiText('本章批注 · {0}',n):uiText('本章批注');if(noteText.data!==label)noteText.data=label;notes.dataset.key=item.key;notes.disabled=pending;notes.title=item.title+' · '+uiText('本章批注');markSelection();
  }
  async function navigate(item){
-  if(!item||pending)return;if(isBusy()){text(trail,uiText('请先结束当前任务，再切换阅读位置。'));return;}
-  stopMotion();setPosition(items.indexOf(item),true);const token=++revision;let failure;pending=true;renderMetadata();
-  try{await onNavigate(item);}catch(error){failure=uiError(error.message);}
+  if(!item||(pending&&!clickTween))return;if(isBusy()){text(trail,uiText('请先结束当前任务，再切换阅读位置。'));return;}
+  const token=++revision;let failure;pending=true;renderMetadata();
+  try{
+   const index=items.findIndex(entry=>entry.key===item.key);if(index<0)return;
+   const reached=await slideTo(index);
+   if(!reached||token!==revision)return;
+   await onNavigate(item);
+  }catch(error){failure=uiError(error.message);}
   finally{if(token===revision){pending=false;setPosition(active>=0?active:candidate,true);renderMetadata(true);if(failure)text(trail,failure);}}
  }
  function setActive(index){
@@ -110,10 +130,10 @@ export function createChapterNavigation({host,getItems,onNavigate,onNotes=()=>{}
   if(!host.contains(lens))host.replaceChildren(empty,lens);
   const nextItems=getItems(),key=JSON.stringify(nextItems.map(i=>[i.key,i.depth,i.blockId,i.y]));
   if(id!==docId){docId=id;signature='';revision++;pending=false;drag=null;stopMotion();position=destination=Math.max(0,index);candidate=Math.max(0,index);}
-  items=nextItems;if(key!==signature){signature=key;tree=chapterTree(items);ordinals=chapterOrdinals(items);paths=items.map(i=>chapterAncestors(tree,i.key).map(c=>c.title));position=destination=clamp(index);candidate=Math.round(position);renderChoices();}
+  items=nextItems;if(key!==signature){if(clickTween){revision++;pending=false;stopMotion();}signature=key;tree=chapterTree(items);ordinals=chapterOrdinals(items);paths=items.map(i=>chapterAncestors(tree,i.key).map(c=>c.title));position=destination=clamp(index);candidate=Math.round(position);renderChoices();}
   setActive(index);renderMetadata();scheduleLayout();requestPaint();
  }
- function close(){drag=null;stopMotion();setPosition(active>=0?active:candidate,true);}
+ function close(){drag=null;const cancel=!!clickTween;stopMotion();if(cancel){revision++;pending=false;}setPosition(active>=0?active:candidate,true);renderMetadata();}
  viewport.addEventListener('wheel',event=>{
   if(!items.length||pending)return;event.preventDefault();const scale=event.deltaMode===1?18:event.deltaMode===2?(geometry?.height||300):1;
   setPosition(destination+(event.deltaY||event.deltaX)*scale/100);

@@ -26,7 +26,7 @@ export function createServer(options={}) {
       const host = req.headers.host;
       if (!/^127\.0\.0\.1:\d+$/.test(host || '')) return json(res,403,{error:'仅允许本机访问。'});
       const url = new URL(req.url, `http://${host}`);
-      if (url.pathname === '/api/health') return json(res,200,{name:'paper-space',version:'1.3.4'});
+      if (url.pathname === '/api/health') return json(res,200,{name:'paper-space',version:'1.3.5'});
       if (url.pathname === '/api/pdf/status' && req.method === 'GET') return json(res,200,{available:await pdfService.available(),busy:pdfService.busy===true,parser:'docling'});
       if (url.pathname === '/api/pdf/parse' && req.method === 'POST') {
         if(req.headers.origin!==`http://${host}`||req.headers['content-type']!=='application/pdf')return json(res,403,{error:'请求来源不允许。'});

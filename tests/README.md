@@ -52,3 +52,7 @@ Run npx electron tests/v133-electron.cjs to check separate sidebar views in both
 ## Continuous dial and label separation
 
 Run npx electron tests/v134-electron.cjs for a 32-chapter input trace, SVG tick reuse, stable heading dimensions, number/pointer collision checks at laptop sizes, matching Magazine colors and no idle drift. The optional --baseline flag loads the currently installed prior version. Frame interval measurements apply to the isolated test environment, not every device.
+
+## Chapter click transitions
+
+Run npx electron tests/v135-electron.cjs to verify intermediate click frames before one final chapter navigation, rapid click retargeting, Escape cancellation, stable chapter identities after reader re-renders, reduced-motion behavior and source/configuration preservation.

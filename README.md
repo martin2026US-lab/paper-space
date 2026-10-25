@@ -9,12 +9,16 @@
 本机优先的 AI 论文阅读工作台。保留 PDF 原貌，把翻译、段落解读、章节批注和带来源的对话放在同一个阅读空间里。无需注册，AI 使用你自己的接口。
 
 [![Tests](https://github.com/martin2026US-lab/paper-space/actions/workflows/test.yml/badge.svg)](https://github.com/martin2026US-lab/paper-space/actions/workflows/test.yml)
-![Version](https://img.shields.io/badge/version-1.3.4-b28a4d)
+![Version](https://img.shields.io/badge/version-1.3.5-b28a4d)
 ![License](https://img.shields.io/badge/license-MIT-806043)
 
 ![阅读工作台](docs/assets/workspace.jpg)
 
 ▶ **[在线观看 60 秒新版宣传片](https://martin2026US-lab.github.io/paper-space/)** · [下载视频（MP4）](https://github.com/martin2026US-lab/paper-space/releases/download/v1.3.2/paper-space-v1.3.2-promo-60s-fixed.mp4)
+
+## 1.3.5 点击选章过渡
+
+点击目录中的章节时，转盘先以短滑动将目标移到指针处，再定位正文；不会依次打开经过的章节。连续点击可改选，Escape 可取消尚未完成的滑动，减少动态效果偏好下直接定位。原有滚轮、拖动、配色、文献和配置保留。
 
 ## 1.3.4 转盘修正
 
