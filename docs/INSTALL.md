@@ -1,7 +1,7 @@
 # 安装纸间（Windows）
 
 1. 打开 [最新版本](https://github.com/martin2026US-lab/paper-space/releases/latest)。
-2. 下载 `Paper-Space-1.2.0-Windows-x64-Setup.exe`，不要选 GitHub 自动生成的 Source code。
+2. 在最新版本的 Assets 列表中，下载名称符合 `Paper-Space-<版本号>-Windows-x64-Setup.exe` 格式的安装程序（`<版本号>` 为占位符，请以实际文件名为准）。不要选择 GitHub 自动生成的 Source code 压缩包。
 3. 双击安装，选择安装目录；安装完成后从桌面或开始菜单打开 **纸间 Paper Space**。
 4. 首次打开时可选择中文或 English，然后阅读并主动勾选确认使用声明；未同意前工作台保持关闭。
 5. 导入 PDF、Word、TXT 或 Markdown，即可本机阅读。使用翻译、AI 解读和对话时，在左下角配置自己的模型接口。
@@ -12,7 +12,7 @@
 
 安装目录限 80 个字符。识别组件保存在程序目录之外，可自行选择 D 盘等位置。首次从旧版升级时会复制已有识别环境以保留离线能力，迁移可能需要几分钟；后续更新仅替换阅读器。组件不会随应用卸载自动删除。
 
-此版本尚未进行商业代码签名，Windows 可能显示未知发布者提示。请只使用此仓库的 Release 下载，并可使用附带的 SHA256SUMS.txt 核对文件完整性。
+此版本尚未进行商业代码签名，Windows 可能显示未知发布者提示。请只使用此仓库的 Release 下载，并可使用附带的 SHA256 校验文件 核对文件完整性。
 
 ## 数据与升级
 
