@@ -1,9 +1,13 @@
 import {readingUnit,pageFragment} from './reading-units.mjs';
 import {resolvePdfSource} from './pdf-layout.mjs';
 import {pdfBlockSpans} from './pdf-text.mjs';
+import {editionFor} from './reading-edition.mjs';
 const compact=text=>String(text||'').normalize('NFKC').replace(/\s/g,'');
 export function findSourceBlock(doc,material) {
-  if(material.sourceSnapshot)return {...material.sourceSnapshot,legacy:true};
+  const edition=doc.readingLayout?.quality?editionFor(doc):null;
+  const current=edition?.units.find(u=>u.id===(material.blockId||material.id));
+  if(material.sourceSnapshot){const s=material.sourceSnapshot;return {...s,legacy:!(current&&s.readingQualityVersion===doc.readingLayout.quality.version&&s.fileFingerprint===doc.fileFingerprint)};}
+  if(current&&(!material.fileFingerprint||material.fileFingerprint===doc.fileFingerprint))return current;
   if(material.sourceSegments)return material;
   const sourceId=material.blockId||material.id;
   const saved=(doc.legacyBlocks||[]).find(b=>b.id===sourceId&&(!material.text||compact(b.text).includes(compact(material.text))));

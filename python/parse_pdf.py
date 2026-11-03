@@ -9,7 +9,7 @@ logging.disable(logging.CRITICAL)
 
 def convert(source, output, models, mode="fast"):
     def progress(stage, message):
-        print(json.dumps({"type": "progress", "stage": stage, "message": message}, ensure_ascii=False), flush=True)
+        print(json.dumps({"type": "progress", "stage": stage, "message": message}, ensure_ascii=True), flush=True)
     progress("loading", "正在载入本机识别模型")
     import torch
     torch.set_num_threads(4)
@@ -17,6 +17,7 @@ def convert(source, output, models, mode="fast"):
     from docling.datamodel.base_models import InputFormat
     from docling.datamodel.pipeline_options import PdfPipelineOptions, AcceleratorOptions, AcceleratorDevice
     from docling.document_converter import DocumentConverter, PdfFormatOption
+    from docling_core.types.doc import ContentLayer
     from docling.datamodel.vlm_engine_options import TransformersVlmEngineOptions, VlmEngineType
 
     options = PdfPipelineOptions(artifacts_path=Path(models))
@@ -36,7 +37,14 @@ def convert(source, output, models, mode="fast"):
     progress("exporting", "正在整理识别结果")
     doc = result.document
     blocks = []
-    for item, _ in doc.iterate_items():
+    items = list(doc.iterate_items(included_content_layers=set(ContentLayer)))
+    if getattr(doc, "furniture", None):
+        items += list(doc.iterate_items(root=doc.furniture, included_content_layers=set(ContentLayer)))
+    seen = set()
+    for item, _ in items:
+        if item.self_ref in seen:
+            continue
+        seen.add(item.self_ref)
         label = item.label.value
         if not item.prov:
             continue
@@ -44,16 +52,20 @@ def convert(source, output, models, mode="fast"):
         if label == "table":
             text = item.export_to_markdown(doc=doc)
         if label == "picture":
-            continue
-        if not text.strip():
+            text = "Figure"
+        if not text.strip() and label != "formula":
             continue
         boxes = []
         for prov in item.prov:
             size = doc.pages[prov.page_no].size
             bbox = prov.bbox.to_top_left_origin(size.height)
-            boxes.append({"page": prov.page_no, "x": bbox.l, "y": bbox.t, "right": bbox.r, "bottom": bbox.b, "pageWidth": size.width, "pageHeight": size.height})
-        blocks.append({"sourceRef": item.self_ref, "kind": label, "text": text, "boxes": boxes})
-    payload = {"parser": "docling", "layoutVersion": 1, "pages": len(doc.pages), "blocks": blocks}
+            boxes.append({"page": prov.page_no, "x": bbox.l, "y": bbox.t, "right": bbox.r, "bottom": bbox.b, "pageWidth": size.width, "pageHeight": size.height, "charspan": list(prov.charspan)})
+        blocks.append({"sourceRef": item.self_ref, "kind": label, "text": text, "boxes": boxes,
+                       "captionRefs": [r.cref for r in getattr(item, "captions", [])],
+                       "footnoteRefs": [r.cref for r in getattr(item, "footnotes", [])]})
+    payload = {"parser": "docling", "layoutVersion": 2, "pages": len(doc.pages), "blocks": blocks}
+    from normalize_layout import normalize_layout
+    payload = normalize_layout(source, payload)
     temporary = Path(str(output) + ".tmp")
     temporary.write_text(json.dumps(payload, ensure_ascii=False), encoding="utf-8")
     temporary.replace(output)

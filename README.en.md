@@ -14,6 +14,12 @@ A local-first reading workspace for papers and documents. Read PDFs in their ori
 
 The film uses stationary interface shots, a soft original score and illustrative demo data. AI results depend on the configured model.
 
+## New in 1.4.0
+
+Full-text reading brings the paper, on-demand paragraph translations and expandable PDF originals into one place. Whole-paper guides remain a separate tab. Local PDF reflow retains source regions, figures and captions; hover and selection track the original.
+
+Verified glyphs restore accents, scripts and symbols, while uncertain regions retain original crops. Extract text uses your configured vision-capable reading model only when clicked: edit, apply and restore without rewriting the PDF or existing notes. Chinese recognition progress, inline Markdown and oversized text crops are fixed. Existing local components, data, Classic/Magazine styles and the chapter dial remain.
+
 ## New in 1.3.5
 
 Clicking a chapter briefly slides it to the dial pointer before opening it. Intermediate chapters are not opened. A second click retargets the slide, Escape cancels it, and reduced-motion preferences bypass the animation. Wheel/drag behavior, palettes and existing data remain intact.

@@ -17,8 +17,6 @@ export function createMagazineUI({state,workspaceTools,toast}){
  const page=document.querySelector('.page-controls'),pageMarker=document.createComment('original page controls');page.before(pageMarker);const pager=el('div','magazine-footer-pager');footer.append(pager);
  const selection=$('selectionChip'),selectionMarker=document.createComment('original selection context');selection.before(selectionMarker);
  const notes=button('magazineNotes','个人批注','note-pencil',()=>$('personalNotesBtn').click());footer.append(notes);
- const tools=el('div','magazine-translation-tools'),target=el('select');target.id='magazineTranslationLanguage';target.setAttribute('aria-label',t('翻译目标语言'));target.onchange=()=>{const source=$('translationLanguage');source.value=target.value;source.dispatchEvent(new Event('change'));update();};
- const translate=button('magazineTranslatePage','翻译本页','translate',()=>{const source=$('bilingualTranslatePage');if(source&&!source.disabled)source.click();}),stop=button('magazineTranslateStop','停止',null,()=>$('bilingualStop')?.click());stop.hidden=true;tools.append(target,translate,stop);toolbar.append(tools);
  const focus=button('magazineFocus','专注阅读',null,()=>workspaceTools.toggleFocus());focus.className='magazine-menu-command';$('readingMenu').querySelector('.menu-caption').after(focus);
  function isMagazine(){return workspaceTools.readingStyle==='magazine';}
  function isCollapsed(){return small.matches||(compact.matches&&!body.classList.contains('assistant-hidden'));}
@@ -29,13 +27,12 @@ export function createMagazineUI({state,workspaceTools,toast}){
   body.classList.toggle('sidebar-library-mode',libraryMode||!state.doc);body.classList.toggle('sidebar-contents-mode',!libraryMode&&!!state.doc);
   body.classList.toggle('magazine-library-open',magazine&&(libraryMode||!state.doc));body.classList.toggle('magazine-sidebar-open',magazine&&drawer);body.classList.toggle('magazine-compact',collapsed);
   for(const b of switcher.children)b.setAttribute('aria-pressed',String(b.dataset.readingStyle===workspaceTools.readingStyle));
-  for(const [id,short,long]of [['originalTab','原文','原文阅读'],['bilingualTab','双语','双语阅读'],['summaryTab','导读','全文导读']]){const node=$(id),label=t(magazine?short:long);if(node.textContent!==label)node.textContent=label;}
+  for(const [id,text]of [['originalTab','全文阅读'],['summaryTab','全文导读']]){const node=$(id),label=t(text);if(node.textContent!==label)node.textContent=label;}
   if(magazine){if(page.parentElement!==pager)pager.append(page);if(selection.parentElement!==$('assistantPanel'))document.querySelector('.assistant-tabs').after(selection);library.inert=focused||(collapsed&&!drawer);}else{library.inert=focused;if(page.parentNode!==pageMarker.parentNode)pageMarker.after(page);if(selection.parentNode!==selectionMarker.parentNode)selectionMarker.after(selection);}
   rail.inert=!magazine||!collapsed||focused;dismiss.hidden=!magazine||!drawer;back.setAttribute('aria-pressed',String(libraryMode||!state.doc));contents.setAttribute('aria-pressed',String(!libraryMode&&!!state.doc));contents.disabled=!state.doc;
   for(const id of ['magazineLibrary','magazineContents'])$(id).setAttribute('aria-expanded',String(drawer&&((id==='magazineLibrary')===libraryMode)));
   notes.disabled=!state.doc;const count=(state.doc?.personalNotes||[]).filter(n=>!n.deletedAt).length,label=t('批注{0}',count?' · '+count:'');notes.lastChild.textContent=label;notes.title=t('个人批注');
-  target.disabled=state.busy||state.mutating;const source=$('translationLanguage');if(source){const signature=source.innerHTML;if(target.dataset.options!==signature){target.replaceChildren(...[...source.options].map(o=>o.cloneNode(true)));target.dataset.options=signature;}target.value=source.value;}
-  tools.hidden=!magazine||state.view!=='bilingual';const all=$('bilingualTranslatePage');translate.disabled=!all||all.disabled||state.busy;stop.hidden=!$('bilingualStop')||$('bilingualStop').hidden;translate.hidden=!stop.hidden;focus.textContent=t(focused?'退出专注':'专注阅读');document.dispatchEvent(new CustomEvent('paper-space:sidebar'));
+  focus.textContent=t(focused?'退出专注':'专注阅读');document.dispatchEvent(new CustomEvent('paper-space:sidebar'));
  }
  function schedule(){cancelAnimationFrame(frame);frame=requestAnimationFrame(update);}
  document.addEventListener('paper-space:layout',()=>{if(isCollapsed())drawer=false;update();});document.addEventListener('change',schedule);compact.addEventListener('change',()=>{drawer=false;update();});small.addEventListener('change',()=>{drawer=false;update();});

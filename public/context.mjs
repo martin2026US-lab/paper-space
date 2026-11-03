@@ -1,5 +1,6 @@
+import {readingEvidence} from './reading-evidence.mjs';
 import {outputLanguageInstruction} from './output-language.mjs';
-import {readingUnits,pageFragment} from './reading-units.mjs';
+import {pageFragment} from './reading-units.mjs';
 export function endpointFor(base, format='openai') {
   let url; try { url = new URL(base); } catch { throw new Error('请输入完整的 API 地址。'); }
   const loopback = ['localhost','127.0.0.1','[::1]'].includes(url.hostname);
@@ -19,7 +20,7 @@ export function retrieve(blocks, query, count=4, excluded=[]) {
   return blocks.filter(b=>!exclude.has(b.id)).map(b=>({b,score:tokens.reduce((s,t)=>s+(b.text.toLowerCase().includes(t)?Math.min(t.length,8):0),0)})).filter(x=>x.score>0).sort((a,b)=>b.score-a.score).slice(0,count).map(x=>x.b);
 }
 export function buildMaterials(doc, page, selection, question, _legacyCode=[], excluded=new Set()) {
-  const blocks=readingUnits(doc); const materials=[]; const add=(m)=>{if(!materials.some(x=>x.id===m.id)&&!excluded.has(m.id))materials.push(m);};
+  const blocks=readingEvidence(doc); const materials=[]; const add=(m)=>{if(!materials.some(x=>x.id===m.id)&&!excluded.has(m.id))materials.push(m);};
   if(selection?.text) add({...selection,id:'selection',blockId:selection.blockId,label:'选中的原文',kind:'选区',text:selection.text,page:selection.page});
   const selected=blocks.find(b=>b.id===selection?.blockId||b.sourceSegments?.some(s=>s.id===selection?.blockId));
   if(selected) {const at=blocks.indexOf(selected); for(const b of blocks.slice(Math.max(0,at-1),at+2))add({...b,label:`第 ${b.page} 页 · ${b.text.slice(0,32)}`,kind:'相邻原文'});}

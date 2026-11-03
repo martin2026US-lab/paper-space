@@ -22,7 +22,10 @@
     "python/requirements.txt",
     "python/constraints-windows.txt",
     "quality-service.mjs",
-    "recognition-service.mjs"
+    "recognition-service.mjs",
+    "python/normalize_layout.py",
+    "python/glyph_restore.py",
+    "python/glyph_profiles.json"
   ],
   "win": {
     "target": [

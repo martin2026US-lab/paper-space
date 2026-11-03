@@ -1,0 +1,933 @@
+{
+  "version": 1,
+  "note": "Exact embedded font SHA256 + name + native Unicode; visually checked local pixels. Unlisted entries require image fallback.",
+  "glyphs": {
+    "AdvOT8817665d|51|2541b8aaffa76c53aed756d42cf8d97ebe947200de50769b6d55f606f57659d1": {
+      "value": "×",
+      "mode": "symbol",
+      "evidence": {
+        "document": "02",
+        "page": 1,
+        "nativeIndex": 2246,
+        "atlas": "glyph-atlas-1..4.png"
+      }
+    },
+    "AdvP4C4E74|1|1e5a8f115bb82185e05c7215af9085beb38e13673cd178bfc6f00bb1d02beade": {
+      "value": "÷",
+      "mode": "symbol",
+      "evidence": {
+        "document": "02",
+        "page": 1,
+        "nativeIndex": 2298,
+        "atlas": "glyph-atlas-1..4.png"
+      }
+    },
+    "AdvOT8817665d|53|2541b8aaffa76c53aed756d42cf8d97ebe947200de50769b6d55f606f57659d1": {
+      "value": "=",
+      "mode": "symbol",
+      "evidence": {
+        "document": "02",
+        "page": 1,
+        "nativeIndex": 3361,
+        "atlas": "glyph-atlas-1..4.png"
+      }
+    },
+    "AdvT001|1|d9c567211be79719782d9cbfa3e08b1144f5ba24584cf74a3c7669e1ab75c3a8": {
+      "value": "©",
+      "mode": "symbol",
+      "evidence": {
+        "document": "02",
+        "page": 1,
+        "nativeIndex": 6215,
+        "atlas": "glyph-atlas-1..4.png"
+      }
+    },
+    "AdvP4C4E74|3|1e5a8f115bb82185e05c7215af9085beb38e13673cd178bfc6f00bb1d02beade": {
+      "value": "•",
+      "mode": "symbol",
+      "evidence": {
+        "document": "02",
+        "page": 1,
+        "nativeIndex": 6319,
+        "atlas": "glyph-atlas-1..4.png"
+      }
+    },
+    "AdvOT8817665d|54|2541b8aaffa76c53aed756d42cf8d97ebe947200de50769b6d55f606f57659d1": {
+      "value": "±",
+      "mode": "symbol",
+      "evidence": {
+        "document": "02",
+        "page": 2,
+        "nativeIndex": 1556,
+        "atlas": "glyph-atlas-1..4.png"
+      }
+    },
+    "AdvOT8817665d|44|2541b8aaffa76c53aed756d42cf8d97ebe947200de50769b6d55f606f57659d1": {
+      "value": "<",
+      "mode": "symbol",
+      "evidence": {
+        "document": "02",
+        "page": 2,
+        "nativeIndex": 3276,
+        "atlas": "glyph-atlas-1..4.png"
+      }
+    },
+    "AdvOT8817665d|36|2541b8aaffa76c53aed756d42cf8d97ebe947200de50769b6d55f606f57659d1": {
+      "value": "≥",
+      "mode": "symbol",
+      "evidence": {
+        "document": "02",
+        "page": 2,
+        "nativeIndex": 3377,
+        "atlas": "glyph-atlas-1..4.png"
+      }
+    },
+    "AdvOT8817665d|49|2541b8aaffa76c53aed756d42cf8d97ebe947200de50769b6d55f606f57659d1": {
+      "value": "+",
+      "mode": "symbol",
+      "evidence": {
+        "document": "02",
+        "page": 2,
+        "nativeIndex": 4032,
+        "atlas": "glyph-atlas-1..4.png"
+      }
+    },
+    "AdvOT8817665d|35|2541b8aaffa76c53aed756d42cf8d97ebe947200de50769b6d55f606f57659d1": {
+      "value": "≤",
+      "mode": "symbol",
+      "evidence": {
+        "document": "02",
+        "page": 2,
+        "nativeIndex": 6320,
+        "atlas": "glyph-atlas-1..4.png"
+      }
+    },
+    "AdvOT8817665d|46|2541b8aaffa76c53aed756d42cf8d97ebe947200de50769b6d55f606f57659d1": {
+      "value": ">",
+      "mode": "symbol",
+      "evidence": {
+        "document": "02",
+        "page": 2,
+        "nativeIndex": 6341,
+        "atlas": "glyph-atlas-1..4.png"
+      }
+    },
+    "AdvOT8817665d|97|2541b8aaffa76c53aed756d42cf8d97ebe947200de50769b6d55f606f57659d1": {
+      "value": "α",
+      "mode": "symbol",
+      "evidence": {
+        "document": "02",
+        "page": 7,
+        "nativeIndex": 843,
+        "atlas": "glyph-atlas-1..4.png"
+      }
+    },
+    "AdvOT8817665d|53|e336cfe0c6f7dbdddf7efc1ce90f0ce83d44d15feb262ece4f00e966e4c02312": {
+      "value": "=",
+      "mode": "symbol",
+      "evidence": {
+        "document": "03",
+        "page": 1,
+        "nativeIndex": 2708,
+        "atlas": "glyph-atlas-1..4.png"
+      }
+    },
+    "AdvT001|1|1fca361555b0c3409e9fb4fd98696fcee3c38b90f3b03bf5cce2c85be2bc5a6c": {
+      "value": "©",
+      "mode": "symbol",
+      "evidence": {
+        "document": "03",
+        "page": 1,
+        "nativeIndex": 5993,
+        "atlas": "glyph-atlas-1..4.png"
+      }
+    },
+    "AdvP4C4E74|1|de7650d835cb16ab36286ba9750cc523751336bd2e22144c040f7b80ef93257b": {
+      "value": "•",
+      "mode": "symbol",
+      "evidence": {
+        "document": "03",
+        "page": 1,
+        "nativeIndex": 6099,
+        "atlas": "glyph-atlas-1..4.png"
+      }
+    },
+    "AdvP4C4E74|3|de7650d835cb16ab36286ba9750cc523751336bd2e22144c040f7b80ef93257b": {
+      "value": "°",
+      "mode": "symbol",
+      "evidence": {
+        "document": "03",
+        "page": 2,
+        "nativeIndex": 1104,
+        "atlas": "glyph-atlas-1..4.png"
+      }
+    },
+    "AdvP4C4E59|95|1d2c53267c9d2f292c46afb46a8b2e1a6aaa388b1f685800a32772e443b08251": {
+      "value": "̇",
+      "mode": "accent",
+      "evidence": {
+        "document": "03",
+        "page": 2,
+        "nativeIndex": 3396,
+        "atlas": "glyph-atlas-1..4.png"
+      }
+    },
+    "AdvP4C4E74|240|de7650d835cb16ab36286ba9750cc523751336bd2e22144c040f7b80ef93257b": {
+      "value": "(",
+      "mode": "symbol",
+      "evidence": {
+        "document": "03",
+        "page": 2,
+        "nativeIndex": 3398,
+        "atlas": "glyph-atlas-1..4.png"
+      }
+    },
+    "AdvP4C4E74|222|de7650d835cb16ab36286ba9750cc523751336bd2e22144c040f7b80ef93257b": {
+      "value": ")",
+      "mode": "symbol",
+      "evidence": {
+        "document": "03",
+        "page": 2,
+        "nativeIndex": 3399,
+        "atlas": "glyph-atlas-1..4.png"
+      }
+    },
+    "AdvOT8817665d|50|e336cfe0c6f7dbdddf7efc1ce90f0ce83d44d15feb262ece4f00e966e4c02312": {
+      "value": "−",
+      "mode": "symbol",
+      "evidence": {
+        "document": "03",
+        "page": 2,
+        "nativeIndex": 3403,
+        "atlas": "glyph-atlas-1..4.png"
+      }
+    },
+    "AdvOT8817665d|108|e336cfe0c6f7dbdddf7efc1ce90f0ce83d44d15feb262ece4f00e966e4c02312": {
+      "value": "λ",
+      "mode": "symbol",
+      "evidence": {
+        "document": "03",
+        "page": 2,
+        "nativeIndex": 3404,
+        "atlas": "glyph-atlas-1..4.png"
+      }
+    },
+    "AdvOT8817665d|68|e336cfe0c6f7dbdddf7efc1ce90f0ce83d44d15feb262ece4f00e966e4c02312": {
+      "value": "Δ",
+      "mode": "symbol",
+      "evidence": {
+        "document": "03",
+        "page": 2,
+        "nativeIndex": 4151,
+        "atlas": "glyph-atlas-1..4.png"
+      }
+    },
+    "AdvOT8817665d|49|e336cfe0c6f7dbdddf7efc1ce90f0ce83d44d15feb262ece4f00e966e4c02312": {
+      "value": "+",
+      "mode": "symbol",
+      "evidence": {
+        "document": "03",
+        "page": 2,
+        "nativeIndex": 5520,
+        "atlas": "glyph-atlas-1..4.png"
+      }
+    },
+    "AdvP4C4E51|61|b49b040ca0d9f7e9c5866cb14b12807f3f630d97a023c8238bdb0831257d1ae5": {
+      "value": "/",
+      "mode": "symbol",
+      "evidence": {
+        "document": "03",
+        "page": 2,
+        "nativeIndex": 6602,
+        "atlas": "glyph-atlas-1..4.png"
+      }
+    },
+    "AdvOT8817665d|98|e336cfe0c6f7dbdddf7efc1ce90f0ce83d44d15feb262ece4f00e966e4c02312": {
+      "value": "β",
+      "mode": "symbol",
+      "evidence": {
+        "document": "03",
+        "page": 2,
+        "nativeIndex": 6615,
+        "atlas": "glyph-atlas-1..4.png"
+      }
+    },
+    "AdvPSMP11|68|27d6975ed7bd7ebf7a5dbc83aa328cca9c6d0b5a8e6c6fcf711ab1dce1963a91": {
+      "value": "Δ",
+      "mode": "symbol",
+      "evidence": {
+        "document": "03",
+        "page": 3,
+        "nativeIndex": 1328,
+        "atlas": "glyph-atlas-1..4.png"
+      }
+    },
+    "AdvOT8817665d|54|e336cfe0c6f7dbdddf7efc1ce90f0ce83d44d15feb262ece4f00e966e4c02312": {
+      "value": "±",
+      "mode": "symbol",
+      "evidence": {
+        "document": "03",
+        "page": 4,
+        "nativeIndex": 3380,
+        "atlas": "glyph-atlas-1..4.png"
+      }
+    },
+    "AdvP4C4E59|2|1d2c53267c9d2f292c46afb46a8b2e1a6aaa388b1f685800a32772e443b08251": {
+      "value": "́",
+      "mode": "accent",
+      "evidence": {
+        "document": "03",
+        "page": 7,
+        "nativeIndex": 2965,
+        "atlas": "glyph-atlas-1..4.png"
+      }
+    },
+    "AdvP4C4E59|8364|1d2c53267c9d2f292c46afb46a8b2e1a6aaa388b1f685800a32772e443b08251": {
+      "value": "̈",
+      "mode": "accent",
+      "evidence": {
+        "document": "03",
+        "page": 7,
+        "nativeIndex": 4683,
+        "atlas": "glyph-atlas-1..4.png"
+      }
+    },
+    "AdvP4C4E59|1|64d46f13dc3597757da0fdd8ba3b100781327e4ce824d031b47a05d06c951d78": {
+      "value": "́",
+      "mode": "accent",
+      "evidence": {
+        "document": "04",
+        "page": 1,
+        "nativeIndex": 250,
+        "atlas": "glyph-atlas-1..4.png"
+      }
+    },
+    "AdvOT8817665d|54|cc7ac36342ec29c09a34c16e05d83e814019c1b4a1300782a8133263ebd7a06c": {
+      "value": "±",
+      "mode": "symbol",
+      "evidence": {
+        "document": "04",
+        "page": 1,
+        "nativeIndex": 1608,
+        "atlas": "glyph-atlas-1..4.png"
+      }
+    },
+    "AdvT001|1|7f8aba244afe06a863ff1de1c933f55bf6fd5d8b721e375154b402b191b64367": {
+      "value": "©",
+      "mode": "symbol",
+      "evidence": {
+        "document": "04",
+        "page": 1,
+        "nativeIndex": 5734,
+        "atlas": "glyph-atlas-1..4.png"
+      }
+    },
+    "AdvP4C4E74|1|c00a438038190d703bfad081b8a6add1fa4e1a45e716ac304a87c259d4efe0f7": {
+      "value": "•",
+      "mode": "symbol",
+      "evidence": {
+        "document": "04",
+        "page": 1,
+        "nativeIndex": 5843,
+        "atlas": "glyph-atlas-1..4.png"
+      }
+    },
+    "AdvPi1|109|bff4d43e2ca0d4d4404d63a9fc89ad265c0313c1b42c8ca94ab92d84a18ef9d2": {
+      "value": "μ",
+      "mode": "symbol",
+      "evidence": {
+        "document": "04",
+        "page": 2,
+        "nativeIndex": 796,
+        "atlas": "glyph-atlas-1..4.png"
+      }
+    },
+    "AdvOT8817665d|53|cc7ac36342ec29c09a34c16e05d83e814019c1b4a1300782a8133263ebd7a06c": {
+      "value": "=",
+      "mode": "symbol",
+      "evidence": {
+        "document": "04",
+        "page": 2,
+        "nativeIndex": 1076,
+        "atlas": "glyph-atlas-1..4.png"
+      }
+    },
+    "AdvOT8817665d|46|cc7ac36342ec29c09a34c16e05d83e814019c1b4a1300782a8133263ebd7a06c": {
+      "value": ">",
+      "mode": "symbol",
+      "evidence": {
+        "document": "04",
+        "page": 2,
+        "nativeIndex": 1409,
+        "atlas": "glyph-atlas-1..4.png"
+      }
+    },
+    "AdvOT8817665d|97|cc7ac36342ec29c09a34c16e05d83e814019c1b4a1300782a8133263ebd7a06c": {
+      "value": "α",
+      "mode": "symbol",
+      "evidence": {
+        "document": "04",
+        "page": 2,
+        "nativeIndex": 1814,
+        "atlas": "glyph-atlas-1..4.png"
+      }
+    },
+    "AdvOT8817665d|44|cc7ac36342ec29c09a34c16e05d83e814019c1b4a1300782a8133263ebd7a06c": {
+      "value": "<",
+      "mode": "symbol",
+      "evidence": {
+        "document": "04",
+        "page": 4,
+        "nativeIndex": 4916,
+        "atlas": "glyph-atlas-1..4.png"
+      }
+    },
+    "AdvOT8817665d|51|cc7ac36342ec29c09a34c16e05d83e814019c1b4a1300782a8133263ebd7a06c": {
+      "value": "×",
+      "mode": "symbol",
+      "evidence": {
+        "document": "04",
+        "page": 5,
+        "nativeIndex": 10,
+        "atlas": "glyph-atlas-1..4.png"
+      }
+    },
+    "AdvOT8817665d|50|cc7ac36342ec29c09a34c16e05d83e814019c1b4a1300782a8133263ebd7a06c": {
+      "value": "−",
+      "mode": "symbol",
+      "evidence": {
+        "document": "04",
+        "page": 5,
+        "nativeIndex": 14,
+        "atlas": "glyph-atlas-1..4.png"
+      }
+    },
+    "AdvP4C4E59|8364|64d46f13dc3597757da0fdd8ba3b100781327e4ce824d031b47a05d06c951d78": {
+      "value": "̈",
+      "mode": "accent",
+      "evidence": {
+        "document": "04",
+        "page": 6,
+        "nativeIndex": 6501,
+        "atlas": "glyph-atlas-1..4.png"
+      }
+    },
+    "AdvP4C4E59|1|92088076e2266f41553ccc2beb2227ee03a3ab6dab5fc1acd210533ab1e5479d": {
+      "value": "́",
+      "mode": "accent",
+      "evidence": {
+        "document": "05",
+        "page": 1,
+        "nativeIndex": 125,
+        "atlas": "glyph-atlas-1..4.png"
+      }
+    },
+    "AdvOT8817665d|57|d47993c8116cf2514ca17f345cfeccfcbc8d6c097c7dd462b5b62057e3c0428c": {
+      "value": "′",
+      "mode": "symbol",
+      "evidence": {
+        "document": "05",
+        "page": 1,
+        "nativeIndex": 1477,
+        "atlas": "glyph-atlas-1..4.png"
+      }
+    },
+    "AdvOT8817665d|50|d47993c8116cf2514ca17f345cfeccfcbc8d6c097c7dd462b5b62057e3c0428c": {
+      "value": "−",
+      "mode": "symbol",
+      "evidence": {
+        "document": "05",
+        "page": 1,
+        "nativeIndex": 2412,
+        "atlas": "glyph-atlas-1..4.png"
+      }
+    },
+    "AdvOT8817665d|54|d47993c8116cf2514ca17f345cfeccfcbc8d6c097c7dd462b5b62057e3c0428c": {
+      "value": "±",
+      "mode": "symbol",
+      "evidence": {
+        "document": "05",
+        "page": 1,
+        "nativeIndex": 2417,
+        "atlas": "glyph-atlas-1..4.png"
+      }
+    },
+    "AdvOT8817665d|103|d47993c8116cf2514ca17f345cfeccfcbc8d6c097c7dd462b5b62057e3c0428c": {
+      "value": "γ",
+      "mode": "symbol",
+      "evidence": {
+        "document": "05",
+        "page": 1,
+        "nativeIndex": 3638,
+        "atlas": "glyph-atlas-1..4.png"
+      }
+    },
+    "AdvT001|1|da182b450c7dc3c9407539a10328f8d104af55be714874bbf95a4566c2ab2f45": {
+      "value": "©",
+      "mode": "symbol",
+      "evidence": {
+        "document": "05",
+        "page": 1,
+        "nativeIndex": 6402,
+        "atlas": "glyph-atlas-1..4.png"
+      }
+    },
+    "AdvP4C4E74|1|c5e1170cdf0d02dd42b084cfe9daad905e567ef7aab0e74f1d75b8a1564699f1": {
+      "value": "•",
+      "mode": "symbol",
+      "evidence": {
+        "document": "05",
+        "page": 1,
+        "nativeIndex": 6504,
+        "atlas": "glyph-atlas-1..4.png"
+      }
+    },
+    "AdvOT8817665d|53|d47993c8116cf2514ca17f345cfeccfcbc8d6c097c7dd462b5b62057e3c0428c": {
+      "value": "=",
+      "mode": "symbol",
+      "evidence": {
+        "document": "05",
+        "page": 2,
+        "nativeIndex": 3261,
+        "atlas": "glyph-atlas-1..4.png"
+      }
+    },
+    "AdvOT8817665d|46|d47993c8116cf2514ca17f345cfeccfcbc8d6c097c7dd462b5b62057e3c0428c": {
+      "value": ">",
+      "mode": "symbol",
+      "evidence": {
+        "document": "05",
+        "page": 2,
+        "nativeIndex": 4763,
+        "atlas": "glyph-atlas-1..4.png"
+      }
+    },
+    "AdvOT8817665d|44|d47993c8116cf2514ca17f345cfeccfcbc8d6c097c7dd462b5b62057e3c0428c": {
+      "value": "<",
+      "mode": "symbol",
+      "evidence": {
+        "document": "05",
+        "page": 2,
+        "nativeIndex": 4816,
+        "atlas": "glyph-atlas-1..4.png"
+      }
+    },
+    "AdvOT8817665d|98|d47993c8116cf2514ca17f345cfeccfcbc8d6c097c7dd462b5b62057e3c0428c": {
+      "value": "β",
+      "mode": "symbol",
+      "evidence": {
+        "document": "05",
+        "page": 4,
+        "nativeIndex": 3313,
+        "atlas": "glyph-atlas-1..4.png"
+      }
+    },
+    "AdvP4C4E59|8364|028ebe7d9662005cf09997d228267848118af034cbadfee33ca09efee8c05617": {
+      "value": "̈",
+      "mode": "accent",
+      "evidence": {
+        "document": "06",
+        "page": 1,
+        "nativeIndex": 182,
+        "atlas": "glyph-atlas-1..4.png"
+      }
+    },
+    "AdvP4C4E59|2|028ebe7d9662005cf09997d228267848118af034cbadfee33ca09efee8c05617": {
+      "value": "́",
+      "mode": "accent",
+      "evidence": {
+        "document": "06",
+        "page": 1,
+        "nativeIndex": 497,
+        "atlas": "glyph-atlas-1..4.png"
+      }
+    },
+    "AdvOT8817665d|53|5870ac2261231c26fb8258b94b8d71266579d43f4f428f4722065d139955fc86": {
+      "value": "=",
+      "mode": "symbol",
+      "evidence": {
+        "document": "06",
+        "page": 1,
+        "nativeIndex": 1524,
+        "atlas": "glyph-atlas-1..4.png"
+      }
+    },
+    "AdvOT8817665d|44|5870ac2261231c26fb8258b94b8d71266579d43f4f428f4722065d139955fc86": {
+      "value": "<",
+      "mode": "symbol",
+      "evidence": {
+        "document": "06",
+        "page": 1,
+        "nativeIndex": 1979,
+        "atlas": "glyph-atlas-1..4.png"
+      }
+    },
+    "AdvOT8817665d|50|5870ac2261231c26fb8258b94b8d71266579d43f4f428f4722065d139955fc86": {
+      "value": "−",
+      "mode": "symbol",
+      "evidence": {
+        "document": "06",
+        "page": 1,
+        "nativeIndex": 2198,
+        "atlas": "glyph-atlas-1..4.png"
+      }
+    },
+    "AdvOT8817665d|54|5870ac2261231c26fb8258b94b8d71266579d43f4f428f4722065d139955fc86": {
+      "value": "±",
+      "mode": "symbol",
+      "evidence": {
+        "document": "06",
+        "page": 1,
+        "nativeIndex": 2204,
+        "atlas": "glyph-atlas-1..4.png"
+      }
+    },
+    "AdvT001|1|980215bf5f7c00601cad010d1a5c6b57fa671f616ce289fac11457219a9ff1b0": {
+      "value": "©",
+      "mode": "symbol",
+      "evidence": {
+        "document": "06",
+        "page": 1,
+        "nativeIndex": 6524,
+        "atlas": "glyph-atlas-1..4.png"
+      }
+    },
+    "AdvP4C4E74|1|2cb2e76422558fcbe1ffb3d97438d3bc95b41a96efd5b6cdae7dc7445d307f9f": {
+      "value": "•",
+      "mode": "symbol",
+      "evidence": {
+        "document": "06",
+        "page": 1,
+        "nativeIndex": 6626,
+        "atlas": "glyph-atlas-1..4.png"
+      }
+    },
+    "AdvOT8817665d|51|5870ac2261231c26fb8258b94b8d71266579d43f4f428f4722065d139955fc86": {
+      "value": "×",
+      "mode": "symbol",
+      "evidence": {
+        "document": "06",
+        "page": 2,
+        "nativeIndex": 2790,
+        "atlas": "glyph-atlas-1..4.png"
+      }
+    },
+    "AdvOT8817665d|109|5870ac2261231c26fb8258b94b8d71266579d43f4f428f4722065d139955fc86": {
+      "value": "μ",
+      "mode": "symbol",
+      "evidence": {
+        "document": "06",
+        "page": 2,
+        "nativeIndex": 4000,
+        "atlas": "glyph-atlas-1..4.png"
+      }
+    },
+    "AdvOT8817665d|68|5870ac2261231c26fb8258b94b8d71266579d43f4f428f4722065d139955fc86": {
+      "value": "Δ",
+      "mode": "symbol",
+      "evidence": {
+        "document": "06",
+        "page": 4,
+        "nativeIndex": 2941,
+        "atlas": "glyph-atlas-1..4.png"
+      }
+    },
+    "AdvOT8817665d|57|5870ac2261231c26fb8258b94b8d71266579d43f4f428f4722065d139955fc86": {
+      "value": "′",
+      "mode": "symbol",
+      "evidence": {
+        "document": "06",
+        "page": 6,
+        "nativeIndex": 2327,
+        "atlas": "glyph-atlas-1..4.png"
+      }
+    },
+    "AdvP4C4E59|94|3639557b6a019f9157dd5f5131e2bf082203bfbe0a548233d66e90e9048a224f": {
+      "value": "̂",
+      "mode": "accent",
+      "evidence": {
+        "document": "07",
+        "page": 1,
+        "nativeIndex": 181,
+        "atlas": "glyph-atlas-1..4.png"
+      }
+    },
+    "AdvT001|1|bbde4d8404339deee9e0e39fbc744bcaf70142edd3f0f1d7ca71e450474ed3e4": {
+      "value": "©",
+      "mode": "symbol",
+      "evidence": {
+        "document": "07",
+        "page": 1,
+        "nativeIndex": 6000,
+        "atlas": "glyph-atlas-1..4.png"
+      }
+    },
+    "AdvP4C4E74|1|830674b4660e137ec900b325d2b9e1dba5857e68c36045beaa8b42ffc425c1c6": {
+      "value": "•",
+      "mode": "symbol",
+      "evidence": {
+        "document": "07",
+        "page": 1,
+        "nativeIndex": 6102,
+        "atlas": "glyph-atlas-1..4.png"
+      }
+    },
+    "AdvOT8817665d|51|f9cad1a26d770592debd7361b80ac6dfbfce5ab5e1e40d47b0131a32f293b07e": {
+      "value": "×",
+      "mode": "symbol",
+      "evidence": {
+        "document": "07",
+        "page": 2,
+        "nativeIndex": 2350,
+        "atlas": "glyph-atlas-1..4.png"
+      }
+    },
+    "AdvOT8817665d|109|f9cad1a26d770592debd7361b80ac6dfbfce5ab5e1e40d47b0131a32f293b07e": {
+      "value": "μ",
+      "mode": "symbol",
+      "evidence": {
+        "document": "07",
+        "page": 3,
+        "nativeIndex": 847,
+        "atlas": "glyph-atlas-1..4.png"
+      }
+    },
+    "AdvOT8817665d|46|f9cad1a26d770592debd7361b80ac6dfbfce5ab5e1e40d47b0131a32f293b07e": {
+      "value": ">",
+      "mode": "symbol",
+      "evidence": {
+        "document": "07",
+        "page": 3,
+        "nativeIndex": 1845,
+        "atlas": "glyph-atlas-1..4.png"
+      }
+    },
+    "AdvOT8817665d|44|f9cad1a26d770592debd7361b80ac6dfbfce5ab5e1e40d47b0131a32f293b07e": {
+      "value": "<",
+      "mode": "symbol",
+      "evidence": {
+        "document": "07",
+        "page": 3,
+        "nativeIndex": 2126,
+        "atlas": "glyph-atlas-1..4.png"
+      }
+    },
+    "AdvOT8817665d|50|f9cad1a26d770592debd7361b80ac6dfbfce5ab5e1e40d47b0131a32f293b07e": {
+      "value": "−",
+      "mode": "symbol",
+      "evidence": {
+        "document": "07",
+        "page": 4,
+        "nativeIndex": 576,
+        "atlas": "glyph-atlas-1..4.png"
+      }
+    },
+    "AdvOT8817665d|53|f9cad1a26d770592debd7361b80ac6dfbfce5ab5e1e40d47b0131a32f293b07e": {
+      "value": "=",
+      "mode": "symbol",
+      "evidence": {
+        "document": "07",
+        "page": 4,
+        "nativeIndex": 1636,
+        "atlas": "glyph-atlas-1..4.png"
+      }
+    },
+    "AdvP4C4E59|8364|3639557b6a019f9157dd5f5131e2bf082203bfbe0a548233d66e90e9048a224f": {
+      "value": "̈",
+      "mode": "accent",
+      "evidence": {
+        "document": "07",
+        "page": 7,
+        "nativeIndex": 2791,
+        "atlas": "glyph-atlas-1..4.png"
+      }
+    },
+    "AdvOT8817665d|53|a6ad666a7574ebaa05d23bfd6b556049d1c55b14f72c0dd33456f97bc173c370": {
+      "value": "=",
+      "mode": "symbol",
+      "evidence": {
+        "document": "08",
+        "page": 1,
+        "nativeIndex": 1503,
+        "atlas": "glyph-atlas-1..4.png"
+      }
+    },
+    "AdvOT8817665d|51|a6ad666a7574ebaa05d23bfd6b556049d1c55b14f72c0dd33456f97bc173c370": {
+      "value": "×",
+      "mode": "symbol",
+      "evidence": {
+        "document": "08",
+        "page": 1,
+        "nativeIndex": 2046,
+        "atlas": "glyph-atlas-1..4.png"
+      }
+    },
+    "AdvOT8817665d|50|a6ad666a7574ebaa05d23bfd6b556049d1c55b14f72c0dd33456f97bc173c370": {
+      "value": "−",
+      "mode": "symbol",
+      "evidence": {
+        "document": "08",
+        "page": 1,
+        "nativeIndex": 2050,
+        "atlas": "glyph-atlas-1..4.png"
+      }
+    },
+    "AdvT001|1|28893220b8d39938af422673bf90ab1f474eb19e58de79341ce42b3fd2aaf926": {
+      "value": "©",
+      "mode": "symbol",
+      "evidence": {
+        "document": "08",
+        "page": 1,
+        "nativeIndex": 6616,
+        "atlas": "glyph-atlas-1..4.png"
+      }
+    },
+    "AdvP4C4E74|1|b2eac6d5b5ce7bf717da304211a910d8230f44e57370193bd489da3402318cfb": {
+      "value": "•",
+      "mode": "symbol",
+      "evidence": {
+        "document": "08",
+        "page": 1,
+        "nativeIndex": 6722,
+        "atlas": "glyph-atlas-1..4.png"
+      }
+    },
+    "AdvOT8817665d|54|a6ad666a7574ebaa05d23bfd6b556049d1c55b14f72c0dd33456f97bc173c370": {
+      "value": "±",
+      "mode": "symbol",
+      "evidence": {
+        "document": "08",
+        "page": 2,
+        "nativeIndex": 1543,
+        "atlas": "glyph-atlas-1..4.png"
+      }
+    },
+    "AdvPi1|109|94487a4ddf1b2c39af2bb3cea4bc85119db69abd18c0b9e93f1387dc814fa27b": {
+      "value": "μ",
+      "mode": "symbol",
+      "evidence": {
+        "document": "08",
+        "page": 2,
+        "nativeIndex": 3438,
+        "atlas": "glyph-atlas-1..4.png"
+      }
+    },
+    "AdvOT8817665d|97|a6ad666a7574ebaa05d23bfd6b556049d1c55b14f72c0dd33456f97bc173c370": {
+      "value": "α",
+      "mode": "symbol",
+      "evidence": {
+        "document": "08",
+        "page": 3,
+        "nativeIndex": 583,
+        "atlas": "glyph-atlas-1..4.png"
+      }
+    },
+    "AdvOT8817665d|46|a6ad666a7574ebaa05d23bfd6b556049d1c55b14f72c0dd33456f97bc173c370": {
+      "value": ">",
+      "mode": "symbol",
+      "evidence": {
+        "document": "08",
+        "page": 3,
+        "nativeIndex": 3869,
+        "atlas": "glyph-atlas-1..4.png"
+      }
+    },
+    "AdvOT8817665d|44|a6ad666a7574ebaa05d23bfd6b556049d1c55b14f72c0dd33456f97bc173c370": {
+      "value": "<",
+      "mode": "symbol",
+      "evidence": {
+        "document": "08",
+        "page": 4,
+        "nativeIndex": 2499,
+        "atlas": "glyph-atlas-1..4.png"
+      }
+    },
+    "AdvOT8817665d|49|a6ad666a7574ebaa05d23bfd6b556049d1c55b14f72c0dd33456f97bc173c370": {
+      "value": "+",
+      "mode": "symbol",
+      "evidence": {
+        "document": "08",
+        "page": 4,
+        "nativeIndex": 2509,
+        "atlas": "glyph-atlas-1..4.png"
+      }
+    },
+    "AdvOT8817665d|98|a6ad666a7574ebaa05d23bfd6b556049d1c55b14f72c0dd33456f97bc173c370": {
+      "value": "β",
+      "mode": "symbol",
+      "evidence": {
+        "document": "08",
+        "page": 9,
+        "nativeIndex": 70,
+        "atlas": "glyph-atlas-1..4.png"
+      }
+    },
+    "AdvOT8817665d|107|a6ad666a7574ebaa05d23bfd6b556049d1c55b14f72c0dd33456f97bc173c370": {
+      "value": "κ",
+      "mode": "symbol",
+      "evidence": {
+        "document": "08",
+        "page": 9,
+        "nativeIndex": 89,
+        "atlas": "glyph-atlas-1..4.png"
+      }
+    },
+    "AdvP4C4E59|1|a807c418d8d60a0524ce5a7e0ea809b0da56a35484db4a1b2431724563c5952c": {
+      "value": "́",
+      "mode": "accent",
+      "evidence": {
+        "document": "08",
+        "page": 9,
+        "nativeIndex": 4686,
+        "atlas": "glyph-atlas-1..4.png"
+      }
+    },
+    "AdvP4C4E59|126|a807c418d8d60a0524ce5a7e0ea809b0da56a35484db4a1b2431724563c5952c": {
+      "value": "̃",
+      "mode": "accent",
+      "evidence": {
+        "document": "08",
+        "page": 9,
+        "nativeIndex": 4689,
+        "atlas": "glyph-atlas-1..4.png"
+      }
+    },
+    "AdvP4C4E59|3|a807c418d8d60a0524ce5a7e0ea809b0da56a35484db4a1b2431724563c5952c": {
+      "value": "̀",
+      "mode": "accent",
+      "evidence": {
+        "document": "08",
+        "page": 9,
+        "nativeIndex": 8373,
+        "atlas": "glyph-atlas-1..4.png"
+      }
+    },
+    "AdvOT833fb896+20|8211|62cac7e05859b98fefdde36fc71b3164d0084bd67355e8679fbd1236587d85ba": {
+      "value": "–",
+      "mode": "symbol",
+      "evidence": {
+        "page": 1,
+        "nativeIndex": 129,
+        "atlas": "script-dash-verification.png"
+      }
+    },
+    "AdvOT833fb896+20|8211|0761545bf0774bfaf113950182795288badb64e1ad6f190d6ca1ec87b955b219": {
+      "value": "–",
+      "mode": "symbol",
+      "evidence": {
+        "page": 2,
+        "nativeIndex": 4436,
+        "atlas": "script-dash-verification.png"
+      }
+    },
+    "AdvOTf0129623+20|8211|fb379faf22dda69fa5ec7bb1a150a0e7698e7132e4594eeaafa8c17eeeb1c4c6": {
+      "value": "–",
+      "mode": "symbol",
+      "evidence": {
+        "page": 2,
+        "nativeIndex": 6024,
+        "atlas": "script-dash-verification.png"
+      }
+    }
+  }
+}

@@ -9,12 +9,21 @@
 本机优先的 AI 论文阅读工作台。保留 PDF 原貌，把翻译、段落解读、章节批注和带来源的对话放在同一个阅读空间里。无需注册，AI 使用你自己的接口。
 
 [![Tests](https://github.com/martin2026US-lab/paper-space/actions/workflows/test.yml/badge.svg)](https://github.com/martin2026US-lab/paper-space/actions/workflows/test.yml)
-![Version](https://img.shields.io/badge/version-1.3.5-b28a4d)
+![Version](https://img.shields.io/badge/version-1.4.0-b28a4d)
 ![License](https://img.shields.io/badge/license-MIT-806043)
 
 ![阅读工作台](docs/assets/workspace.jpg)
 
 ▶ **[在线观看 60 秒新版宣传片](https://martin2026US-lab.github.io/paper-space/)** · [下载视频（MP4）](https://github.com/martin2026US-lab/paper-space/releases/download/v1.3.2/paper-space-v1.3.2-promo-60s-fixed.mp4)
+
+## 1.4.0
+
+- 将“单栏阅读”和“双语阅读”合并为“全文阅读”，保留“全文导读”；原文、段落译文与可展开的 PDF 原页在同一阅读入口使用，已有译文继续保留，打开文献不自动调用模型。
+- 新增本机 PDF 单栏重排，保留图表、图注和来源坐标；悬停、选区与原文高亮联动，保留经典/杂志风格和弧形目录。
+- 姓名重音、上下标和特殊符号按已验证的字形与几何信息恢复；无法确认的区域保留原图，跨页来源可分别查看。
+- 正文原图可按需“提取文字”，支持编辑采用和恢复原图；需要用户配置支持识图的阅读模型。提取不自动翻译，不改原 PDF 或旧批注。
+- 修复中文识别进度乱码、解答 Markdown 加粗与列表显示，以及文字原图放大异常。
+- 阅读 AI、翻译和复核仍独立配置；不捆绑模型、识别环境或私人资料，复用本机已有组件。保留原文、批注、会话、译文与模型设置。
 
 ## 1.3.5 点击选章过渡
 

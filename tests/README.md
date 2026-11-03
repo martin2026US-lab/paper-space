@@ -56,3 +56,23 @@ Run npx electron tests/v134-electron.cjs for a 32-chapter input trace, SVG tick 
 ## Chapter click transitions
 
 Run npx electron tests/v135-electron.cjs to verify intermediate click frames before one final chapter navigation, rapid click retargeting, Escape cancellation, stable chapter identities after reader re-renders, reduced-motion behavior and source/configuration preservation.
+
+## Single-column and glyph checks (1.3.6)
+
+`npm test` includes additive legacy-layout upgrades, raw-source preservation, corrected model evidence, ambiguous-glyph fallback, and mock OpenAI/Anthropic image serialization. `python -m unittest discover -s tests -p "test_*.py"` also checks the glyph and cross-page normalization guards. All unit fixtures are synthetic; private paper exports and local preview profiles are not included in the app or source distribution.
+
+Local installation validation additionally checks the packaged native shell using an isolated profile, existing offline Docling and loopback mock model endpoints. The original Electron executable must remain byte-identical to upstream; app version is read from package.json or /api/health.
+
+## 1.3.7 regressions
+
+`pdf-progress.test.mjs` splits Chinese progress across every UTF-8 byte boundary and checks the Python environment. `answer-markdown.test.mjs` covers loose bold delimiters and literal code. Python glyph tests cover inline source crops and conservative whole-region fallback. Local Electron checks exercise rendered bold/lists, inert HTML, exact glyph page navigation, cross-page mock image requests and original data preservation using isolated profiles. Private paper fixtures stay outside distribution.
+
+## 1.3.8 text extraction
+
+`transcription.test.mjs` covers source-bound adoption, original-data preservation, backup roundtrip, stale-source rejection, restore and save-failure rollback. Local Electron QA checks actual modal interaction, mock cross-page crops, original-language prompts, editing, reload, translation use, inert text, empty/error/cancel paths and Classic/Magazine laptop sizes. Native packaged and installed builds are checked with isolated profiles and a loopback vision mock. No real model accuracy claim is made.
+
+## 1.4.0 unified reading
+
+The synthetic `v135-electron.cjs` regression now also checks startup and the two current entry points (full-text reading and full-text guide). Screenshots are saved inside its isolated `.test-data/` directory. Earlier version-specific browser suites may still expect the retired bilingual tab; use them against their corresponding historical version.
+
+Release validation additionally checks old bilingual view restoration, cached translations and reading position after guide round-trips, seven locally held multi-column papers, and both styles at 1024×640, 1280×800 and 1366×768. These private fixtures and screenshots are excluded from public source and installer assets. All model requests in validation use loopback mocks; this does not measure real model extraction accuracy.
