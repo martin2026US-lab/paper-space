@@ -14,6 +14,14 @@ A local-first reading workspace for papers and documents. Read PDFs in their ori
 
 The film uses stationary interface shots, a soft original score and illustrative demo data. AI results depend on the configured model.
 
+## New in 1.3.7 — Mac platform polish
+
+Reading, translation, annotations and backups remain shared with the Windows source. Mac menus follow the UI language, shortcut hints show Command / Option, and the Window menu can reopen a closed reading window. Version labels and backup metadata use the running version. Runtime discovery distinguishes Mac and Windows Python environments, and cancelling setup also terminates child processes. Windows behavior is retained.
+
+## New in 1.3.6 — Apple Silicon Mac support
+
+Adds a macOS 14+ / Apple Silicon desktop build while preserving Windows x64. Native Mac menus, Command shortcuts, window reactivation and a separate arm64 Docling installer are supported. Components stay outside the application bundle, under the user data directory. Run `npm run dist:mac` on a Mac to build an ad-hoc-signed, unnotarized DMG for local testing. See [installation notes](docs/INSTALL.md).
+
 ## New in 1.3.5
 
 Clicking a chapter briefly slides it to the dial pointer before opening it. Intermediate chapters are not opened. A second click retargets the slide, Escape cancels it, and reduced-motion preferences bypass the animation. Wheel/drag behavior, palettes and existing data remain intact.

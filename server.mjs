@@ -3,6 +3,7 @@ import {recognizeRemote,recognitionCapabilities} from './recognition-service.mjs
 import {requestChat} from './model-service.mjs';
 import {translateText,translationLanguages} from './translation-service.mjs';
 import http from 'node:http';
+import {readFileSync} from 'node:fs';
 import { readFile, stat } from 'node:fs/promises';
 import { resolve, extname, sep } from 'node:path';
 import { fileURLToPath } from 'node:url';
@@ -10,6 +11,7 @@ import { endpointFor } from './public/context.mjs';
 import { modelsEndpointFor,normalizeModels } from './public/models.mjs';
 import {createPdfService} from './pdf-service.mjs';
 
+const {version}=JSON.parse(readFileSync(new URL('./package.json',import.meta.url),'utf8'));
 const root = fileURLToPath(new URL('./public/', import.meta.url));
 const port = Number(process.env.PAPER_SPACE_PORT || 4317);
 const types = { '.html':'text/html', '.css':'text/css', '.js':'text/javascript', '.mjs':'text/javascript', '.json':'application/json', '.pdf':'application/pdf', '.svg':'image/svg+xml', '.wasm':'application/wasm', '.bcmap':'application/octet-stream', '.ttf':'font/ttf', '.woff':'font/woff', '.woff2':'font/woff2' };
@@ -26,7 +28,7 @@ export function createServer(options={}) {
       const host = req.headers.host;
       if (!/^127\.0\.0\.1:\d+$/.test(host || '')) return json(res,403,{error:'仅允许本机访问。'});
       const url = new URL(req.url, `http://${host}`);
-      if (url.pathname === '/api/health') return json(res,200,{name:'paper-space',version:'1.3.5'});
+      if (url.pathname === '/api/health') return json(res,200,{name:'paper-space',version});
       if (url.pathname === '/api/pdf/status' && req.method === 'GET') return json(res,200,{available:await pdfService.available(),busy:pdfService.busy===true,parser:'docling'});
       if (url.pathname === '/api/pdf/parse' && req.method === 'POST') {
         if(req.headers.origin!==`http://${host}`||req.headers['content-type']!=='application/pdf')return json(res,403,{error:'请求来源不允许。'});

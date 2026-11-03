@@ -76,7 +76,7 @@ export function createTranslationManager({storage,getReadingConfig,getReadingLan
  };
  const ready=(async()=>{
   $('translationRememberKey').checked=!!vault;$('translationRememberKey').disabled=!canRemember;
-  $('translationKeyStorageNote').textContent=vault?uiText("桌面版可用 Windows 加密保存翻译密钥。"):uiText("浏览器版只在当前会话保存翻译密钥。");
+  $('translationKeyStorageNote').textContent=vault?uiText("桌面版可用 系统加密保存翻译密钥。"):uiText("浏览器版只在当前会话保存翻译密钥。");
   if(vault){const status=await vault.status();if(!status.ok||!status.available){$('translationRememberKey').checked=false;$('translationRememberKey').disabled=true;}else {canRemember=true;for(const provider of ['ai','deepl','azure','libre']){const config=storedConfig(provider);if(!config.baseUrl)continue;const result=await vault.get(translationCredential(config));if(result.ok&&result.saved){keys.set(credentialKey(config),result.key);savedKeys.add(credentialKey(config));}}}}
   let saved=false;try{saved=!!storage.getItem(TRANSLATION_KEY);}catch{}
   if(!saved){try{const data=await request('/api/models',{baseUrl:settings.configs.ollama.baseUrl,format:'openai'},AbortSignal.timeout(3000));if(!data.models.some(m=>m.id===settings.configs.ollama.model))settings.provider='inherit';}catch{settings.provider='inherit';}saveTranslationSettings(storage,settings);}

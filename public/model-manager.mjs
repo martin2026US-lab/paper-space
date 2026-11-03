@@ -8,7 +8,7 @@ export function createModelManager({onChange,isBusy,toast,callModel}) {
   const restored=restoreProfiles(stored);let profiles=restored.profiles,activeId=restored.activeId;
   const keys=new Map();let draftId='',available=[],selected=new Set(),detectController,detectSerial=0;
   const vault=window.paperKeys,saved=new Set();let vaultReady=Promise.resolve();
-  $('keyStorageNote').textContent=vault?uiText("桌面使用 Windows 系统加密，密钥保存在此电脑。"):uiText("浏览器版本仅在当前页面会话保存密钥，关闭后需重新输入。");
+  $('keyStorageNote').textContent=vault?uiText("桌面使用 系统加密，密钥保存在此电脑。"):uiText("浏览器版本仅在当前页面会话保存密钥，关闭后需重新输入。");
   $('rememberKey').disabled=!vault;$('rememberKey').checked=!!vault;
   if(vault)vaultReady=(async()=>{const status=await vault.status();if(!status.ok||!status.available){$('keyStorageNote').textContent=status.error?uiError(status.error):uiText("系统加密不可用，仅使用会话密钥。");$('rememberKey').disabled=true;$('rememberKey').checked=false;return;}for(const p of profiles){const result=await vault.get(p);if(result.ok&&result.saved){keys.set(p.id,result.key);saved.add(p.id);}else if(!result.ok)toast(uiError(result.error));}update();})();
   // Remove legacy metadata that might have contained a key in old versions.

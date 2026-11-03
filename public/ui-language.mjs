@@ -1,4 +1,5 @@
 import en from './locales/en.mjs';
+import {applyPlatformUI,updateVersion} from './platform-ui.mjs';
 export const UI_LANGUAGE_KEY='paper-space-ui-language';
 export function normalizeUILanguage(value){return value==='en'?'en':'zh-CN';}
 export function loadUILanguage(storage){try{return normalizeUILanguage(storage?.getItem(UI_LANGUAGE_KEY));}catch{return'zh-CN';}}
@@ -18,7 +19,7 @@ export function localizeStaticUI(root){if(getUILanguage()!=='en')return;const wa
 export function uiHTML(markup){const template=document.createElement('template');template.innerHTML=markup;localizeStaticUI(template.content);return template.innerHTML;}
 export function uiDateLocale(){return getUILanguage()==='en'?'en-US':'zh-CN';}
 let initialized=false;
-export function initUILanguage(){if(initialized||typeof document==='undefined')return;initialized=true;document.documentElement.lang=getUILanguage();document.title=uiText('纸间 · Paper Space');localizeStaticUI(document.body);globalThis.paperDesktop?.setUILanguage?.(getUILanguage())?.catch(()=>{});}
+export function initUILanguage(){if(initialized||typeof document==='undefined')return;initialized=true;document.documentElement.lang=getUILanguage();document.title=uiText('纸间 · Paper Space');localizeStaticUI(document.body);applyPlatformUI(document,{platform:globalThis.paperDesktop?.platform||globalThis.navigator?.userAgentData?.platform||globalThis.navigator?.platform||'',translate:uiText});globalThis.paperDesktop?.setUILanguage?.(getUILanguage())?.catch(()=>{});fetch('/api/health').then(response=>response.ok?response.json():null).then(info=>updateVersion(document,info?.version,{desktop:!!globalThis.paperDesktop,translate:uiText})).catch(()=>{});}
 export async function changeUILanguage(value,prepare){const language=normalizeUILanguage(value);if(language===getUILanguage())return true;
  if(prepare&&await prepare()===false)return false;const store=storage();try{store.setItem(UI_LANGUAGE_KEY,language);if(store.getItem(UI_LANGUAGE_KEY)!==language)throw Error();}catch{throw Error(uiText('界面语言未能保存，请检查本机存储。'));}
  try{await globalThis.paperDesktop?.setUILanguage?.(language);}catch{}

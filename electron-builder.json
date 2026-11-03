@@ -21,9 +21,28 @@
     "python/download_models.py",
     "python/requirements.txt",
     "python/constraints-windows.txt",
+    "python/constraints-macos-arm64.txt",
     "quality-service.mjs",
     "recognition-service.mjs"
   ],
+  "mac": {
+    "target": [{"target": "dmg", "arch": ["arm64"]}],
+    "category": "public.app-category.productivity",
+    "icon": "desktop/icon.icns",
+    "artifactName": "Paper-Space-${version}-macOS-${arch}.${ext}",
+    "minimumSystemVersion": "14.0",
+    "identity": "-",
+    "hardenedRuntime": false,
+    "notarize": false
+  },
+  "dmg": {
+    "sign": false,
+    "title": "Paper Space ${version}",
+    "contents": [
+      {"x": 140, "y": 160},
+      {"x": 420, "y": 160, "type": "link", "path": "/Applications"}
+    ]
+  },
   "win": {
     "target": [
       {

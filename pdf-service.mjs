@@ -3,11 +3,12 @@ import {createHash,randomUUID} from 'node:crypto';
 import {access,mkdir,readFile,rm} from 'node:fs/promises';
 import {resolve,join} from 'node:path';
 import {fileURLToPath} from 'node:url';
+import {runtimeSpec} from './desktop/runtime-manager.mjs';
 const sourceRoot=fileURLToPath(new URL('./',import.meta.url));
 export function validLayout(value){if(value?.parser!=='docling'||!Number.isInteger(value.pages)||value.pages<1||value.pages>500||!Array.isArray(value.blocks)||value.blocks.length>100000||value.blocks.some(b=>typeof b.text!=='string'||!Array.isArray(b.boxes)||b.boxes.some(x=>!Number.isInteger(x.page)||x.page<1||x.page>value.pages||![x.x,x.y,x.right,x.bottom,x.pageWidth,x.pageHeight].every(Number.isFinite)||x.pageWidth<=0||x.pageHeight<=0||x.right<x.x||x.bottom<x.y)))throw Error('Docling 未输出有效的文档结构。');return value;}
-export function createPdfService({runtimeRoot=process.env.PAPER_SPACE_RUNTIME||resolve(sourceRoot,'runtime'),dataRoot=process.env.PAPER_SPACE_PDF_DATA||resolve(sourceRoot,'data'),runtimeProvider,spawnImpl=spawn}={}){
- const python=process.env.PAPER_SPACE_PYTHON||join(runtimeRoot,'python','python.exe'),models=join(runtimeRoot,'models'),cache=join(dataRoot,'pdf-cache');let running=null;
- async function configuration(){return runtimeProvider?runtimeProvider():{python,models,pythonPath:join(runtimeRoot,'docling','Lib','site-packages')};}
+export function createPdfService({runtimeRoot=process.env.PAPER_SPACE_RUNTIME||resolve(sourceRoot,'runtime'),dataRoot=process.env.PAPER_SPACE_PDF_DATA||resolve(sourceRoot,'data'),runtimeProvider,spawnImpl=spawn,platform=process.platform}={}){
+ const cache=join(dataRoot,'pdf-cache');let running=null;
+ async function configuration(){return runtimeProvider?runtimeProvider():runtimeSpec(runtimeRoot,process.env.PAPER_SPACE_PYTHON,{platform});}
  async function available(){try{const spec=await configuration();if(!spec)return false;await access(spec.python);await access(join(spec.models,'ready.json'));return true;}catch{return false;}}
  async function parse(bytes,signal,{mode='fast',force=false,onProgress=()=>{}}={}){
   signal?.throwIfAborted();if(!await available())throw Error('本机 Docling 尚未准备完成，请打开文档识别设置。');mode=mode==='accurate'?'accurate':'fast';

@@ -12,10 +12,13 @@ import {mkdirSync,appendFileSync,readFileSync,writeFileSync} from 'node:fs';
 import {dirname,join,resolve} from 'node:path';
 import {fileURLToPath} from 'node:url';
 import {createServer} from '../server.mjs';
-import {desktopPaths} from './paths.mjs';
+import {desktopPaths,isPathInside} from './paths.mjs';
+import {desktopMenu} from './menu.mjs';
 
 const sourceRoot=resolve(dirname(fileURLToPath(import.meta.url)),'..');
 const portableRoot=app.isPackaged?dirname(process.execPath):sourceRoot;
+const isMac=process.platform==='darwin';
+const applicationRoot=app.isPackaged&&isMac?resolve(portableRoot,'..','..'):portableRoot;
 const defaults=desktopPaths({packaged:app.isPackaged,sourceRoot,resourcesPath:process.resourcesPath,appData:app.getPath('appData')});
 const testRoot=process.env.PAPER_SPACE_TEST_DATA;
 if(testRoot&&!process.env.PAPER_SPACE_TEST_PORT)throw new Error('隔离测试必须指定独立端口');
@@ -24,7 +27,7 @@ const logRoot=join(dataRoot,'logs');
 const boundsFile=join(dataRoot,'window.json');
 const port=Number(process.env.PAPER_SPACE_TEST_PORT)||4319;
 if(!Number.isInteger(port)||port<1024||port>65535)throw new Error('无效本机端口');
-if(testRoot){const target=dataRoot.toLowerCase();const forbidden=[defaults.dataRoot,...['data','runtime'].map(name=>resolve(portableRoot,name))].map(p=>p.toLowerCase());if(port===4319||forbidden.some(p=>target===p||target.startsWith(p+'\\')))throw new Error('隔离测试不得使用正式资料目录或端口');}
+if(testRoot){const forbidden=[defaults.dataRoot,...['data','runtime'].map(name=>resolve(portableRoot,name))];if(port===4319||forbidden.some(path=>isPathInside(path,dataRoot)))throw new Error('隔离测试不得使用正式资料目录或端口');}
 const origin=`http://127.0.0.1:${port}`;
 const debugMode=process.argv.includes('--debug');
 let mainWindow,server,runtime,quitting=false;
@@ -58,25 +61,31 @@ function toggleTools() {
   if(mainWindow.webContents.isDevToolsOpened())mainWindow.webContents.closeDevTools();
   else mainWindow.webContents.openDevTools({mode:'detach'});
 }
+function messageBox(options) {
+  return mainWindow&&!mainWindow.isDestroyed()?dialog.showMessageBox(mainWindow,options):dialog.showMessageBox(options);
+}
+function showMainWindow() {
+  if(quitting||!server?.listening)return;
+  if(mainWindow&&!mainWindow.isDestroyed()) {
+    if(mainWindow.isMinimized())mainWindow.restore();mainWindow.show();mainWindow.focus();return;
+  }
+  return createWindow().catch(error=>{log('window-open-failed',error.name);dialog.showErrorBox(uiText('纸间启动失败'),uiError(error.message));});
+}
 function setupMenu() {
-  Menu.setApplicationMenu(Menu.buildFromTemplate([
-    {label:uiText("文件"),submenu:[{label:uiText("退出纸间"),role:'quit',accelerator:'Alt+F4'}]},
-    {label:uiText("编辑"),submenu:[{label:uiText("撤销"),role:'undo'},{label:uiText("重做"),role:'redo'},{type:'separator'},{label:uiText("剪切"),role:'cut'},{label:uiText("复制"),role:'copy'},{label:uiText("粘贴"),role:'paste'},{label:uiText("全选"),role:'selectAll'}]},
-    {label:uiText("视图"),submenu:[{label:uiText("刷新界面"),role:'reload',accelerator:'CommandOrControl+R'},{label:uiText("忽略缓存并刷新"),role:'forceReload',accelerator:'CommandOrControl+Shift+R'},{type:'separator'},{label:uiText("放大"),role:'zoomIn'},{label:uiText("缩小"),role:'zoomOut'},{label:uiText("恢复缩放"),role:'resetZoom'},{type:'separator'},{label:uiText("全屏"),role:'togglefullscreen',accelerator:'F11'}]},
-    {label:uiText("调试"),submenu:[{label:uiText("开发者工具"),accelerator:'F12',click:toggleTools},{label:uiText("打开界面源码目录"),click:()=>openFolder(join(sourceRoot,'public'))},{label:uiText("打开应用数据目录"),click:()=>openFolder(dataRoot)},{label:uiText("打开诊断日志目录"),click:()=>openFolder(logRoot)},{type:'separator'},{label:uiText("重启应用"),click:()=>{app.relaunch();app.quit();}}]},
-    {label:uiText("帮助"),submenu:[{label:uiText("调试说明"),click:()=>dialog.showMessageBox(mainWindow,{type:'info',title:uiText("纸间 · 调试说明"),message:uiText("F12 打开开发者工具；Ctrl+R 刷新界面。"),detail:uiText("修改 public/app.mjs、style.css 或 index.html 后刷新即可。修改 server.mjs 或 desktop/main.mjs 后，通过“调试 → 重启应用”重新加载。\n\n安装版数据保存在用户目录的 PaperSpace 文件夹，源码版保存在项目 data 文件夹。API Key 可在设置中选择由 Windows 系统加密记住，并可按接口清除。")})},{label:uiText("关于纸间"),click:()=>dialog.showMessageBox(mainWindow,{type:'info',title:uiText("关于纸间"),message:uiText("纸间 {0} · 本机论文阅读工作台", app.getVersion()),detail:uiText("Electron {0}\n无需登录。文件在本机解析；AI 功能使用你配置的接口。\n\n文档识别环境可独立配置；个人数据与程序目录分开保存。", process.versions.electron)})}]},
-  ]));
+  const about=()=>messageBox({type:'info',title:uiText('关于纸间'),message:uiText('纸间 {0} · 本机论文阅读工作台',app.getVersion()),detail:uiText('Electron {0}\n无需登录。文件在本机解析；AI 功能使用你配置的接口。\n\n文档识别环境可独立配置；个人数据与程序目录分开保存。',process.versions.electron)});
+  const debug=()=>messageBox({type:'info',title:uiText('纸间 · 调试说明'),message:uiText(isMac?'⌘⌥I 打开开发者工具；⌘R 刷新界面。':'F12 打开开发者工具；Ctrl+R 刷新界面。'),detail:uiText('修改 public/app.mjs、style.css 或 index.html 后刷新即可。修改 server.mjs 或 desktop/main.mjs 后，通过“调试 → 重启应用”重新加载。\n\n安装版数据保存在用户目录的 PaperSpace 文件夹，源码版保存在项目 data 文件夹。API Key 可在设置中选择由系统加密记住，并可按接口清除。')});
+  Menu.setApplicationMenu(Menu.buildFromTemplate(desktopMenu({platform:process.platform,name:app.name,t:uiText,actions:{about,debug,reopen:showMainWindow,tools:toggleTools,source:()=>openFolder(join(sourceRoot,'public')),data:()=>openFolder(dataRoot),logs:()=>openFolder(logRoot),restart:()=>{app.relaunch();app.quit();}}})));
 }
 async function createWindow() {
   const size=initialWindow();
   mainWindow=new BrowserWindow({
     width:size.width,height:size.height,minWidth:840,minHeight:600,
-    title:uiText("纸间 · Paper Space"),show:false,backgroundColor:'#e8e4dc',titleBarStyle:'hidden',titleBarOverlay:{color:'#f0ebe2',symbolColor:'#574126',height:38},autoHideMenuBar:true,
+    title:uiText("纸间 · Paper Space"),show:false,backgroundColor:'#e8e4dc',titleBarStyle:'hidden',...(isMac?{trafficLightPosition:{x:14,y:12}}:{titleBarOverlay:{color:'#f0ebe2',symbolColor:'#574126',height:38}}),autoHideMenuBar:!isMac,
     icon:join(sourceRoot,'desktop','icon.png'),
     webPreferences:{preload:join(sourceRoot,'desktop','preload.cjs'),nodeIntegration:false,contextIsolation:true,sandbox:true,webSecurity:true,devTools:true},
   });
-  mainWindow.setMenu(null);
-  mainWindow.webContents.on('before-input-event',(event,input)=>{if(input.type!=='keyDown')return;if(input.key==='F12'){event.preventDefault();toggleTools();}else if(input.control&&input.key.toLowerCase()==='r'){event.preventDefault();input.shift?mainWindow.webContents.reloadIgnoringCache():mainWindow.webContents.reload();}});
+  if(!isMac)mainWindow.setMenu(null);
+  mainWindow.webContents.on('before-input-event',(event,input)=>{if(input.type!=='keyDown')return;if(input.key==='F12'){event.preventDefault();toggleTools();}else if((isMac?input.meta:input.control)&&input.key.toLowerCase()==='r'){event.preventDefault();input.shift?mainWindow.webContents.reloadIgnoringCache():mainWindow.webContents.reload();}});
   // Documents cannot navigate the app or grant OS capabilities.
   mainWindow.webContents.setWindowOpenHandler(()=>({action:'deny'}));
   mainWindow.webContents.on('will-navigate',(event,url)=>{try{if(new URL(url).origin!==origin)event.preventDefault();}catch{event.preventDefault();}});
@@ -97,8 +106,9 @@ async function createWindow() {
 
 if(!app.requestSingleInstanceLock())app.quit();
 else {
-  app.on('second-instance',(_event,argv)=>{if(mainWindow){if(mainWindow.isMinimized())mainWindow.restore();mainWindow.show();mainWindow.focus();if(argv.includes('--debug')&&!mainWindow.webContents.isDevToolsOpened())mainWindow.webContents.openDevTools({mode:'detach'});}});
-  app.on('window-all-closed',()=>app.quit());
+  app.on('second-instance',(_event,argv)=>{showMainWindow();if(argv.includes('--debug')&&mainWindow&&!mainWindow.webContents.isDevToolsOpened())mainWindow.webContents.openDevTools({mode:'detach'});});
+  app.on('activate',showMainWindow);
+  app.on('window-all-closed',()=>{if(!isMac)app.quit();});
   app.on('before-quit',event=>{
     if(quitting||!server?.listening)return;
     event.preventDefault();quitting=true;runtime?.cancel();saveWindow();log('exit');
@@ -110,7 +120,7 @@ else {
       uiLanguage=language;try{writeFileSync(join(dataRoot,'ui-language.json'),JSON.stringify({language}));}catch{}
       setupMenu();if(mainWindow&&!mainWindow.isDestroyed())mainWindow.setTitle(uiText('纸间 · Paper Space'));return{ok:true};
     });
-    runtime=createRuntimeManager({dataRoot,componentRoot:testRoot?join(dataRoot,'components'):externalComponentRoot(portableRoot),legacyRoots:[process.env.PAPER_SPACE_RUNTIME||defaults.runtimeRoot],appRoot:portableRoot,sourceRoot});
+    runtime=createRuntimeManager({dataRoot,componentRoot:testRoot?join(dataRoot,'components'):externalComponentRoot(portableRoot,{dataRoot:join(app.getPath('appData'),'PaperSpace')}),legacyRoots:[process.env.PAPER_SPACE_RUNTIME||defaults.runtimeRoot],appRoot:applicationRoot,sourceRoot});
     await runtime.current();
     ipcMain.handle('paper-space:runtime',async(event,action)=>{if(!trustedSender(event,mainWindow,origin))return{ok:false,error:'Untrusted component request'};try{
       if(action==='status')return{ok:true,...await runtime.status()};if(action==='install')return{ok:true,...await runtime.install()};if(action==='cancel')return runtime.cancel();if(action==='official'){await shell.openExternal(OFFICIAL_DOCLING);return{ok:true};}

@@ -9,12 +9,20 @@
 本机优先的 AI 论文阅读工作台。保留 PDF 原貌，把翻译、段落解读、章节批注和带来源的对话放在同一个阅读空间里。无需注册，AI 使用你自己的接口。
 
 [![Tests](https://github.com/martin2026US-lab/paper-space/actions/workflows/test.yml/badge.svg)](https://github.com/martin2026US-lab/paper-space/actions/workflows/test.yml)
-![Version](https://img.shields.io/badge/version-1.3.5-b28a4d)
+![Version](https://img.shields.io/badge/version-1.3.7-b28a4d)
 ![License](https://img.shields.io/badge/license-MIT-806043)
 
 ![阅读工作台](docs/assets/workspace.jpg)
 
 ▶ **[在线观看 60 秒新版宣传片](https://martin2026US-lab.github.io/paper-space/)** · [下载视频（MP4）](https://github.com/martin2026US-lab/paper-space/releases/download/v1.3.2/paper-space-v1.3.2-promo-60s-fixed.mp4)
+
+## 1.3.7 Mac 平台完善
+
+基于同一份 Windows 源码复用阅读、翻译、批注及备份逻辑。Mac 使用原生中英文菜单、Command / Option 快捷键提示与辅助功能标记；关闭窗口后仍可从「窗口」菜单重新打开或查看关于信息。界面与备份版本取自运行版本。识别组件按平台检测 Python，取消安装会同时停止子进程；Windows 安装与快捷键保留。
+
+## 1.3.6 Apple Silicon Mac 支持
+
+新增 macOS 14+ / Apple Silicon 桌面适配，保留 Windows 10 / 11 x64。支持原生 Mac 菜单、Command 快捷键、窗口重新打开，以及独立的 arm64 Docling 一键配置；模型仍在本机离线识别。Mac 组件保存在用户资料目录，不写入 .app 包。可在 Mac 上运行 `npm run dist:mac` 构建临时签名、未公证的本机试用 DMG，详见[安装说明](docs/INSTALL.md)。
 
 ## 1.3.5 点击选章过渡
 
@@ -95,7 +103,7 @@
 - **自定义 AI 接口**：自行填写地址、模型和密钥，支持 OpenAI 兼容、Anthropic 协议。
 - **自定义翻译接口**：自行填写地址、密钥及接口要求的区域；按接口文档选择 LibreTranslate、DeepL 或 Translator v3 兼容协议。这里的协议决定请求格式，不指定服务商，也不预填云端服务地址。接口需实现所选兼容协议，目标语言通过接口语言列表检测并映射。
 
-专用翻译服务保存前检测可用目标语言，发送原文并使用服务商语言代码，省略源语言以自动识别。切换目标或服务不会自动翻译，也不会在失败后改用其它接口。浏览器密钥只保存在会话中；桌面版可用 Windows 系统加密保存，翻译密钥与阅读 AI 密钥分别绑定。
+专用翻译服务保存前检测可用目标语言，发送原文并使用服务商语言代码，省略源语言以自动识别。切换目标或服务不会自动翻译，也不会在失败后改用其它接口。浏览器密钥只保存在会话中；桌面版可用系统加密保存，翻译密钥与阅读 AI 密钥分别绑定。
 
 ## 从源码运行（开发者）
 
@@ -109,18 +117,18 @@ npm start
 
 打开 **http://127.0.0.1:4317**，导入自己的文档。可选：启动前运行 `npm run setup:demo` 下载公开的 *Attention Is All You Need* 示例。已经初始化的文献库可以直接导入下载后的 `public/demo.pdf`。
 
-### Windows 桌面版（源码启动）
+### Windows / Apple Silicon Mac 桌面版（源码启动）
 
 ```sh
 npm ci
 npm run desktop
 ```
 
-桌面版监听 `127.0.0.1:4319`，数据保存在项目的 `data/`。F12 打开开发者工具。源码方式的 Electron 首次安装需要联网；普通用户请使用上方安装包。主要验证平台为 Windows。
+桌面版监听 `127.0.0.1:4319`，数据保存在项目的 `data/`。F12 打开开发者工具。源码方式的 Electron 首次安装需要联网；普通用户请使用上方安装包。支持 Windows x64 和 macOS 14+ Apple Silicon。
 
 ### 可选：本机 PDF 结构识别
 
-Windows 桌面版可直接在「更多 → 文档识别组件」选择保存目录，再点击「一键下载并配置」。使用官方 Docling/PyPI、PyTorch CPU 与 Hugging Face 模型源；工具来自 uv 官方仓库并核验 SHA-256。Python、下载缓存和模型保存在所选组件目录，安装失败或取消不会替换正在使用的环境。首次配置需要联网，之后解析保持离线。
+Windows 与 Apple Silicon Mac 桌面版可直接在「更多 → 文档识别组件」选择保存目录，再点击「一键下载并配置」。使用官方 Docling/PyPI、PyTorch CPU 与 Hugging Face 模型源；工具来自 uv 官方仓库并核验 SHA-256。Python、下载缓存和模型保存在所选组件目录，安装失败或取消不会替换正在使用的环境。首次配置需要联网，之后解析保持离线。
 
 
 未配置 Docling 时，仍可显示 PDF 原文和提取可选文字；逐段语义解读需要成功完成结构识别。扫描件 OCR 暂未启用。
@@ -150,7 +158,7 @@ npm start
 
 文献、笔记和对话留在本机。应用仅监听回环地址，导入文件不会上传。点击翻译、生成解读、导读或发送对话时，才向你配置的模型接口发送相应材料；全文导读会使用全文。设置中的连接测试与模型检测也会访问所配置接口。
 
-浏览器版密钥仅保留在当前页面内存；桌面版可使用 Electron safeStorage / Windows DPAPI 加密记住密钥。服务端不记录密钥、原文或回答。模型供应商仍按其自身条款处理收到的内容。
+浏览器版密钥仅保留在当前页面内存；桌面版可使用 Electron safeStorage（Windows DPAPI / macOS 钥匙串） 加密记住密钥。服务端不记录密钥、原文或回答。模型供应商仍按其自身条款处理收到的内容。
 
 `data/`、`runtime/`、密钥文件、解析缓存及本机测试数据已加入 `.gitignore`。**不要把这些目录提交到自己的分支，也不要在 Issue 中贴出 API Key 或私人论文。** 导出笔记不是完整资料备份；清除浏览器网站数据会移除其本机文献库。
 

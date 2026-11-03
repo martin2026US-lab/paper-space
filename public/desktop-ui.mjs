@@ -4,6 +4,7 @@ export function createDesktopUI({state,toast,flush}){
   const $=id=>document.getElementById(id),api=window.paperDesktop;
   if(!api){$('storageLocation').textContent=uiText("浏览器版由浏览器保存对话；桌面版可选择目录。");$('chooseChatFolder').disabled=true;return;}
   document.body.classList.add('desktop-app');$('desktopTitlebar').hidden=false;
+  if(api.platform==='darwin')document.body.classList.add('platform-macos');
   $('appMenu').onclick=async()=>{const button=$('appMenu');button.setAttribute('aria-expanded','true');try{await api.menu();}finally{button.setAttribute('aria-expanded','false');}};
   let writing=Promise.resolve();
   async function status(){const r=await api.chats('status');if(r.ok)$('storageLocation').textContent=r.folder;else toast(uiError(r.error));}

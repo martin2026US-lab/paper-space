@@ -1,6 +1,6 @@
 # Tests
 
-`npm test` runs all `*.test.mjs` suites using Node.js 22 or newer. Requests use local mock servers; no real model credentials are needed. Both Windows and Linux are included in CI.
+`npm test` runs all `*.test.mjs` suites using Node.js 22 or newer. Requests use local mock servers; no real model credentials are needed. Windows, Linux and macOS are included in CI.
 
 Browser fixtures are synthetic PDFs/DOCX files. Run a specific `*-browser-server.mjs` with Node, open the localhost URL printed in the console, and inspect the displayed results. Do not run multiple generations at once: some intentionally reuse the same test ports.
 
@@ -56,3 +56,11 @@ Run npx electron tests/v134-electron.cjs for a 32-chapter input trace, SVG tick 
 ## Chapter click transitions
 
 Run npx electron tests/v135-electron.cjs to verify intermediate click frames before one final chapter navigation, rapid click retargeting, Escape cancellation, stable chapter identities after reader re-renders, reduced-motion behavior and source/configuration preservation.
+
+## Apple Silicon Mac checks
+
+`npx electron tests/macos-desktop.cjs` checks native Mac menus, traffic-light spacing, synthetic Keychain credentials, real PDF rendering, persisted consent and Dock window reactivation. It uses only isolated data under `.test-data/`. `npm test` also covers Unix runtime discovery, Mac install commands, corrupt-download rejection and unsupported Intel setup, alongside the existing Windows regression tests.
+
+Build the local ad-hoc-signed DMG on an Apple Silicon Mac with `npm run dist:mac`. This target does not require a developer certificate or notarization credentials. Optional real Docling validation requires an explicit component download; no model weights are bundled in the DMG.
+
+Mac regression coverage also checks Chinese/English native menus, Command/Option hint text and accessibility attributes, accurate running version, and About / window reopening with no reading window. Node tests cover foreign-platform runtime rejection and POSIX installer process-tree cancellation.
