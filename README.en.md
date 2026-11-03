@@ -14,13 +14,17 @@ A local-first reading workspace for papers and documents. Read PDFs in their ori
 
 The film uses stationary interface shots, a soft original score and illustrative demo data. AI results depend on the configured model.
 
-## New in 1.3.7 — Mac platform polish
+## New in 1.4.0
 
-Reading, translation, annotations and backups remain shared with the Windows source. Mac menus follow the UI language, shortcut hints show Command / Option, and the Window menu can reopen a closed reading window. Version labels and backup metadata use the running version. Runtime discovery distinguishes Mac and Windows Python environments, and cancelling setup also terminates child processes. Windows behavior is retained.
+Full-text reading brings the paper, on-demand paragraph translations and expandable PDF originals into one place. Whole-paper guides remain a separate tab. Local PDF reflow retains source regions, figures and captions; hover and selection track the original.
 
-## New in 1.3.6 — Apple Silicon Mac support
+Verified glyphs restore accents, scripts and symbols, while uncertain regions retain original crops. Extract text uses your configured vision-capable reading model only when clicked: edit, apply and restore without rewriting the PDF or existing notes. Chinese recognition progress, inline Markdown and oversized text crops are fixed. Existing local components, data, Classic/Magazine styles and the chapter dial remain.
 
-Adds a macOS 14+ / Apple Silicon desktop build while preserving Windows x64. Native Mac menus, Command shortcuts, window reactivation and a separate arm64 Docling installer are supported. Components stay outside the application bundle, under the user data directory. Run `npm run dist:mac` on a Mac to build an ad-hoc-signed, unnotarized DMG for local testing. See [installation notes](docs/INSTALL.md).
+## First macOS release · Apple Silicon
+
+Version 1.4.0 supports both Windows x64 and macOS 14+ on Apple Silicon. Mac builds use native localized menus, Command/Option shortcuts, Keychain-backed credentials and standard window behavior. An independent arm64 Docling environment stays outside the app bundle and survives upgrades alongside reading data.
+
+Run `npm run dist:mac` on a Mac to create an ad-hoc-signed, unnotarized DMG. A downloaded build may need approval in System Settings → Privacy & Security on first launch. See the [installation guide](docs/INSTALL.md).
 
 ## New in 1.3.5
 

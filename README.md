@@ -9,20 +9,27 @@
 本机优先的 AI 论文阅读工作台。保留 PDF 原貌，把翻译、段落解读、章节批注和带来源的对话放在同一个阅读空间里。无需注册，AI 使用你自己的接口。
 
 [![Tests](https://github.com/martin2026US-lab/paper-space/actions/workflows/test.yml/badge.svg)](https://github.com/martin2026US-lab/paper-space/actions/workflows/test.yml)
-![Version](https://img.shields.io/badge/version-1.3.7-b28a4d)
+![Version](https://img.shields.io/badge/version-1.4.0-b28a4d)
 ![License](https://img.shields.io/badge/license-MIT-806043)
 
 ![阅读工作台](docs/assets/workspace.jpg)
 
 ▶ **[在线观看 60 秒新版宣传片](https://martin2026US-lab.github.io/paper-space/)** · [下载视频（MP4）](https://github.com/martin2026US-lab/paper-space/releases/download/v1.3.2/paper-space-v1.3.2-promo-60s-fixed.mp4)
 
-## 1.3.7 Mac 平台完善
+## 1.4.0
 
-基于同一份 Windows 源码复用阅读、翻译、批注及备份逻辑。Mac 使用原生中英文菜单、Command / Option 快捷键提示与辅助功能标记；关闭窗口后仍可从「窗口」菜单重新打开或查看关于信息。界面与备份版本取自运行版本。识别组件按平台检测 Python，取消安装会同时停止子进程；Windows 安装与快捷键保留。
+- 将“单栏阅读”和“双语阅读”合并为“全文阅读”，保留“全文导读”；原文、段落译文与可展开的 PDF 原页在同一阅读入口使用，已有译文继续保留，打开文献不自动调用模型。
+- 新增本机 PDF 单栏重排，保留图表、图注和来源坐标；悬停、选区与原文高亮联动，保留经典/杂志风格和弧形目录。
+- 姓名重音、上下标和特殊符号按已验证的字形与几何信息恢复；无法确认的区域保留原图，跨页来源可分别查看。
+- 正文原图可按需“提取文字”，支持编辑采用和恢复原图；需要用户配置支持识图的阅读模型。提取不自动翻译，不改原 PDF 或旧批注。
+- 修复中文识别进度乱码、解答 Markdown 加粗与列表显示，以及文字原图放大异常。
+- 阅读 AI、翻译和复核仍独立配置；不捆绑模型、识别环境或私人资料，复用本机已有组件。保留原文、批注、会话、译文与模型设置。
 
-## 1.3.6 Apple Silicon Mac 支持
+## macOS 首发 · Apple Silicon
 
-新增 macOS 14+ / Apple Silicon 桌面适配，保留 Windows 10 / 11 x64。支持原生 Mac 菜单、Command 快捷键、窗口重新打开，以及独立的 arm64 Docling 一键配置；模型仍在本机离线识别。Mac 组件保存在用户资料目录，不写入 .app 包。可在 Mac 上运行 `npm run dist:mac` 构建临时签名、未公证的本机试用 DMG，详见[安装说明](docs/INSTALL.md)。
+1.4.0 同时支持 Windows x64 与 macOS 14+ / Apple Silicon。Mac 使用原生中英文菜单、Command / Option 快捷键、系统钥匙串和标准窗口行为；Docling 使用独立的 arm64 Python 环境，组件保存在用户资料目录，升级保留已有文献和识别环境。
+
+在 Mac 上运行 `npm run dist:mac` 生成 DMG。当前采用免费 ad-hoc 签名，未做 Apple 公证；首次下载后可能需要在“系统设置 → 隐私与安全”中允许打开。安装、升级和本机识别说明见[安装文档](docs/INSTALL.md)。
 
 ## 1.3.5 点击选章过渡
 

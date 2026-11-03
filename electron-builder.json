@@ -23,7 +23,10 @@
     "python/constraints-windows.txt",
     "python/constraints-macos-arm64.txt",
     "quality-service.mjs",
-    "recognition-service.mjs"
+    "recognition-service.mjs",
+    "python/normalize_layout.py",
+    "python/glyph_restore.py",
+    "python/glyph_profiles.json"
   ],
   "mac": {
     "target": [{"target": "dmg", "arch": ["arm64"]}],

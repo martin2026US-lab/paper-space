@@ -16,11 +16,13 @@
 
 此版本尚未进行商业代码签名，Windows 可能显示未知发布者提示。请只使用此仓库的 Release 下载，并可使用附带的 SHA256 校验文件 核对文件完整性。
 
-## macOS（Apple Silicon，本机试用）
+## macOS（Apple Silicon）
 
 支持 macOS 14 或更新版本及 Apple Silicon（M 系列芯片）；本次不提供 Intel Mac 安装包。打开 `Paper-Space-<版本号>-macOS-arm64.dmg`，将「纸间」拖到 Applications，然后从 Applications 启动。阅读器不携带 Python 或识别模型；基础 PDF、Word 和文本阅读可直接使用。
 
-本机构建使用临时签名（ad-hoc），无需 Apple 开发者证书，未提交 Apple 公证。如果系统阻止打开，请核对文件来源后，通过「系统设置 → 隐私与安全」中的允许打开选项操作；不需要关闭系统的安全机制。正式面向公众发行时需另行配置 Developer ID 签名与公证。
+此构建使用临时签名（ad-hoc），无需 Apple 开发者证书，未提交 Apple 公证。如果系统阻止打开，请核对文件来源和 SHA256 校验值，再通过「系统设置 → 隐私与安全」中的允许打开选项操作；不需要关闭系统的安全机制。下载者无需开发者账号。后续可配置 Developer ID 签名与公证以改善首次安装体验。
+
+升级前通过「更多 → 备份与恢复」保存完整备份，并按 Command+Q 退出纸间。将新版拖入 Applications、替换旧应用，再从 Applications 启动；用户资料和已下载的 Docling 组件位于应用包外，会继续保留。
 
 在「更多 → 文档识别组件」中可一键配置原生 arm64 的 Python 3.12、Docling 和模型，也可选择包含 `venv/bin/python` 与 `models/ready.json` 的已有环境。默认组件位于 `~/Library/Application Support/PaperSpace/components`，更新或移动 .app 不会删除模型。首次配置需联网；安装失败或取消时保留已有可用环境，之后解析离线进行。解析保持 CPU 模式，与 Windows 行为一致。
 
@@ -51,7 +53,7 @@ Mac 可将 Applications 中的纸间移到废纸篓；用户资料与识别组�
 ```sh
 npm ci
 npm run dist:win
-# 在 Apple Silicon Mac 上构建本机试用 DMG
+# 在 Apple Silicon Mac 上构建 DMG
 npm run dist:mac
 ```
 
