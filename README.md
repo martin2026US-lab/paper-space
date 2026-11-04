@@ -4,6 +4,15 @@
 
 [English](README.en.md) · 简体中文
 
+## 下载 1.4.0
+
+| Windows | macOS · Apple Silicon |
+| --- | --- |
+| **[下载 Windows 安装包 · EXE](https://github.com/martin2026US-lab/paper-space/releases/download/v1.4.0/Paper-Space-1.4.0-Windows-x64-Setup.exe)** | **[下载 Mac 安装包 · DMG](https://github.com/martin2026US-lab/paper-space/releases/download/v1.4.0-macos.1/Paper-Space-1.4.0-macOS-arm64.dmg)** |
+| Windows 10 / 11 · x64 | macOS 14+ · M 系列芯片 |
+
+[Windows 安装与升级](docs/INSTALL.md) · [Mac 安装与升级](https://github.com/martin2026US-lab/paper-space/releases/tag/v1.4.0-macos.1) · [所有版本与源码](https://github.com/martin2026US-lab/paper-space/releases)
+
 **让问题，从原文里长出来。**
 
 本机优先的 AI 论文阅读工作台。保留 PDF 原貌，把翻译、段落解读、章节批注和带来源的对话放在同一个阅读空间里。无需注册，AI 使用你自己的接口。
@@ -89,9 +98,7 @@
 - **自配 AI 接口**：不内置对话大模型、不提供 API Key；支持 OpenAI 兼容 Chat Completions、Anthropic Messages 和兼容的本机模型接口。
 - **暖纸色界面**：让阅读、翻译和旁注同时可见，减少窗口切换。
 
-## 下载安装（推荐）
-
-**[下载 Windows 安装包](https://github.com/martin2026US-lab/paper-space/releases/latest)** · [安装与升级说明](docs/INSTALL.md)
+## 安装与识别组件
 
 面向 Windows 10 / 11 x64。下载 Setup.exe 即可安装阅读器；PDF 原版、Word 和文本阅读无需配置 Node.js、Python 或识别模型。需要文档结构识别时，在应用中一键配置可选 Docling 组件。个人资料保存在用户目录，升级与卸载保留。AI 功能使用你自己的模型接口。
 

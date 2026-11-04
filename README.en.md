@@ -4,11 +4,20 @@
 
 English · [简体中文](README.md)
 
+## Download 1.4.0
+
+| Windows | macOS · Apple Silicon |
+| --- | --- |
+| **[Download for Windows · EXE](https://github.com/martin2026US-lab/paper-space/releases/download/v1.4.0/Paper-Space-1.4.0-Windows-x64-Setup.exe)** | **[Download for Mac · DMG](https://github.com/martin2026US-lab/paper-space/releases/download/v1.4.0-macos.1/Paper-Space-1.4.0-macOS-arm64.dmg)** |
+| Windows 10 / 11 · x64 | macOS 14+ · M-series chips |
+
+[Windows installation](docs/INSTALL.md) · [Mac installation](https://github.com/martin2026US-lab/paper-space/releases/tag/v1.4.0-macos.1) · [All releases and source](https://github.com/martin2026US-lab/paper-space/releases)
+
 **Let questions grow from the text.**
 
 A local-first reading workspace for papers and documents. Read PDFs in their original layout, translate sentences or entire paragraphs, add notes, and discuss selected evidence using your own model endpoint.
 
-**[Download for Windows](https://github.com/martin2026US-lab/paper-space/releases/latest)** · [Changelog](docs/CHANGELOG.md) · [MIT license](LICENSE)
+[Changelog](docs/CHANGELOG.md) · [MIT license](LICENSE)
 
 ▶ **[Watch the new 60-second film](https://martin2026US-lab.github.io/paper-space/)** · [Download MP4](https://github.com/martin2026US-lab/paper-space/releases/download/v1.3.2/paper-space-v1.3.2-promo-60s-fixed.mp4)
 
@@ -86,15 +95,15 @@ Translation API protocols include LibreTranslate, DeepL, and Translator v3 compa
 
 ## Windows installation
 
-Download `Paper-Space-1.3.5-Windows-x64-Setup.exe` and `SHA256SUMS-1.3.5.txt` from the release. The lightweight installer includes the reader and Electron. It supports Windows 10/11 x64 and needs no system Node.js or Python. Optional Docling setup downloads an isolated Python environment, CPU dependencies, and official layout models; allow at least 6 GB of free space for that component. Choose a folder on your preferred drive. Recognition runs offline after setup. Existing bundled runtimes are preserved outside the app during upgrades.
+Download `Paper-Space-1.4.0-Windows-x64-Setup.exe` and `SHA256SUMS-1.4.0.txt` from the [Windows release](https://github.com/martin2026US-lab/paper-space/releases/tag/v1.4.0). The lightweight installer includes the reader and Electron. It supports Windows 10/11 x64 and needs no system Node.js or Python. Optional Docling setup downloads an isolated Python environment, CPU dependencies, and official layout models; allow at least 6 GB of free space for that component. Choose a folder on your preferred drive. Recognition runs offline after setup. Existing bundled runtimes are preserved outside the app during upgrades.
 
 Verify the download in PowerShell:
 
 ```powershell
-Get-FileHash .\Paper-Space-1.3.5-Windows-x64-Setup.exe -Algorithm SHA256
+Get-FileHash .\Paper-Space-1.4.0-Windows-x64-Setup.exe -Algorithm SHA256
 ```
 
-Compare the result with `SHA256SUMS-1.3.5.txt`. The installer is currently unsigned. Updates and uninstalling preserve personal data in `%APPDATA%\PaperSpace`; app files and personal data are stored separately. Close the running app before upgrading.
+Compare the result with `SHA256SUMS-1.4.0.txt`. The installer is currently unsigned. Updates and uninstalling preserve personal data in `%APPDATA%\PaperSpace`; app files and personal data are stored separately. Close the running app before upgrading.
 
 ## Run from source
 
