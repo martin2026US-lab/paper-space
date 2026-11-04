@@ -5,6 +5,7 @@ Use an Apple Silicon Mac with Node.js 24 LTS. The app version stays aligned with
 ```sh
 npm ci
 npm test
+python3 -m pip install --only-binary=:all: -r tests/requirements.txt
 python3 -m unittest discover -s tests -p 'test_*.py'
 npx electron tests/macos-desktop.cjs
 npx electron tests/v135-electron.cjs
@@ -13,7 +14,7 @@ hdiutil verify dist/Paper-Space-1.4.0-macOS-arm64.dmg
 codesign --verify --deep --strict dist/mac-arm64/纸间.app
 ```
 
-`npm ci` is only needed for a fresh checkout or changed dependencies. Python unit tests use only the standard library; real PDF conversion additionally needs the separately installed Docling runtime. The app does not bundle Python, model weights, personal documents or credentials.
+`npm ci` is only needed for a fresh checkout or changed dependencies. Python tests need the small PDFium dependency in `tests/requirements.txt`; an existing Docling environment already includes it. Real PDF conversion additionally needs the separately installed Docling runtime. The app does not bundle Python, model weights, personal documents or credentials.
 
 Before publishing, open the app copied from the final DMG with an isolated `PAPER_SPACE_TEST_DATA` directory and a separate `PAPER_SPACE_TEST_PORT`. Verify fresh startup, existing-profile preservation, native menus, full-text/source comparison, opt-in text extraction against a local mock, real offline Docling and native backup saving. Keep test profiles outside the production data directory and do not include them in release archives. Confirm the packaged `python/normalize_layout.py`, `glyph_restore.py` and `glyph_profiles.json` are present.
 

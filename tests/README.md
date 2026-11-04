@@ -67,7 +67,7 @@ Mac regression coverage also checks Chinese/English native menus, Command/Option
 
 ## Single-column and glyph checks (1.3.6)
 
-`npm test` includes additive legacy-layout upgrades, raw-source preservation, corrected model evidence, ambiguous-glyph fallback, and mock OpenAI/Anthropic image serialization. `python -m unittest discover -s tests -p "test_*.py"` also checks the glyph and cross-page normalization guards. All unit fixtures are synthetic; private paper exports and local preview profiles are not included in the app or source distribution.
+`npm test` includes additive legacy-layout upgrades, raw-source preservation, corrected model evidence, ambiguous-glyph fallback, and mock OpenAI/Anthropic image serialization. Install the PDFium test dependency with `python -m pip install --only-binary=:all: -r tests/requirements.txt`, then run `python -m unittest discover -s tests -p "test_*.py"` to check the glyph and cross-page normalization guards. An existing Docling environment already includes PDFium. All unit fixtures are synthetic; private paper exports and local preview profiles are not included in the app or source distribution.
 
 Local installation validation additionally checks the packaged native shell using an isolated profile, existing offline Docling and loopback mock model endpoints. The original Electron executable must remain byte-identical to upstream; app version is read from package.json or /api/health.
 

@@ -1,0 +1,2 @@
+# Match the PDFium version used by both platform-specific Docling environments.
+pypdfium2==5.14.0
